@@ -1,0 +1,22 @@
+[color]
+    ui = true
+[user]
+    name = Markus Bertheau
+    email = mbertheau@gmail.com
+[gui]
+    spellingdictionary = none
+[core]
+    excludesfile = ~/.ignore
+[init]
+    templatedir = ~/.git_template
+[alias]
+    ctags = !.git/hooks/ctags
+    graph = log --oneline --graph --decorate
+[push]
+	default = simple
+[rerere]
+	enabled = true
+[branch]
+	autosetuprebase = always
+[rebase]
+	autosquash = true
