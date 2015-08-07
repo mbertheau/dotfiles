@@ -180,6 +180,8 @@ layers configuration."
   (define-key evil-window-map  (kbd "<down>") 'evil-window-down)
   ;; Show untracked files after staged and unstaged changes in magit status
   (magit-add-section-hook 'magit-status-sections-hook 'magit-insert-untracked-files 'magit-insert-staged-changes t)
+  ;; leave closed inner folds closed when opening outer fold
+  (setq hs-allow-nesting t)
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
