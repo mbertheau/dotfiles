@@ -12,22 +12,19 @@
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
    '(
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
-     ;; <M-m f e R> (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
-     ;; auto-completion
-     ;; better-defaults
+     auto-completion
      emacs-lisp
-     ;; git
-     ;; markdown
-     ;; org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
-     ;; syntax-checking
+     git
+     gtags
+     html
+     ibuffer
+     javascript
+     markdown
+     python
+     sql
+     syntax-checking
      version-control
+     (colors :variables colors-enable-rainbow-identifiers t)
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -66,10 +63,10 @@ before layers configuration."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light
+   dotspacemacs-themes '(solarized-dark
                          solarized-light
-                         solarized-dark
+                         spacemacs-light
+                         spacemacs-dark
                          leuven
                          monokai
                          zenburn)
@@ -77,8 +74,8 @@ before layers configuration."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
+   dotspacemacs-default-font '("Ubuntu Mono"
+                               :size 14
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -143,7 +140,7 @@ before layers configuration."
    ;; Select a scope to highlight delimiters. Possible values are `any',
    ;; `current', `all' or `nil'. Default is `all' (highlight any scope and
    ;; emphasis the current one).
-   dotspacemacs-highlight-delimiters 'all
+   dotspacemacs-highlight-delimiters 'current
    ;; If non nil advises quit functions to keep server open when quitting.
    dotspacemacs-persistent-server nil
    ;; List of search tool executable names. Spacemacs uses the first installed
@@ -161,6 +158,28 @@ before layers configuration."
   "Configuration function.
  This function is called at the very end of Spacemacs initialization after
 layers configuration."
+  (setq magit-repository-directories '("~/src/"))
+  (setq helm-ag-base-command "git grep --no-color")
+  (setq x-select-enable-primary t)
+  (setq mouse-yank-at-point t)
+  (setq-default git-magit-status-fullscreen t)
+  (define-key evil-normal-state-map "g]" 'helm-gtags-find-tag)
+  (evil-leader/set-key
+    "w <left>"  'evil-window-left
+    "w <right>" 'evil-window-right
+    "w <up>"    'evil-window-up
+    "w <down>"  'evil-window-down
+    "TAB" (defun bb/alternate-buffer ()
+            (interactive)
+            (if (evil-alternate-buffer)
+                (switch-to-buffer (car (evil-alternate-buffer)))
+              (call-interactively 'spacemacs/alternate-buffer))))
+  (define-key evil-window-map (kbd "<left>") 'evil-window-left)
+  (define-key evil-window-map  (kbd "<right>") 'evil-window-right)
+  (define-key evil-window-map  (kbd "<up>") 'evil-window-up)
+  (define-key evil-window-map  (kbd "<down>") 'evil-window-down)
+  ;; Show untracked files after staged and unstaged changes in magit status
+  (magit-add-section-hook 'magit-status-sections-hook 'magit-insert-untracked-files 'magit-insert-staged-changes t)
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
