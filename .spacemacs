@@ -21,6 +21,9 @@
      javascript
      markdown
      python
+     racket
+     ;; semantic makes editing python too slow
+     ;; semantic
      sql
      syntax-checking
      version-control
@@ -100,7 +103,7 @@ before layers configuration."
    dotspacemacs-auto-save-file-location 'cache
    ;; If non nil then `ido' replaces `helm' for some commands. For now only
    ;; `find-files' (SPC f f) is replaced.
-   dotspacemacs-use-ido nil
+   dotspacemacs-use-ido t
    ;; If non nil the paste micro-state is enabled. When enabled pressing `p`
    ;; several times cycle between the kill ring content.
    dotspacemacs-enable-paste-micro-state nil
@@ -140,7 +143,7 @@ before layers configuration."
    ;; Select a scope to highlight delimiters. Possible values are `any',
    ;; `current', `all' or `nil'. Default is `all' (highlight any scope and
    ;; emphasis the current one).
-   dotspacemacs-highlight-delimiters 'current
+   dotspacemacs-highlight-delimiters 'all
    ;; If non nil advises quit functions to keep server open when quitting.
    dotspacemacs-persistent-server nil
    ;; List of search tool executable names. Spacemacs uses the first installed
@@ -168,20 +171,28 @@ layers configuration."
     "w <left>"  'evil-window-left
     "w <right>" 'evil-window-right
     "w <up>"    'evil-window-up
-    "w <down>"  'evil-window-down
-    "TAB" (defun bb/alternate-buffer ()
-            (interactive)
-            (if (evil-alternate-buffer)
-                (switch-to-buffer (car (evil-alternate-buffer)))
-              (call-interactively 'spacemacs/alternate-buffer))))
+    "w <down>"  'evil-window-down)
+
+  ;; TODO: make this work in magit buffers
   (define-key evil-window-map (kbd "<left>") 'evil-window-left)
-  (define-key evil-window-map  (kbd "<right>") 'evil-window-right)
-  (define-key evil-window-map  (kbd "<up>") 'evil-window-up)
-  (define-key evil-window-map  (kbd "<down>") 'evil-window-down)
+  (define-key evil-window-map (kbd "<right>") 'evil-window-right)
+  (define-key evil-window-map (kbd "<up>") 'evil-window-up)
+  (define-key evil-window-map (kbd "<down>") 'evil-window-down)
+
   ;; Show untracked files after staged and unstaged changes in magit status
-  (magit-add-section-hook 'magit-status-sections-hook 'magit-insert-untracked-files 'magit-insert-staged-changes t)
+  ;; Doesn't work like this becaus magit is not loaded (it is auto-loaded, and I have to hook into that somehow)
+  ;;(magit-add-section-hook 'magit-status-sections-hook 'magit-insert-untracked-files 'magit-insert-staged-changes t)
+
   ;; leave closed inner folds closed when opening outer fold
+  ;; Doesn't help much because zm doesn't close the inner folds :(
   (setq hs-allow-nesting t)
+
+  ;; Open magit commit diff windows from magit-log in a vertical split instead
+  ;; of a horizontal one. My screen is wide enough, and I can use the height.
+  (setq split-height-threshold 100)
+
+  ;; This scrolls more with each wheel turn interval when continuously turning the mouse wheel. It irritates me to no end.
+  (setq mouse-wheel-progressive-speed nil)
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
