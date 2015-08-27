@@ -180,10 +180,11 @@ layers configuration."
   (define-key evil-window-map (kbd "<up>") 'evil-window-up)
   (define-key evil-window-map (kbd "<down>") 'evil-window-down)
 
-  ;; Show untracked files after staged and unstaged changes in magit status
-  ;; Doesn't work like this because magit is not loaded (it is auto-loaded, and
-  ;; I have to hook into that somehow)
-  ;; (magit-add-section-hook 'magit-status-sections-hook 'magit-insert-untracked-files 'magit-insert-staged-changes t)
+  (defun my-magit-show-untracked-files-later ()
+    "Show untracked files after staged and unstaged changes in magit status"
+    (interactive)
+    (magit-add-section-hook 'magit-status-sections-hook 'magit-insert-untracked-files 'magit-insert-staged-changes t))
+  (add-hook 'magit-mode-hook 'my-magit-show-untracked-files-later)
 
   ;; leave closed inner folds closed when opening outer fold
   ;; Doesn't help much because zm doesn't close the inner folds :(
