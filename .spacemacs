@@ -13,6 +13,7 @@
    dotspacemacs-configuration-layers
    '(
      auto-completion
+     clojure
      emacs-lisp
      git
      gtags
@@ -103,7 +104,7 @@ before layers configuration."
    dotspacemacs-auto-save-file-location 'cache
    ;; If non nil then `ido' replaces `helm' for some commands. For now only
    ;; `find-files' (SPC f f) is replaced.
-   dotspacemacs-use-ido t
+   dotspacemacs-use-ido nil
    ;; If non nil the paste micro-state is enabled. When enabled pressing `p`
    ;; several times cycle between the kill ring content.
    dotspacemacs-enable-paste-micro-state nil
@@ -180,8 +181,9 @@ layers configuration."
   (define-key evil-window-map (kbd "<down>") 'evil-window-down)
 
   ;; Show untracked files after staged and unstaged changes in magit status
-  ;; Doesn't work like this becaus magit is not loaded (it is auto-loaded, and I have to hook into that somehow)
-  ;;(magit-add-section-hook 'magit-status-sections-hook 'magit-insert-untracked-files 'magit-insert-staged-changes t)
+  ;; Doesn't work like this because magit is not loaded (it is auto-loaded, and
+  ;; I have to hook into that somehow)
+  ;; (magit-add-section-hook 'magit-status-sections-hook 'magit-insert-untracked-files 'magit-insert-staged-changes t)
 
   ;; leave closed inner folds closed when opening outer fold
   ;; Doesn't help much because zm doesn't close the inner folds :(
@@ -191,8 +193,23 @@ layers configuration."
   ;; of a horizontal one. My screen is wide enough, and I can use the height.
   (setq split-height-threshold 100)
 
-  ;; This scrolls more with each wheel turn interval when continuously turning the mouse wheel. It irritates me to no end.
+  ;; This scrolls more with each wheel turn interval when continuously turning
+  ;; the mouse wheel. It irritates me to no end.
   (setq mouse-wheel-progressive-speed nil)
+
+  ;; directory-local configuration
+  (dir-locals-set-class-variables 'machtfit
+                                  '((nil . ((pyvenv-workon . "machtfit")
+                                            (fill-column . 100)
+                                            (flycheck-flake8-maximum-line-length . 100)))))
+
+  (dir-locals-set-directory-class
+   "~/src/machtfit/" 'machtfit)
+
+  ;; Automatically enable the buffer-local virtualenv when switching to a
+  ;; buffer. buffer-local virtualenv may come from a file-local or
+  ;; directory-local variable. I use a directory-local pyvenv-workon.
+  (pyvenv-tracking-mode)
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
