@@ -191,7 +191,7 @@ layers configuration."
 
   ;; Open magit commit diff windows from magit-log in a vertical split instead
   ;; of a horizontal one. My screen is wide enough, and I can use the height.
-  (setq split-height-threshold 100)
+  (setq split-height-threshold 200)
 
   ;; This scrolls more with each wheel turn interval when continuously turning
   ;; the mouse wheel. It irritates me to no end.
