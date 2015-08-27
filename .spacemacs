@@ -201,7 +201,7 @@ layers configuration."
   (dir-locals-set-class-variables 'machtfit
                                   '((nil . ((pyvenv-workon . "machtfit")
                                             (fill-column . 100)
-                                            (flycheck-flake8-maximum-line-length . 100)))))
+                                            (flycheck-flake8rc . "tox.ini")))))
 
   (dir-locals-set-directory-class
    "~/src/machtfit/" 'machtfit)
