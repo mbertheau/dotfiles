@@ -167,7 +167,6 @@ layers configuration."
   (setq x-select-enable-primary t)
   (setq mouse-yank-at-point t)
   (setq-default git-magit-status-fullscreen t)
-  (define-key evil-normal-state-map "g]" 'helm-gtags-find-tag)
   (evil-leader/set-key
     "w <left>"  'evil-window-left
     "w <right>" 'evil-window-right
