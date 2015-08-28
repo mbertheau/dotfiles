@@ -212,10 +212,10 @@ layers configuration."
   (setq mouse-wheel-progressive-speed nil)
 
   ;; directory-local configuration
-  (dir-locals-set-class-variables 'machtfit
-                                  '((nil . ((pyvenv-workon . "machtfit")
-                                            (fill-column . 100)
-                                            (flycheck-flake8rc . "tox.ini")))))
+  (dir-locals-set-class-variables
+   'machtfit '((nil . ((pyvenv-workon . "machtfit")
+                       (fill-column . 100)
+                       (flycheck-flake8rc . "tox.ini")))))
 
   (dir-locals-set-directory-class
    "~/src/machtfit/" 'machtfit)
