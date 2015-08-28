@@ -12,7 +12,7 @@
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
    '(
-     auto-completion
+     (auto-completion :variables auto-completion-enable-help-tooltip t)
      clojure
      emacs-lisp
      git
