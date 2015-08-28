@@ -179,6 +179,17 @@ layers configuration."
   (define-key evil-window-map (kbd "<up>") 'evil-window-up)
   (define-key evil-window-map (kbd "<down>") 'evil-window-down)
 
+  (defun next-defun ()
+    (interactive)
+    (end-of-defun)
+    (end-of-defun)
+    (beginning-of-defun))
+  (defun prev-defun ()
+    (interactive)
+    (beginning-of-defun))
+  (define-key evil-normal-state-map (kbd "<C-down>") 'next-defun)
+  (define-key evil-normal-state-map (kbd "<C-up>") 'prev-defun)
+
   (defun my-magit-show-untracked-files-later ()
     "Show untracked files after staged and unstaged changes in magit status"
     (interactive)
