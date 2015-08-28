@@ -21,7 +21,7 @@
      ibuffer
      javascript
      markdown
-     python
+     (python :variables python-test-runner 'pytest)
      racket
      ;; semantic makes editing python too slow
      ;; semantic
