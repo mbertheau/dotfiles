@@ -22,6 +22,7 @@
      javascript
      markdown
      (python :variables python-test-runner 'pytest)
+     pass
      racket
      ;; semantic makes editing python too slow
      ;; semantic
@@ -224,6 +225,9 @@ layers configuration."
   ;; buffer. buffer-local virtualenv may come from a file-local or
   ;; directory-local variable. I use a directory-local pyvenv-workon.
   (pyvenv-tracking-mode)
+
+  ;; Generate longer passwords
+  (setq password-store-password-length 40)
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
