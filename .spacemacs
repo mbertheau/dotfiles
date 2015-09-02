@@ -3,7 +3,9 @@
 ;; It must be stored in your home directory.
 
 (defun dotspacemacs/layers ()
-  "Configuration Layers declaration."
+  "Configuration Layers declaration.
+You should not put any user code in this function besides modifying the variable
+values."
   (setq-default
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
@@ -24,8 +26,12 @@
      (python :variables python-test-runner 'pytest)
      pass
      racket
+
      ;; semantic makes editing python too slow
      ;; semantic
+
+     ;; Hmm, this one doesn't show keybindings for the command which is bad for learnability
+     ;;smex
      sql
      syntax-checking
      version-control
@@ -46,7 +52,9 @@
 (defun dotspacemacs/init ()
   "Initialization function.
 This function is called at the very startup of Spacemacs initialization
-before layers configuration."
+before layers configuration.
+You should not put any user code in there besides modifying the variable
+values."
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
   (setq-default
@@ -70,10 +78,10 @@ before layers configuration."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(solarized-dark
-                         solarized-light
+   dotspacemacs-themes '(spacemacs-dark
                          spacemacs-light
-                         spacemacs-dark
+                         solarized-light
+                         solarized-dark
                          leuven
                          monokai
                          zenburn)
@@ -109,12 +117,18 @@ before layers configuration."
    ;; `find-files' (SPC f f), `find-spacemacs-file' (SPC f e s), and
    ;; `find-contrib-file' (SPC f e c) are replaced.
    dotspacemacs-use-ido nil
+   ;; If non nil, `helm' will try to miminimize the space it uses."
+   dotspacemacs-helm-resize t
    ;; If non nil the paste micro-state is enabled. When enabled pressing `p`
    ;; several times cycle between the kill ring content.
    dotspacemacs-enable-paste-micro-state nil
-   ;; Guide-key delay in seconds. The Guide-key is the popup buffer listing
-   ;; the commands bound to the current keystrokes.
-   dotspacemacs-guide-key-delay 0.4
+   ;; Which-key delay in seconds. The which-key buffer is the popup listing
+   ;; the commands bound to the current keystroke sequence.
+   dotspacemacs-which-key-delay 0.4
+   ;; Which-key frame position. Possible values are right, bottom and
+   ;; right-then-bottom. Right-then-bottom tries to display the frame to the
+   ;; right. If there is insufficient space, it displays it at the bottom.
+   dotspacemacs-which-key-position 'left-then-bottom
    ;; If non nil a progress bar is displayed when spacemacs is loading. This
    ;; may increase the boot time on some systems and emacs builds, set it to
    ;; nil ;; to boost the loading time.
@@ -158,14 +172,18 @@ before layers configuration."
    ;; specified with an installed package.
    ;; Not used for now.
    dotspacemacs-default-package-repository nil
-   )
-  ;; User initialization goes here
+   ))
+
+(defun dotspacemacs/user-init ()
+  "Initialization function for user code.
+It is called immediately after `dotspacemacs/init'.  You are free to put any
+user code."
   )
 
-(defun dotspacemacs/config ()
-  "Configuration function.
+(defun dotspacemacs/user-config ()
+  "Configuration function for user code.
  This function is called at the very end of Spacemacs initialization after
-layers configuration."
+layers configuration. You are free to put any user code."
   (setq magit-repository-directories '("~/src/"))
   (setq helm-ag-base-command "git grep --no-color")
   (setq x-select-enable-primary t)
@@ -178,10 +196,10 @@ layers configuration."
     "w <down>"  'evil-window-down)
 
   ;; TODO: make this work in magit buffers
-  (define-key evil-window-map (kbd "<left>") 'evil-window-left)
-  (define-key evil-window-map (kbd "<right>") 'evil-window-right)
-  (define-key evil-window-map (kbd "<up>") 'evil-window-up)
-  (define-key evil-window-map (kbd "<down>") 'evil-window-down)
+  ;; (define-key evil-window-map (kbd "<left>") 'evil-window-left)
+  ;; (define-key evil-window-map (kbd "<right>") 'evil-window-right)
+  ;; (define-key evil-window-map (kbd "<up>") 'evil-window-up)
+  ;; (define-key evil-window-map (kbd "<down>") 'evil-window-down)
 
   (defun next-defun ()
     (interactive)
