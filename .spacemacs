@@ -230,6 +230,8 @@ layers configuration. You are free to put any user code."
   ;; the mouse wheel. It irritates me to no end.
   (setq mouse-wheel-progressive-speed nil)
 
+  (setq safe-local-variable-values '((flycheck-flake8rc . "tox.ini")))
+
   ;; directory-local configuration
   (dir-locals-set-class-variables
    'machtfit '((nil . ((pyvenv-workon . "machtfit")
