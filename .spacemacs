@@ -118,7 +118,7 @@ values."
    ;; `find-contrib-file' (SPC f e c) are replaced.
    dotspacemacs-use-ido nil
    ;; If non nil, `helm' will try to miminimize the space it uses."
-   dotspacemacs-helm-resize t
+   dotspacemacs-helm-resize nil
    ;; If non nil the paste micro-state is enabled. When enabled pressing `p`
    ;; several times cycle between the kill ring content.
    dotspacemacs-enable-paste-micro-state nil
@@ -128,7 +128,7 @@ values."
    ;; Which-key frame position. Possible values are right, bottom and
    ;; right-then-bottom. Right-then-bottom tries to display the frame to the
    ;; right. If there is insufficient space, it displays it at the bottom.
-   dotspacemacs-which-key-position 'left-then-bottom
+   dotspacemacs-which-key-position 'bottom
    ;; If non nil a progress bar is displayed when spacemacs is loading. This
    ;; may increase the boot time on some systems and emacs builds, set it to
    ;; nil ;; to boost the loading time.
@@ -248,6 +248,9 @@ layers configuration. You are free to put any user code."
 
   ;; Generate longer passwords
   (setq password-store-password-length 40)
+
+  (setq which-key-min-display-lines 15)
+  (setq which-key-max-description-length 100)
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
