@@ -1,0 +1,49 @@
+general {
+    output_format = "i3bar"
+    colors = true
+    interval = 5
+}
+
+order += "disk /"
+order += "disk /home"
+order += "wireless wlan0"
+order += "battery 0"
+order += "cpu_temperature 0"
+order += "load"
+order += "tztime taipei"
+order += "tztime local"
+
+disk "/" {
+    format = "/: %free"
+}
+
+disk "/home" {
+    format = "/home: %free"
+}
+
+wireless wlan0 {
+    format_up = "(%quality %essid %bitrate) %ip"
+    format_down = "W: down"
+}
+
+battery 0 {
+    format = "%status %percentage %remaining"
+}
+
+cpu_temperature 0 {
+    format = "%degrees °C"
+    path = "/sys/devices/platform/applesmc.768/temp7_input"
+}
+
+load {
+    format = "%1min"
+}
+
+tztime local {
+    format = "%A, %d.%m.%Y %H:%M:%S"
+}
+
+tztime taipei {
+    format = "%d.%m.%Y %H:%M:%S %Z"
+    timezone = "Asia/Taipei"
+}
