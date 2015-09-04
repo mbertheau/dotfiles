@@ -26,6 +26,7 @@ values."
      (python :variables python-test-runner 'pytest)
      pass
      racket
+     react
 
      ;; semantic makes editing python too slow
      ;; semantic
