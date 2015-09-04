@@ -91,7 +91,7 @@ set $w1 1: brauser
 set $w2 2: term
 set $w3 3: git gui
 set $w4 4: gitk
-set $w5 5: vim
+set $w5 5: emacs
 set $w6 6: hipchat
 set $w7 7: debug
 set $w8 8: oscar
