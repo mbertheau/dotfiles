@@ -28,7 +28,6 @@ values."
      javascript
      markdown
      (python :variables python-test-runner 'pytest)
-     pass
      racket
      react
 
@@ -68,6 +67,12 @@ values."
    ;; uses emacs key bindings for vim's insert mode, but otherwise leaves evil
    ;; unchanged. (default 'vim)
    dotspacemacs-editing-style 'vim
+   ;; Add any modes here that you want to prevent from being evilified.
+   dotspacemacs-evilify-blacklist
+   '(
+     magit-status-mode
+     magit-log-mode
+     )
    ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
    dotspacemacs-verbose-loading nil
    ;; Specify the startup banner. Default value is `official', it displays
