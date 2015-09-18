@@ -67,12 +67,8 @@ values."
    ;; uses emacs key bindings for vim's insert mode, but otherwise leaves evil
    ;; unchanged. (default 'vim)
    dotspacemacs-editing-style 'vim
-   ;; Add any modes here that you want to prevent from being evilified.
-   dotspacemacs-evilify-blacklist
-   '(
-     magit-status-mode
-     magit-log-mode
-     )
+   ;; If non nil don't evilify any keymaps
+   dotspacemacs-dont-evilify nil
    ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
    dotspacemacs-verbose-loading nil
    ;; Specify the startup banner. Default value is `official', it displays
@@ -234,6 +230,9 @@ layers configuration. You are free to put any user code."
     (beginning-of-defun))
   (define-key evil-normal-state-map (kbd "<C-down>") 'next-defun)
   (define-key evil-normal-state-map (kbd "<C-up>") 'prev-defun)
+
+  ;; :set noshiftround
+  (setq-default evil-shift-round nil)
 
   (defun my-magit-show-untracked-files-later ()
     "Show untracked files after staged and unstaged changes in magit status"
