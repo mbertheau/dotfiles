@@ -124,9 +124,8 @@ workspace_layout tabbed
 
 assign [class="Gitk"] $w4
 assign [class="Git-gui"] $w3
-assign [class="HipChat"] $w6
 assign [class="Gvim"] $w5
-assign [class="jetbrains-pycharm"] $w7
+assign [class="Emacs"] $w5
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $w1; workspace number $w1
@@ -182,5 +181,7 @@ bar {
 
 new_window 1pixel
 workspace_auto_back_and_forth yes
+
+mouse_warping none
 
 exec fix-mouse-buttons
