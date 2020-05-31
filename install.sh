@@ -16,6 +16,7 @@ sudo apt install \
      i3xrocks-openvpn \
      i3xrocks-time \
      neovim \
+     pandoc \
      regolith-desktop \
      ripgrep \
      tar \
