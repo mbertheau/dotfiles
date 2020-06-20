@@ -27,12 +27,10 @@ sudo apt install --yes \
 
 # install config files
 
-cd ~/src/dotfiles
-ln -s .emacs-profiles.el ~/.emacs-profiles.el
-ln -s .emacs-profile ~/.emacs-profile
-ln -s .spacemacs ~/.spacemacs
+cd
+ln -s src/dotfiles/{.emacs-profiles.el,.emacs-profile,.spacemacs} ~/
 mkdir -p ~/.config/regolith
-ln -s .config/regolith/Xresources ~/.config/regolith/Xresources
+ln -s ~/src/dotfiles/.config/regolith/Xresources ~/.config/regolith/Xresources
 
 # install other software
 
@@ -43,8 +41,7 @@ cd chemacs
 ./install.sh
 
 cd ~/src
-git clone https://github.com/syl20bnr/spacemacs
-git checkout develop
+git clone --branch develop https://github.com/syl20bnr/spacemacs
 
 # cd ~/src
 # git clone https://github.com/hlissner/doom-emacs
