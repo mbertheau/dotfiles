@@ -1,3 +1,5 @@
+sudo apt purge --yes nano
+
 # install regolith
 
 sudo add-apt-repository ppa:regolith-linux/release
@@ -21,14 +23,16 @@ sudo apt install --yes \
      tar \
      watchman \
 
+     sudo snap install --classic hub
+
 # install config files
 
 cd ~/src/dotfiles
-ln .emacs-profiles.el ~/
-ln .emacs-profile ~/
-ln .spacemacs ~/
+ln -s .emacs-profiles.el ~/
+ln -s .emacs-profile ~/
+ln -s .spacemacs ~/
 mkdir -p ~/.config/regolith
-ln .config/regolith/Xresources ~/.config/regolith/
+ln -s .config/regolith/Xresources ~/.config/regolith/
 
 # install other software
 
@@ -42,9 +46,9 @@ cd ~/src
 git clone https://github.com/syl20bnr/spacemacs
 git checkout develop
 
-cd ~/src
-git clone https://github.com/hlissner/doom-emacs
-doom-emacs/bin/doom install
+# cd ~/src
+# git clone https://github.com/hlissner/doom-emacs
+# doom-emacs/bin/doom install
 
 cd
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash

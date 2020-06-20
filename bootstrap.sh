@@ -1,3 +1,4 @@
+# wget -qO- https://raw.githubusercontent.com/mbertheau/dotfiles/new-master/install.sh | bash
 # set up ssh
 
 mkdir --mode=700 ~/.ssh
