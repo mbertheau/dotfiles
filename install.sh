@@ -17,6 +17,7 @@ sudo apt install --yes \
      i3xrocks-nm-vpn \
      i3xrocks-openvpn \
      i3xrocks-time \
+     leiningen \
      neovim \
      pandoc \
      pass \
@@ -59,4 +60,11 @@ cd
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
 source ~/.nvm/nvm.sh
 nvm install stable
-npm install --global yarn react-native-cli
+npm install --global yarn react-native-cli re-natal
+
+# TODO: https://github.com/drapanjanas/re-natal/pull/228/files
+
+# Android Studio
+cd
+wget -q wget https://redirector.gvt1.com/edgedl/android/studio/ide-zips/4.0.0.16/android-studio-ide-193.6514223-linux.tar.gz
+tar xf android-studio-ide-193.6514223-linux.tar.gz
