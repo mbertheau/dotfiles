@@ -12,8 +12,12 @@ i3-wm.workspace.08.name: 8: flowdock
 i3-wm.workspace.09.name: 9: nautilus
 i3-wm.workspace.10.name: 0: scratch2
 
+i3-wm.workspace.auto_back_and_forth: yes
+
 i3-wm.bar.position: top
+i3-wm.bar.stripworkspacenumbers: no
+
 gnome.terminal.font: Ubuntu Mono 12
 
 ! disable unclutter, which hides the mouse cursor after 1 second of no movement
-i3-wm.program.unclutter:
+i3-wm.program.unclutter: /bin/true

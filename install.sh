@@ -6,6 +6,7 @@ sudo add-apt-repository ppa:regolith-linux/release
 sudo apt install --yes \
      chromium-browser \
      clang \
+     colordiff \
      default-jdk \
      emacs \
      fd-find \
@@ -18,12 +19,16 @@ sudo apt install --yes \
      i3xrocks-time \
      neovim \
      pandoc \
+     pass \
      regolith-desktop \
      ripgrep \
      tar \
      watchman \
 
-     sudo snap install --classic hub
+sudo snap install --classic hub
+
+# this is necessary until https://github.com/regolith-linux/regolith-desktop/pull/428 is released
+sudo apt purge --yes unclutter-startup
 
 # install config files
 
@@ -31,6 +36,9 @@ cd
 ln -s src/dotfiles/{.emacs-profiles.el,.emacs-profile,.spacemacs,.gitconfig} ~/
 mkdir -p ~/.config/regolith
 ln -s ~/src/dotfiles/.config/regolith/Xresources ~/.config/regolith/Xresources
+
+# TODO: /etc/regolith/i3/config mit workspace_auto_back_and_forth
+# https://github.com/regolith-linux/regolith-i3-gaps-config/pull/20
 
 # install other software
 
