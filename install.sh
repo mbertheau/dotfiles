@@ -28,11 +28,11 @@ sudo apt install --yes \
 # install config files
 
 cd ~/src/dotfiles
-ln -s .emacs-profiles.el ~/
-ln -s .emacs-profile ~/
-ln -s .spacemacs ~/
+ln -s .emacs-profiles.el ~/.emacs-profiles.el
+ln -s .emacs-profile ~/.emacs-profile
+ln -s .spacemacs ~/.spacemacs
 mkdir -p ~/.config/regolith
-ln -s .config/regolith/Xresources ~/.config/regolith/
+ln -s .config/regolith/Xresources ~/.config/regolith/Xresources
 
 # install other software
 
