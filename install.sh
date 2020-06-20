@@ -1,7 +1,7 @@
 # install regolith
 
 sudo add-apt-repository ppa:regolith-linux/release
-sudo apt install \
+sudo apt install --yes \
      chromium-browser \
      clang \
      default-jdk \

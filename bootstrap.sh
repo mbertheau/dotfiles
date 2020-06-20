@@ -17,7 +17,9 @@ cat > ~/.ssh/id_rsa.pub
 sudo apt install git
 
 mkdir ~/src
+cd ~/src
 git clone git@github.com:mbertheau/dotfiles.git
+cd ~/src/dotfiles
 git checkout new-master
 
 cd
