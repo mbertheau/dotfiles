@@ -7,7 +7,6 @@ sudo apt install \
      default-jdk \
      emacs \
      fd-find \
-     git \
      i3xrocks-cpu-usage \
      i3xrocks-keyboard-layout \
      i3xrocks-key-indicator \
@@ -20,17 +19,18 @@ sudo apt install \
      regolith-desktop \
      ripgrep \
      tar \
+     watchman \
 
-
-mkdir ~/src
-
-echo download dotfiles to ~/src/dotfiles
-exit
+# install config files
 
 cd ~/src/dotfiles
 ln .emacs-profiles.el ~/
 ln .emacs-profile ~/
 ln .spacemacs ~/
+mkdir -p ~/.config/regolith
+ln .config/regolith/Xresources ~/.config/regolith/
+
+# install other software
 
 cd ~/src
 
@@ -45,3 +45,9 @@ git checkout develop
 cd ~/src
 git clone https://github.com/hlissner/doom-emacs
 doom-emacs/bin/doom install
+
+cd
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+source ~/.nvm/nvm.sh
+nvm install stable
+npm install --global yarn react-native-cli

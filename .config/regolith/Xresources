@@ -1,0 +1,19 @@
+i3-wm.gaps.focus_follows_mouse: yes
+i3-wm.gaps.inner.size: 0
+
+i3-wm.workspace.01.name: 1: screenshot
+i3-wm.workspace.02.name: 2: brauser
+i3-wm.workspace.03.name: 3: emacs
+i3-wm.workspace.04.name: 4: term
+i3-wm.workspace.05.name: 5: scratch
+i3-wm.workspace.06.name: 6: password
+i3-wm.workspace.07.name: 7: remote-terms
+i3-wm.workspace.08.name: 8: flowdock
+i3-wm.workspace.09.name: 9: nautilus
+i3-wm.workspace.10.name: 0: scratch2
+
+i3-wm.bar.position: top
+gnome.terminal.font: Ubuntu Mono 12
+
+! disable unclutter, which hides the mouse cursor after 1 second of no movement
+i3-wm.program.unclutter:
