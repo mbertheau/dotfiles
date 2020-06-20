@@ -28,7 +28,7 @@ sudo apt install --yes \
 # install config files
 
 cd
-ln -s src/dotfiles/{.emacs-profiles.el,.emacs-profile,.spacemacs} ~/
+ln -s src/dotfiles/{.emacs-profiles.el,.emacs-profile,.spacemacs,.gitconfig} ~/
 mkdir -p ~/.config/regolith
 ln -s ~/src/dotfiles/.config/regolith/Xresources ~/.config/regolith/Xresources
 
