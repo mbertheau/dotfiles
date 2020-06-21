@@ -7,7 +7,6 @@ sudo apt install --yes \
      chromium-browser \
      clang \ # weiss nicht mehr
      colordiff \
-     default-jdk \
      emacs \
      fd-find \ # doom emacs
      i3xrocks-cpu-usage \
@@ -19,6 +18,7 @@ sudo apt install --yes \
      i3xrocks-time \
      leiningen \
      neovim \ # sensible editor for the terminal
+     openjdk-8-jdk \
      pandoc \ # spacemacs markdown
      pass \
      regolith-desktop \
