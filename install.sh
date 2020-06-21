@@ -70,3 +70,10 @@ cd
 wget -q wget https://redirector.gvt1.com/edgedl/android/studio/ide-zips/4.0.0.16/android-studio-ide-193.6514223-linux.tar.gz
 tar xf android-studio-ide-193.6514223-linux.tar.gz
 rm android-studio-ide-193.6514223-linux.tar.gz
+cat >> ~/.bashrc <<EOF
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+EOF
