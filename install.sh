@@ -5,11 +5,11 @@ sudo apt purge --yes nano
 sudo add-apt-repository ppa:regolith-linux/release
 sudo apt install --yes \
      chromium-browser \
-     clang \
+     clang \ # weiss nicht mehr
      colordiff \
      default-jdk \
      emacs \
-     fd-find \
+     fd-find \ # doom emacs
      i3xrocks-cpu-usage \
      i3xrocks-keyboard-layout \
      i3xrocks-key-indicator \
@@ -18,13 +18,14 @@ sudo apt install --yes \
      i3xrocks-openvpn \
      i3xrocks-time \
      leiningen \
-     neovim \
-     pandoc \
+     neovim \ # sensible editor for the terminal
+     pandoc \ # spacemacs markdown
      pass \
      regolith-desktop \
      ripgrep \
      tar \
-     watchman \
+     watchman \ # react native
+     libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386 \ # Android Studio
 
 sudo snap install --classic hub
 
@@ -68,3 +69,4 @@ npm install --global yarn react-native-cli re-natal
 cd
 wget -q wget https://redirector.gvt1.com/edgedl/android/studio/ide-zips/4.0.0.16/android-studio-ide-193.6514223-linux.tar.gz
 tar xf android-studio-ide-193.6514223-linux.tar.gz
+rm android-studio-ide-193.6514223-linux.tar.gz
