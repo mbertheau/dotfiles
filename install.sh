@@ -18,6 +18,7 @@ sudo apt install --yes \
      i3xrocks-time \
      leiningen \
      neovim \ # sensible editor for the terminal
+     net-tools \ # for netstat
      openjdk-8-jdk \
      pandoc \ # spacemacs markdown
      pass \
@@ -61,6 +62,7 @@ cd
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
 source ~/.nvm/nvm.sh
 nvm install stable
+# TODO: React Native doku sagt react-naitve-cli besser nicht global installieren sondern über npx benutzen
 npm install --global yarn react-native-cli re-natal
 
 # TODO: https://github.com/drapanjanas/re-natal/pull/228/files
@@ -77,3 +79,6 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 EOF
+# allow access to my Android Phone
+echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="2a70", MODE="0666", GROUP="plugdev"' | sudo tee /etc/udev/rules.d/51-android-usb.rules
+echo "Set up Android Studio for React Native according to https://reactnative.dev/docs/environment-setup"
