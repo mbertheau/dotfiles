@@ -2,7 +2,7 @@ sudo apt purge --yes nano
 
 # install regolith
 
-sudo add-apt-repository ppa:regolith-linux/release
+sudo add-apt-repository --yes ppa:regolith-linux/release
 
 # clang: weiss nicht mehr
 # fd-find: doom emacs
