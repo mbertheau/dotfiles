@@ -18,6 +18,7 @@ sudo apt install --yes \
      colordiff \
      emacs \
      fd-find \
+     git \
      i3xrocks-cpu-usage \
      i3xrocks-keyboard-layout \
      i3xrocks-key-indicator \
