@@ -68,7 +68,7 @@ git clone --branch develop https://github.com/syl20bnr/spacemacs
 # doom-emacs/bin/doom install
 
 cd
-wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash
 source ~/.nvm/nvm.sh
 nvm install stable
 # TODO: React Native doku sagt react-naitve-cli besser nicht global installieren sondern über npx benutzen
