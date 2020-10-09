@@ -3,12 +3,21 @@ sudo apt purge --yes nano
 # install regolith
 
 sudo add-apt-repository ppa:regolith-linux/release
+
+# clang: weiss nicht mehr
+# fd-find: doom emacs
+# neovim: sensible editor for the terminal
+# net-tools: for netstat
+# pandoc: seacemacs markdown
+# watchman: react-native
+# libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386: Android Studio
+
 sudo apt install --yes \
      chromium-browser \
-     clang \ # weiss nicht mehr
+     clang \
      colordiff \
      emacs \
-     fd-find \ # doom emacs
+     fd-find \
      i3xrocks-cpu-usage \
      i3xrocks-keyboard-layout \
      i3xrocks-key-indicator \
@@ -17,16 +26,16 @@ sudo apt install --yes \
      i3xrocks-openvpn \
      i3xrocks-time \
      leiningen \
-     neovim \ # sensible editor for the terminal
-     net-tools \ # for netstat
+     neovim \
+     net-tools \
      openjdk-8-jdk \
-     pandoc \ # spacemacs markdown
+     pandoc \
      pass \
      regolith-desktop \
      ripgrep \
      tar \
-     watchman \ # react native
-     libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386 \ # Android Studio
+     watchman \
+     libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
 
 sudo snap install --classic hub
 
