@@ -27,11 +27,14 @@ sudo apt install --yes \
      i3xrocks-openvpn \
      i3xrocks-time \
      leiningen \
+     libpq-dev \
      neovim \
      net-tools \
      openjdk-8-jdk \
      pandoc \
      pass \
+     postgresql-12-postgis-3 \
+     python3-venv \
      regolith-desktop \
      ripgrep \
      tar \
@@ -92,3 +95,11 @@ EOF
 # allow access to my Android Phone
 echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="2a70", MODE="0666", GROUP="plugdev"' | sudo tee /etc/udev/rules.d/51-android-usb.rules
 echo "Set up Android Studio for React Native according to https://reactnative.dev/docs/environment-setup"
+
+# set up machtfit dev environment
+cd ~/src/machtfit
+rm -rf .venv
+python3 -m venv .venv
+source .venv/bin/activate
+sudo -u postgres createuser --createdb --superuser markus
+make pip-install-dev install-npm build-dev data-init data-demo
