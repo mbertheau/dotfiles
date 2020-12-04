@@ -43,9 +43,6 @@ sudo apt install --yes \
 
 sudo snap install --classic hub
 
-# this is necessary until https://github.com/regolith-linux/regolith-desktop/pull/428 is released
-sudo apt purge --yes unclutter-startup
-
 # install config files
 
 cd
