@@ -5,7 +5,9 @@
 sudo echo
 
 read -p "Make sure the donation is ready, then press Enter."
+echo -n "Reading donation..."
 tar xfz /media/psf/Home/donation.tar
+echo
 echo "Donation accepted."
 
 # sudo apt install --yes git
