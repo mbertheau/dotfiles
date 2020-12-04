@@ -104,4 +104,4 @@ rm -rf .venv
 python3 -m venv .venv
 source .venv/bin/activate
 sudo -u postgres createuser --createdb --superuser markus
-make pip-install-dev install-npm build-dev data-init data-demo
+make install-pip-dev install-npm build-dev data-init data-demo
