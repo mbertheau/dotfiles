@@ -10,13 +10,14 @@ tar xfz /media/psf/Home/donation.tar
 echo
 echo "Donation accepted."
 
-# sudo apt install --yes git
+sudo apt install --yes git
 
-# mkdir -p ~/src
-# cd ~/src
-# git clone git@github.com:mbertheau/dotfiles.git
-# cd ~/src/dotfiles
-# git checkout new-master
+mkdir -p ~/src
+cd ~/src
+rm -rf dotfiles
+git clone git@github.com:mbertheau/dotfiles.git
+cd ~/src/dotfiles
+git checkout new-master
 
 cd
 ~/src/dotfiles/install.sh
