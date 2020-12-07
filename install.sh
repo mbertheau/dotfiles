@@ -84,20 +84,20 @@ npm install --global yarn
 # TODO: https://github.com/drapanjanas/re-natal/pull/228/files
 
 # Android Studio
-cd
-wget -q wget https://redirector.gvt1.com/edgedl/android/studio/ide-zips/4.0.0.16/android-studio-ide-193.6514223-linux.tar.gz
-tar xf android-studio-ide-193.6514223-linux.tar.gz
-rm android-studio-ide-193.6514223-linux.tar.gz
-cat >> ~/.bashrc <<EOF
-export ANDROID_HOME=$HOME/Android/Sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-EOF
+# cd
+# wget -q wget https://redirector.gvt1.com/edgedl/android/studio/ide-zips/4.0.0.16/android-studio-ide-193.6514223-linux.tar.gz
+# tar xf android-studio-ide-193.6514223-linux.tar.gz
+# rm android-studio-ide-193.6514223-linux.tar.gz
+# cat >> ~/.bashrc <<EOF
+# export ANDROID_HOME=$HOME/Android/Sdk
+# export PATH=$PATH:$ANDROID_HOME/emulator
+# export PATH=$PATH:$ANDROID_HOME/tools
+# export PATH=$PATH:$ANDROID_HOME/tools/bin
+# export PATH=$PATH:$ANDROID_HOME/platform-tools
+# EOF
 # allow access to my Android Phone
-echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="2a70", MODE="0666", GROUP="plugdev"' | sudo tee /etc/udev/rules.d/51-android-usb.rules
-echo "Set up Android Studio for React Native according to https://reactnative.dev/docs/environment-setup"
+# echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="2a70", MODE="0666", GROUP="plugdev"' | sudo tee /etc/udev/rules.d/51-android-usb.rules
+# echo "Set up Android Studio for React Native according to https://reactnative.dev/docs/environment-setup"
 
 # set up machtfit dev environment
 cd ~/src/machtfit
