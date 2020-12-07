@@ -112,11 +112,17 @@ npm install --global yarn
 
 # set up machtfit dev environment
 cd
+
+sudo add-apt-repository --yes ppa:deadsnakes/ppa
+sudo apt-get update
+sudo apt-get install python3.7 python3.7-dev python3.7-venv python3.7-distutils
+
 wget https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh -O.local/bin/boot
 chmod 755 ~/.local/bin/boot
+
 cd ~/src/machtfit
 rm -rf .venv
-python3 -m venv .venv
+python3.7 -m venv .venv
 source .venv/bin/activate
 sudo -u postgres createuser --createdb --superuser markus
 make install-pip-dev install-npm build-dev data-init data-demo
