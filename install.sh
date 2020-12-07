@@ -77,8 +77,9 @@ cd
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
 source ~/.nvm/nvm.sh
 nvm install --lts=dubnium
+npm install --global yarn
 # TODO: React Native doku sagt react-naitve-cli besser nicht global installieren sondern über npx benutzen
-# npm install --global yarn react-native-cli re-natal
+# npm install --global react-native-cli re-natal
 
 # TODO: https://github.com/drapanjanas/re-natal/pull/228/files
 
