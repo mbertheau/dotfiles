@@ -46,7 +46,7 @@ sudo apt install --yes \
 sudo snap install --classic hub
 
 # clean up
-sudo apt autoremove
+sudo apt --yes autoremove
 
 # install config files
 
