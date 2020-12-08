@@ -77,11 +77,13 @@ sudo systemctl restart openvpn
 
 cd ~/src
 
+rm -rf chemacs
 git clone https://github.com/plexus/chemacs.git
 cd chemacs
 ./install.sh
 
 cd ~/src
+rm -rf spacemacs
 git clone --branch develop https://github.com/syl20bnr/spacemacs
 
 # cd ~/src
