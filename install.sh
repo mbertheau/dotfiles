@@ -62,7 +62,6 @@ ln -s src/dotfiles/.local/bin/flowdock ~/.local/bin/flowdock
 # TODO: /etc/regolith/i3/config mit workspace_auto_back_and_forth
 # https://github.com/regolith-linux/regolith-i3-gaps-config/pull/20
 
-mkdir ~/.local/bin
 # .profile does this at login, but only if ~/.local/bin exists, which it didn't at login
 export PATH="$HOME/.local/bin:$PATH"
 
@@ -71,8 +70,8 @@ source ~/.bashrc_local
 
 # vpn
 sudo mkdir /etc/openvpn/m.bertheau_workstation
-cd /etc/openvpn/m.bertheau_workstation
-sudo cp ~/Documents/m.bertheau_workstation/*.{crt,key,ovpn} update-systemd-resolved .
+cd ~/Documents/m.bertheau_workstation
+sudo cp *.{crt,key,ovpn} update-systemd-resolved /etc/openvpn/m.bertheau_workstation/
 sudo systemctl restart openvpn
 
 # install other software
