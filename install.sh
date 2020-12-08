@@ -55,7 +55,9 @@ sudo apt --yes autoremove
 cd
 ln -s src/dotfiles/{.emacs-profiles.el,.emacs-profile,.spacemacs,.gitconfig,.bashrc_local} ~/
 mkdir -p ~/.config/regolith
-ln -s ~/src/dotfiles/.config/regolith/Xresources ~/.config/regolith/Xresources
+ln -s src/dotfiles/.config/regolith/Xresources ~/.config/regolith/Xresources
+mkdir -p ~/.local/bin
+ln -s src/dotfiles/.local/bin/flowdock ~/.local/bin/flowdock
 
 # TODO: /etc/regolith/i3/config mit workspace_auto_back_and_forth
 # https://github.com/regolith-linux/regolith-i3-gaps-config/pull/20
