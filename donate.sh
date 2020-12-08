@@ -8,6 +8,7 @@ tar cfz /media/psf/Home/donation.tar \
     .gnupg \
     .thunderbird \
     .config/chromium \
-    src
+    src \
+    Documents
 read -p "Donating... Press Enter when finished."
 rm /media/psf/Home/donation.tar

@@ -67,6 +67,12 @@ export PATH="$HOME/.local/bin:$PATH"
 echo source ~/.bashrc_local >> ~/.bashrc
 source ~/.bashrc_local
 
+# vpn
+sudo mkdir /etc/openvpn/m.bertheau_workstation
+cd /etc/openvpn/m.bertheau_workstation
+sudo cp ~/Documents/m.bertheau_workstation/*.{crt,key,ovpn} update-systemd-resolved .
+sudo systemctl restart openvpn
+
 # install other software
 
 cd ~/src
