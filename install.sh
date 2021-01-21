@@ -61,6 +61,7 @@ ln -s ../../src/dotfiles/.config/regolith/Xresources ~/.config/regolith/Xresourc
 mkdir -p ~/.local/bin
 if [[ $WORK_OR_HOME == "work" ]]; then
     ln -s ../../src/dotfiles/.local/bin/flowdock ~/.local/bin/flowdock
+    ln -s ../../src/dotfiles/.local/bin/teams ~/.local/bin/teams
 fi
 
 # TODO: /etc/regolith/i3/config mit workspace_auto_back_and_forth
