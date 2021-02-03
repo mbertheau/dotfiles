@@ -2,9 +2,14 @@ WORK_OR_HOME=$1
 
 sudo apt purge --yes nano
 
-# install regolith
-
+# prepare apt to install regolith
 sudo add-apt-repository --yes ppa:regolith-linux/release
+
+# prepare apt to install gh
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+sudo apt-add-repository https://cli.github.com/packages
+
+sudo apt update
 
 # clang: weiss nicht mehr
 # fd-find: doom emacs
@@ -23,6 +28,7 @@ sudo apt install --yes \
      emacs \
      fd-find \
      gettext \
+     gh \
      git \
      i3xrocks-cpu-usage \
      i3xrocks-keyboard-layout \
