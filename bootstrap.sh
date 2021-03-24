@@ -20,4 +20,4 @@ cd ~/src/dotfiles
 git checkout new-master
 
 cd
-~/src/dotfiles/install.sh
+~/src/dotfiles/install.sh $1

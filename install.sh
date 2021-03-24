@@ -1,3 +1,5 @@
+WORK_OR_HOME=$1
+
 sudo apt purge --yes nano
 
 # install regolith
@@ -57,7 +59,9 @@ ln -s src/dotfiles/{.emacs-profiles.el,.emacs-profile,.spacemacs,.gitconfig,.bas
 mkdir -p ~/.config/regolith
 ln -s ../../src/dotfiles/.config/regolith/Xresources ~/.config/regolith/Xresources
 mkdir -p ~/.local/bin
-ln -s ../../src/dotfiles/.local/bin/flowdock ~/.local/bin/flowdock
+if [[ $WORK_OR_HOME == "work" ]]; then
+    ln -s ../../src/dotfiles/.local/bin/flowdock ~/.local/bin/flowdock
+fi
 
 # TODO: /etc/regolith/i3/config mit workspace_auto_back_and_forth
 # https://github.com/regolith-linux/regolith-i3-gaps-config/pull/20
@@ -69,10 +73,12 @@ echo source ~/.bashrc_local >> ~/.bashrc
 source ~/.bashrc_local
 
 # vpn
-sudo mkdir /etc/openvpn/m.bertheau_workstation
-cd ~/Documents/m.bertheau_workstation
-sudo cp *.{crt,key,ovpn} update-systemd-resolved /etc/openvpn/m.bertheau_workstation/
-sudo systemctl restart openvpn
+if [[ $WORK_OR_HOME == "work" ]]; then
+    sudo mkdir /etc/openvpn/m.bertheau_workstation
+    cd ~/Documents/m.bertheau_workstation
+    sudo cp *.{crt,key,ovpn} update-systemd-resolved /etc/openvpn/m.bertheau_workstation/
+    sudo systemctl restart openvpn
+fi
 
 # install other software
 
@@ -119,18 +125,20 @@ npm install --global yarn
 # echo "Set up Android Studio for React Native according to https://reactnative.dev/docs/environment-setup"
 
 # set up machtfit dev environment
-cd
+if [[ $WORK_OR_HOME == "work" ]]; then
+    cd
 
-sudo add-apt-repository --yes ppa:deadsnakes/ppa
-sudo apt-get update
-sudo apt-get install --yes python3.7 python3.7-dev python3.7-venv python3.7-distutils
+    sudo add-apt-repository --yes ppa:deadsnakes/ppa
+    sudo apt-get update
+    sudo apt-get install --yes python3.7 python3.7-dev python3.7-venv python3.7-distutils
 
-wget https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh -O.local/bin/boot
-chmod 755 ~/.local/bin/boot
+    wget https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh -O.local/bin/boot
+    chmod 755 ~/.local/bin/boot
 
-cd ~/src/machtfit
-rm -rf .venv
-python3.7 -m venv .venv
-source .venv/bin/activate
-sudo -u postgres createuser --createdb --superuser markus
-make install-pip-dev install-npm build-dev data-init data-demo
+    cd ~/src/machtfit
+    rm -rf .venv
+    python3.7 -m venv .venv
+    source .venv/bin/activate
+    sudo -u postgres createuser --createdb --superuser markus
+    make install-pip-dev install-npm build-dev data-init data-demo
+fi
