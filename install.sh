@@ -101,6 +101,9 @@ cd
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
 source ~/.nvm/nvm.sh
 nvm install --lts=dubnium
+nvm install --lts=erbium
+nvm install --lts=fermium
+nvm alias default lts/erbium
 npm install --global yarn
 
 # TODO: React Native doku sagt react-naitve-cli besser nicht global installieren sondern über npx benutzen
