@@ -1,0 +1,1 @@
+/usr/bin/chromium-browser "--app=https://clojurians.slack.com/messages" --profile-directory=Default

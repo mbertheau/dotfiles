@@ -70,6 +70,8 @@ if [[ $WORK_OR_HOME == "work" ]]; then
     ln -s ../../src/dotfiles/.local/bin/teams ~/.local/bin/teams
 fi
 
+ln -s ../../src/dotfiles/.local/bin/clojurians ~/.local/bin/clojurians
+
 # TODO: /etc/regolith/i3/config mit workspace_auto_back_and_forth
 # https://github.com/regolith-linux/regolith-i3-gaps-config/pull/20
 
