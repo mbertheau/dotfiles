@@ -113,9 +113,9 @@ npm install --global yarn
 
 # Android Studio
 # cd
-# wget -q wget https://redirector.gvt1.com/edgedl/android/studio/ide-zips/4.0.0.16/android-studio-ide-193.6514223-linux.tar.gz
-# tar xf android-studio-ide-193.6514223-linux.tar.gz
-# rm android-studio-ide-193.6514223-linux.tar.gz
+# wget -q wget https://redirector.gvt1.com/edgedl/android/studio/ide-zips/4.1.3.0/android-studio-ide-201.7199119-linux.tar.gz
+# tar xf android-studio-ide-*-linux.tar.gz
+# rm android-studio-ide-*-linux.tar.gz
 # cat >> ~/.bashrc <<EOF
 # export ANDROID_HOME=$HOME/Android/Sdk
 # export PATH=$PATH:$ANDROID_HOME/emulator
