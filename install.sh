@@ -48,6 +48,8 @@ sudo apt install --yes \
      libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
 
 sudo snap install --classic hub
+sudo snap install gh
+snap connect gh:ssh-keys snapd:ssh-keys
 
 # clean up
 sudo apt --yes autoremove
