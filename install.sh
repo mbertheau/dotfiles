@@ -151,6 +151,6 @@ if [[ $WORK_OR_HOME == "work" ]]; then
     rm -rf .venv
     python3.7 -m venv .venv
     source .venv/bin/activate
-    sudo -u postgres createuser --createdb --superuser markus
+    sudo -u postgres createuser --superuser markus
     make install-pip-dev install-npm build-dev data-init data-demo
 fi
