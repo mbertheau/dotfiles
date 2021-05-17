@@ -633,7 +633,6 @@ before packages are loaded."
 
   ;;; Set up ClojureScript REPL
   ;;; https://cider.readthedocs.io/en/latest/clojurescript/#browser-connected-clojurescript-repl-in-boot-projects
-  (setq cider-boot-parameters "dev --cider")
   (setq cider-font-lock-reader-conditionals nil)
   (setq clojure-enable-linters t)
   (spacemacs/toggle-evil-safe-lisp-structural-editing-on-register-hooks)
