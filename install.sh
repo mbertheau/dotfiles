@@ -138,13 +138,8 @@ if [[ $WORK_OR_HOME == "work" ]]; then
     sudo apt-get update
     sudo apt-get install --yes python3.7 python3.7-dev python3.7-venv python3.7-distutils
 
-    wget https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh -O.local/bin/boot
-    chmod 755 ~/.local/bin/boot
+    sudo -u postgres createuser --superuser markus
 
     cd ~/src/machtfit
-    rm -rf .venv
-    python3.7 -m venv .venv
-    source .venv/bin/activate
-    sudo -u postgres createuser --superuser markus
-    make install-pip-dev install-npm build-dev data-init data-demo
+    make dev-setup
 fi
