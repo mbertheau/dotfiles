@@ -113,7 +113,6 @@ nvm install --lts=dubnium
 nvm install --lts=erbium
 nvm install --lts=fermium
 nvm alias default lts/erbium
-npm install --global yarn
 
 # Android Studio
 # cd
