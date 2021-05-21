@@ -118,8 +118,6 @@ npm install --global yarn
 # TODO: React Native doku sagt react-naitve-cli besser nicht global installieren sondern über npx benutzen
 # npm install --global react-native-cli re-natal
 
-# TODO: https://github.com/drapanjanas/re-natal/pull/228/files
-
 # Android Studio
 # cd
 # wget -q wget https://redirector.gvt1.com/edgedl/android/studio/ide-zips/4.1.3.0/android-studio-ide-201.7199119-linux.tar.gz
