@@ -20,6 +20,7 @@ sudo apt update
 # watchman: react-native
 # libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386: Android Studio
 # python3-dev: installing / compiling psycopg
+# openvpn-systemd-resolved: work vpn DNS
 
 sudo apt install --yes \
      chromium-browser \
@@ -42,6 +43,7 @@ sudo apt install --yes \
      neovim \
      net-tools \
      openjdk-8-jdk \
+     openvpn-systemd-resolved \
      pandoc \
      pass \
      postgresql-12-postgis-3 \
@@ -81,10 +83,10 @@ source ~/.bashrc_local
 
 # vpn
 if [[ $WORK_OR_HOME == "work" ]]; then
-    sudo mkdir /etc/openvpn/m.bertheau_workstation
     cd ~/Documents/m.bertheau_workstation
-    sudo cp *.{crt,key,ovpn} update-systemd-resolved /etc/openvpn/m.bertheau_workstation/
-    sudo systemctl restart openvpn
+    sudo cp *.{crt,key,conf} /etc/openvpn/
+    sudo systemctl enable openvpn@machtfit.service
+    sudo systemctl start openvpn@machtfit.service
 fi
 
 # install other software
