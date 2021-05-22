@@ -144,7 +144,4 @@ if [[ $WORK_OR_HOME == "work" ]]; then
     sudo apt-get install --yes python3.7 python3.7-dev python3.7-venv python3.7-distutils
 
     sudo -u postgres createuser --superuser markus
-
-    cd ~/src/machtfit
-    make dev-setup
 fi
