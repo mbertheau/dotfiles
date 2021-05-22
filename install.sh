@@ -98,7 +98,10 @@ cd chemacs
 
 cd ~/src
 rm -rf spacemacs
-git clone --branch develop https://github.com/syl20bnr/spacemacs
+git clone git@github.com:mbertheau/spacemacs.git
+cd spacemacs
+git remote add -f upstream git@github.com:syl20bnr/spacemacs.git
+git checkout upstream/develop
 
 # cd ~/src
 # git clone https://github.com/hlissner/doom-emacs
