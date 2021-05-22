@@ -73,6 +73,9 @@ fi
 
 ln -s ../../src/dotfiles/.local/bin/clojurians ~/.local/bin/
 
+mkdir -p ~/.shadow-cljs
+ln -s ../src/dotfiles/.shadow-cljs/config.edn ~/.shadow-cljs/
+
 # TODO: /etc/regolith/i3/config mit workspace_auto_back_and_forth
 # https://github.com/regolith-linux/regolith-i3-gaps-config/pull/20
 
