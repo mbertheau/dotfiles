@@ -9,6 +9,7 @@ tar cfz /media/psf/Home/donation.tar \
     .thunderbird \
     .config/chromium \
     src \
-    Documents
+    Documents \
+    machtfit
 read -p "Donating... Press Enter when finished."
 rm /media/psf/Home/donation.tar
