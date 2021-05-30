@@ -52,12 +52,15 @@ This function should only modify configuration layer settings."
      html
      ibuffer
      javascript
+     lsp
      markdown
      (org :variables org-want-todo-bindings t)
      pandoc
      (python :variables
              python-formatter 'black
-             python-format-on-save t)
+             python-format-on-save t
+             python-sort-imports-on-save t
+             python-test-runner 'pytest)
      semantic
      (shell :variables
             shell-default-shell 'eshell
@@ -587,8 +590,7 @@ before packages are loaded."
 
   ;; configure python env and line length for ~/src/machtfit
   (dir-locals-set-class-variables
-   'machtfit '((python-mode . ((pyvenv-workon . "machtfit3")
-                               (fill-column . 100)
+   'machtfit '((python-mode . ((fill-column . 100)
                                (flycheck-flake8rc . "setup.cfg")))))
 
   (dir-locals-set-directory-class
