@@ -37,6 +37,7 @@ This function should only modify configuration layer settings."
      react
      typescript
      coffeescript
+     command-log
      csv
      (auto-completion :variables
                       auto-completion-enable-help-tooltip t
