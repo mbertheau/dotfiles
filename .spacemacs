@@ -47,7 +47,6 @@ This function should only modify configuration layer settings."
      emacs-lisp
      github
      (git :variables git-magit-status-fullscreen t)
-     gtags ;; not sure if I'm really using this
      helm
      html
      ibuffer
