@@ -21,6 +21,7 @@ sudo apt update
 # libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386: Android Studio
 # python3-dev: installing / compiling psycopg
 # openvpn-systemd-resolved: work vpn DNS
+# pspg: best tabular data pager ever
 
 sudo apt install --yes \
      chromium-browser \
@@ -47,6 +48,7 @@ sudo apt install --yes \
      pandoc \
      pass \
      postgresql-12-postgis-3 \
+     pspg \
      python3-dev \
      python3-venv \
      regolith-desktop \
