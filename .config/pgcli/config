@@ -190,6 +190,7 @@ output.null = "#808080"
 # DSN to call by -D option
 [alias_dsn]
 # example_dsn = postgresql://[user[:password]@][netloc][:port][/dbname]
+oscar = postgresql://oscar@localhost:5433/oscar
 
 # Format for number representation
 # for decimal "d" - 12345678, ",d" - 12,345,678
