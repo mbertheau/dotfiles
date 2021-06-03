@@ -43,7 +43,9 @@ This function should only modify configuration layer settings."
                       auto-completion-enable-help-tooltip t
                       auto-completion-return-key-behavior nil
                       auto-completion-tab-key-behavior 'complete)
-     (clojure :variables clojure-enable-clj-refactor t)
+     (clojure :variables
+              clojure-enable-clj-refactor t
+              clojure-backend 'cider)
      (colors :variables colors-colorize-identifiers 'all)
      emacs-lisp
      github
