@@ -68,7 +68,7 @@ ln -s ../../src/dotfiles/.config/regolith/Xresources ~/.config/regolith/Xresourc
 
 mkdir -p ~/.local/bin
 if [[ $WORK_OR_HOME == "work" ]]; then
-    ln -s ../../src/dotfiles/.local/bin/{flowdock,teams} ~/.local/bin/
+    ln -s ../../src/dotfiles/.local/bin/{flowdock,teams,outlook} ~/.local/bin/
 fi
 
 ln -s ../../src/dotfiles/.local/bin/clojurians ~/.local/bin/
