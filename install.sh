@@ -147,3 +147,7 @@ if [[ $WORK_OR_HOME == "work" ]]; then
 
     sudo -u postgres createuser --superuser markus
 fi
+
+# sqlfmt
+cd ~/.local/bin/
+wget -qO- https://api.github.com/repos/mjibson/sqlfmt/releases/latest | grep browser_download_url | grep linux_amd64 | cut -d\" -f4 | wget -q -i - -O- | tar xz
