@@ -22,11 +22,13 @@ sudo apt update
 # python3-dev: installing / compiling psycopg
 # openvpn-systemd-resolved: work vpn DNS
 # pspg: best tabular data pager ever
+# curl: in general good to have, but also leiningen uses it to install itself
 
 sudo apt install --yes \
      chromium-browser \
      clang \
      colordiff \
+     curl \
      emacs \
      fd-find \
      gettext \
@@ -151,3 +153,8 @@ fi
 # sqlfmt
 cd ~/.local/bin/
 wget -qO- https://api.github.com/repos/mjibson/sqlfmt/releases/latest | grep browser_download_url | grep linux_amd64 | cut -d\" -f4 | wget -q -i - -O- | tar xz
+
+# leiningen
+cd ~/.local/bin
+wget -qOlein https://raw.github.com/technomancy/leiningen/stable/bin/lein
+chmod +x lein
