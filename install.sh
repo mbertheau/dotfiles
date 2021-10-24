@@ -49,7 +49,7 @@ sudo apt install --yes \
      openvpn-systemd-resolved \
      pandoc \
      pass \
-     postgresql-12-postgis-3 \
+     postgresql-13-postgis-3 \
      pspg \
      python3-dev \
      python3-venv \
