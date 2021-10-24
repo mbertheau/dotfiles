@@ -594,6 +594,11 @@ before packages are loaded."
     (define-key git-rebase-mode-map "K" 'git-rebase-move-line-up)
     (define-key git-rebase-mode-map "J" 'git-rebase-move-line-down))
 
+  (with-eval-after-load 'clojure-mode
+    (define-clojure-indent
+      (POST :defn)
+      (GET :defn)))
+
   ;; configure python env and line length for ~/src/machtfit
   (dir-locals-set-class-variables
    'machtfit '((python-mode . ((fill-column . 100)
