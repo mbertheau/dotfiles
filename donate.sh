@@ -6,7 +6,6 @@ tar cfz /media/psf/Home/donation.tar \
     .ssh/config \
     .password-store \
     .gnupg \
-    .thunderbird \
     .config/chromium \
     src \
     Documents \
