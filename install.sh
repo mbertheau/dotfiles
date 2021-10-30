@@ -119,7 +119,7 @@ git clone https://github.com/hlissner/doom-emacs
 doom-emacs/bin/doom install
 
 cd
-wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 source ~/.nvm/nvm.sh
 nvm install --lts=fermium
 nvm alias default lts/fermium
