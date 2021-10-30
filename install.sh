@@ -114,6 +114,7 @@ git remote add -f upstream git@github.com:syl20bnr/spacemacs.git
 git checkout upstream/develop
 
 cd ~/src
+rm -rf doom-emacs
 git clone https://github.com/hlissner/doom-emacs
 doom-emacs/bin/doom install
 
