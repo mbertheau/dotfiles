@@ -144,9 +144,11 @@ nvm alias default lts/fermium
 if [[ $WORK_OR_HOME == "work" ]]; then
     cd
 
-    sudo add-apt-repository --yes ppa:deadsnakes/ppa
-    sudo apt-get update
-    sudo apt-get install --yes python3.7 python3.7-dev python3.7-venv python3.7-distutils
+    # disable for now, since deadsnakes has nothing for 21.04
+    # maybe use pyenv instead
+    #sudo add-apt-repository --yes ppa:deadsnakes/ppa
+    #sudo apt-get update
+    #sudo apt-get install --yes python3.7 python3.7-dev python3.7-venv python3.7-distutils
 
     sudo -u postgres createuser --superuser markus
 fi
