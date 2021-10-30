@@ -23,6 +23,7 @@ sudo apt update
 # openvpn-systemd-resolved: work vpn DNS
 # pspg: best tabular data pager ever
 # curl: in general good to have, but also leiningen uses it to install itself
+# libbz2-dev libreadline-dev libssl-dev libsqlite3-dev: python 3.7 build
 
 sudo apt install --yes \
      chromium-browser \
@@ -42,7 +43,11 @@ sudo apt install --yes \
      i3xrocks-openvpn \
      i3xrocks-time \
      leiningen \
+     libbz2-dev \
+     libreadline-dev \
      libpq-dev \
+     libssl-dev \
+     libsqlite3-dev \
      neovim \
      net-tools \
      openjdk-8-jdk \
