@@ -155,6 +155,14 @@ if [[ $WORK_OR_HOME == "work" ]]; then
     #sudo apt-get update
     #sudo apt-get install --yes python3.7 python3.7-dev python3.7-venv python3.7-distutils
 
+
+    curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+
+    echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+    eval "$(pyenv init -)"
+
+    pyenv install 3.7.12
+
     sudo -u postgres createuser --superuser markus
 fi
 
