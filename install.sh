@@ -104,12 +104,8 @@ fi
 
 # install other software
 
-cd ~/src
-
-rm -rf chemacs
-git clone https://github.com/plexus/chemacs.git
-cd chemacs
-./install.sh
+cd
+git clone https://github.com/plexus/chemacs2.git ~/.emacs.d
 
 cd ~/src
 rm -rf spacemacs
