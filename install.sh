@@ -7,7 +7,7 @@ sudo add-apt-repository --yes ppa:regolith-linux/release
 
 # prepare apt to install gh
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
-sudo apt-add-repository https://cli.github.com/packages
+sudo apt-add-repository --yes https://cli.github.com/packages
 
 sudo apt update
 
