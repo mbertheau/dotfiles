@@ -82,7 +82,7 @@ if [[ $WORK_OR_HOME == "work" ]]; then
     ln -s ../../src/dotfiles/.local/bin/{flowdock,teams,outlook} ~/.local/bin/
 fi
 
-ln -s ../../src/dotfiles/.local/bin/clojurians ~/.local/bin/
+ln -s ../../src/dotfiles/.local/bin/{clojurians,doomacs,spacemacs} ~/.local/bin/
 
 mkdir -p ~/.shadow-cljs
 ln -s ../src/dotfiles/.shadow-cljs/config.edn ~/.shadow-cljs/
