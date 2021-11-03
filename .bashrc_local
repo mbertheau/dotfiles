@@ -1,4 +1,5 @@
 export BOOT_JVM_OPTIONS="-Xmx2g -client -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -XX:+CMSClassUnloadingEnabled -Xverify:none"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
+export PATH="$HOME/src/doom-emacs/bin:$PATH"
 export DOOMDIR="$HOME/src/dotfiles/doom-config"
