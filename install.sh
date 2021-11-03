@@ -67,6 +67,8 @@ sudo apt install --yes \
 # clean up
 sudo apt --yes autoremove
 
+sudo snap install shellcheck
+
 # install config files
 
 cd
