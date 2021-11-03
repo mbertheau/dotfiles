@@ -53,5 +53,34 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+(setq confirm-kill-emacs nil)
+
+(setq doom-localleader-key ",")
+
 (after! which-key
   (setq which-key-idle-delay 0.1))
+
+(after! org
+  (setq org-startup-indented nil))
+
+(after! evil-org
+  (setq evil-org-special-o/O '(table-row item))
+  (setq evil-org-key-theme '(textobjects insert navigation additional return todo heading calendar)))
+
+(map! :leader
+      :desc "Switch to window #1" "1" 'winum-select-window-1
+      :desc "Switch to window #2" "2" 'winum-select-window-2
+      :desc "Switch to window #3" "3" 'winum-select-window-3
+      :desc "Switch to window #4" "4" 'winum-select-window-4
+      :desc "Switch to window #5" "5" 'winum-select-window-5
+      :desc "Switch to window #6" "6" 'winum-select-window-6
+      :desc "Switch to window #7" "7" 'winum-select-window-7
+      :desc "Switch to window #8" "8" 'winum-select-window-8
+      :desc "Switch to window #9" "9" 'winum-select-window-9)
+
+(after! rainbow-identifiers
+  (setq rainbow-identifiers-cie-l*a*b*-lightness 90)
+  (setq rainbow-identifiers-cie-l*a*b*-saturation 90)
+  (setq rainbow-identifiers-choose-face-function 'rainbow-identifiers-cie-l*a*b*-choose-face))
+
+(add-hook! 'prog-mode-hook 'rainbow-identifiers-mode)
