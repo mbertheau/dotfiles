@@ -29,7 +29,7 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(setq org-directory "/media/psf/Home/OneDrive - machtfit GmbH/org")
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -55,6 +55,8 @@
 
 (setq confirm-kill-emacs nil)
 
+(setq scroll-margin 40)
+
 (setq doom-localleader-key ",")
 
 (after! which-key
@@ -65,7 +67,8 @@
 
 (after! evil-org
   (setq evil-org-special-o/O '(table-row item))
-  (setq evil-org-key-theme '(textobjects insert navigation additional return todo heading calendar)))
+  (setq! evil-org-key-theme '(textobjects insert navigation additional return todo heading calendar))
+  (evil-org-set-key-theme))
 
 (map! :leader
       :desc "Switch to window #1" "1" 'winum-select-window-1
@@ -84,3 +87,7 @@
   (setq rainbow-identifiers-choose-face-function 'rainbow-identifiers-cie-l*a*b*-choose-face))
 
 (add-hook! 'prog-mode-hook 'rainbow-identifiers-mode)
+
+(after! magit
+  (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
+  (setq magit-bury-buffer-function 'magit-restore-window-configuration))
