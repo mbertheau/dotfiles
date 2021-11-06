@@ -91,3 +91,7 @@
 (after! magit
   (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
   (setq magit-bury-buffer-function 'magit-restore-window-configuration))
+
+
+(after! lispy
+  (setq lispy-visit-method 'projectile))
