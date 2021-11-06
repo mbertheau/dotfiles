@@ -50,3 +50,4 @@
 ;(unpin! t)
 
 (package! rainbow-identifiers)
+(package! command-log-mode)
