@@ -24,6 +24,7 @@ sudo apt update
 # pspg: best tabular data pager ever
 # curl: in general good to have, but also leiningen uses it to install itself
 # libbz2-dev libreadline-dev libssl-dev libsqlite3-dev: python 3.7 build
+# zstd: doom emacs persistent undo history compression/speedup
 
 sudo apt install --yes \
      chromium-browser \
@@ -62,6 +63,7 @@ sudo apt install --yes \
      ripgrep \
      tar \
      watchman \
+     zstd \
      libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
 
 # clean up
