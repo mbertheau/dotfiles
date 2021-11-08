@@ -73,6 +73,10 @@ sudo apt --yes autoremove
 
 sudo snap install shellcheck
 
+wget https://github.com/dandavison/delta/releases/download/0.9.2/git-delta_0.9.2_amd64.deb
+sudo dpkg -i git-delta_0.9.2_amd64.deb
+rm git-delta_0.9.2_amd64.deb
+
 # install config files
 
 cd
