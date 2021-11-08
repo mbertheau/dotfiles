@@ -25,12 +25,14 @@ sudo apt update
 # curl: in general good to have, but also leiningen uses it to install itself
 # libbz2-dev libreadline-dev libssl-dev libsqlite3-dev: python 3.7 build
 # zstd: doom emacs persistent undo history compression/speedup
+# editorconfig: editorconfig module in doom emacs
 
 sudo apt install --yes \
      chromium-browser \
      clang \
      colordiff \
      curl \
+     editorconfig \
      emacs \
      fd-find \
      gettext \
