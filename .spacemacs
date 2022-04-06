@@ -46,7 +46,7 @@ This function should only modify configuration layer settings."
      (clojure :variables
               clojure-enable-clj-refactor t
               clojure-backend 'cider)
-     (colors :variables colors-colorize-identifiers 'all)
+     (colors :variables colors-colorize-identifiers 'variables)
      django
      emacs-lisp
      github
