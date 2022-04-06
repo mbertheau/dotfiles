@@ -50,4 +50,6 @@
 ;(unpin! t)
 
 (package! rainbow-identifiers)
-(package! command-log-mode)
+;; (package! color-identifiers-mode)
+(package! command-log-mode :recipe (:host github :repo "bmag/command-log-mode" :branch "color"))
+(package! magit-delta)

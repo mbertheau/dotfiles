@@ -21,6 +21,7 @@
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
+(setq doom-font (font-spec :family "Ubuntu Mono" :size 16))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -29,7 +30,7 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "/media/psf/Home/OneDrive - machtfit GmbH/org")
+(setq org-directory "/media/psf/Home/OneDrive - machtfit GmbH/org/")
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -63,7 +64,17 @@
   (setq which-key-idle-delay 0.1))
 
 (after! org
-  (setq org-startup-indented nil))
+  (setq org-startup-indented nil)
+  (setq org-hide-emphasis-markers t)
+  (add-to-list 'org-capture-templates '("f" "Feedback an Engineer"))
+  (add-to-list 'org-capture-templates '("ft" "Feedback an TK" checkitem (file+headline "MAs/TK.org" "New feedback") ""))
+  (add-to-list 'org-capture-templates '("fa" "Feedback an AE" checkitem (file+headline "MAs/AE.org" "New feedback") ""))
+  (add-to-list 'org-capture-templates '("fo" "Feedback an OM" checkitem (file+headline "MAs/OM.org" "New feedback") ""))
+  (add-to-list 'org-capture-templates '("fk" "Feedback an KK" checkitem (file+headline "MAs/KK.org" "New feedback") ""))
+  (add-to-list 'org-capture-templates '("k" "Idea for Knowledge Sharing" item (file+headline "Knowledge Sharing.org" "New items")))
+  (map! :map org-mode-map
+        :localleader
+        "," 'org-ctrl-c-ctrl-c))
 
 (after! evil-org
   (setq evil-org-special-o/O '(table-row item))
@@ -88,10 +99,42 @@
 
 (add-hook! 'prog-mode-hook 'rainbow-identifiers-mode)
 
+;; (add-hook! 'prog-mode-hook 'color-identifiers-mode)
+
 (after! magit
   (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
   (setq magit-bury-buffer-function 'magit-restore-window-configuration))
 
-
 (after! lispy
+  ;; behave like lispyville's slurp/barf-cp theme in lispy special as well
+  (lispy-define-key lispy-mode-map "<" #'lispy-slurp-or-barf-left)
+  (lispy-define-key lispy-mode-map ">" #'lispy-slurp-or-barf-right)
+
+  ;; have lispy-visit use projectile to find files within the project
   (setq lispy-visit-method 'projectile))
+
+(after! lispyville
+  (lispy-define-key lispy-mode-map "m" #'lispy-view)
+  (lispy-define-key lispy-mode-map "v" #'lispyville-toggle-mark-type)
+  (setq lispyville-key-theme
+        '(operators ;; test non-normal. What would that be?
+          c-w
+          prettify     ;; prettifies for example with ==
+          text-objects ;; test - weiter testen
+          (atom-motions t)
+          additional-motions ;; Hmm, not so sure yet.
+          ;; commentary         ;; non-sensical in clojure :(
+          slurp/barf-cp ;; vorher hatte ich -lispy - das geht ganz gut so finde ich
+          additional-wrap ;; test, also try additional-wrap as an alternative
+          additional
+          ;; arrows                        ;; mal ausprobieren - geht nicht
+          mark-toggle))
+  (setq lispyville-key-theme '())
+  (lispyville-set-key-theme))
+
+(use-package! magit-delta
+  :hook (magit-mode . magit-delta-mode))
+
+(after! helm-rg
+  (setq helm-rg-display-buffer-normal-method #'switch-to-buffer)
+  (setq helm-rg-default-extra-args "--no-header"))
