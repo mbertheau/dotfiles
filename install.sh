@@ -136,8 +136,8 @@ doom-emacs/bin/doom install
 cd
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 source ~/.nvm/nvm.sh
-nvm install --lts=fermium
-nvm alias default lts/fermium
+nvm install --lts=fermium 14.18
+nvm alias default 14.18
 
 # Android Studio
 # cd
