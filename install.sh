@@ -26,6 +26,7 @@ sudo apt update
 # libbz2-dev libreadline-dev libssl-dev libsqlite3-dev: python 3.7 build
 # zstd: doom emacs persistent undo history compression/speedup
 # editorconfig: editorconfig module in doom emacs
+# suckless-tools:d dmenu, for passmenu
 
 sudo apt install --yes \
      chromium-browser \
@@ -63,6 +64,7 @@ sudo apt install --yes \
      python3-venv \
      regolith-desktop \
      ripgrep \
+     suckless-tools \
      tar \
      watchman \
      zstd \
@@ -91,6 +93,8 @@ if [[ $WORK_OR_HOME == "work" ]]; then
 fi
 
 ln -s ../../src/dotfiles/.local/bin/{clojurians,doomacs,spacemacs} ~/.local/bin/
+
+cp /usr/share/doc/pass/examples/dmenu/passmenu ~/.local/bin
 
 mkdir -p ~/.shadow-cljs
 ln -s ../src/dotfiles/.shadow-cljs/config.edn ~/.shadow-cljs/
