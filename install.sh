@@ -108,6 +108,16 @@ export PATH="$HOME/.local/bin:$PATH"
 echo source ~/.bashrc_local >> ~/.bashrc
 source ~/.bashrc_local
 
+# disable file indexing
+# https://www.linuxuprising.com/2019/07/how-to-completely-disable-tracker.html
+systemctl --user mask \
+    tracker-extract-3.service \
+    tracker-miner-fs-3.service \
+    tracker-miner-rss-3.service \
+    tracker-writeback-3.service \
+    tracker-xdg-portal-3.service \
+    tracker-miner-fs-control-3.service
+
 # vpn
 if [[ $WORK_OR_HOME == "work" ]]; then
     cd ~/Documents/m.bertheau_workstation
