@@ -130,7 +130,7 @@ fi
 # install other software
 
 cd
-git clone https://github.com/plexus/chemacs2.git ~/.emacs.d
+git clone https://github.com/plexus/chemacs2.git ~/.config/emacs
 
 cd ~/src
 rm -rf spacemacs
