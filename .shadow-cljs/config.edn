@@ -1,6 +1,7 @@
 {:dependencies
-  [[cider/cider-nrepl "0.27.2"]
-   [refactor-nrepl "3.0.0-alpha13"]
+  [[cider/cider-nrepl "0.28.3"]
+   [refactor-nrepl "3.5.3"]
+   [hashp "0.2.1"]
    [org.tcrawley/dynapath "0.2.5"]
    [com.cemerick/pomegranate "0.4.0"]
    ;; https://github.com/thheller/shadow-cljs/issues/818
