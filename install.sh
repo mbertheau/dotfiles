@@ -27,6 +27,7 @@ sudo apt update
 # zstd: doom emacs persistent undo history compression/speedup
 # editorconfig: editorconfig module in doom emacs
 # suckless-tools:d dmenu, for passmenu
+# rlwrap: Clojure CLI tools
 
 sudo apt install --yes \
      chromium-browser \
@@ -64,6 +65,7 @@ sudo apt install --yes \
      python3-dev \
      python3-venv \
      regolith-desktop \
+     rlwrap \
      ripgrep \
      suckless-tools \
      tar \
@@ -190,6 +192,13 @@ fi
 # sqlfmt
 cd ~/.local/bin/
 wget -qO- https://api.github.com/repos/mjibson/sqlfmt/releases/latest | grep browser_download_url | grep linux_amd64 | cut -d\" -f4 | wget -q -i - -O- | tar xz
+
+# Clojure CLI
+cd ~
+wget -qO- https://download.clojure.org/install/linux-install-1.11.1.1155.sh | bash
+chmod +x linux-install-1.11.1.1155.sh
+sudo ./linux-install-1.11.1.1155.sh
+rm linux-install-1.11.1.1155.sh
 
 # leiningen
 cd ~/.local/bin
