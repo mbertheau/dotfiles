@@ -138,3 +138,18 @@
 (after! helm-rg
   (setq helm-rg-display-buffer-normal-method #'switch-to-buffer)
   (setq helm-rg-default-extra-args "--no-header"))
+
+(after! helm-xref
+  (setq helm-xref-candidate-formatting-function 'helm-xref-format-candidate-full-path))
+
+(add-hook 'python-mode-hook #'(lambda () (interactive)
+                                (add-hook 'before-save-hook #'+python/optimize-imports 0 'local)))
+
+(add-hook! 'clojure-mode-hook #'(lambda () (interactive)
+                                 (add-hook 'before-save-hook #'(lambda () (clojure-align 0 (buffer-end 1))) 0 'local)))
+
+(after! clojure-mode
+  (setq clojure-align-forms-automatically 't))
+
+(after! lsp-mode
+  (setq lsp-headerline-breadcrumb-enable 't))
