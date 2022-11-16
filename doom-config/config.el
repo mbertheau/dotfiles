@@ -153,3 +153,26 @@
 
 (after! lsp-mode
   (setq lsp-headerline-breadcrumb-enable 't))
+
+
+(after! dap-python
+  (setq dap-python-debugger 'debugpy)
+  (dap-register-debug-template
+   "Python :: Run file (buffer) in src/countdown"
+   (list :type "python"
+         :args ""
+         :cwd "/home/markus/src/countdown"
+         :module nil
+         :program nil
+         :request "launch"
+         :name "Python :: Run file (buffer) in src/countdown"))
+  (dap-register-debug-template
+   "Python :: Run machtfit"
+   (list :type "python"
+         :args "runserver --noreload"
+         :cwd "/home/markus/src/machtfit"
+         :module nil
+         :program "/home/markus/src/machtfit/manage.py"
+         :request "launch"
+         :name "Python :: Run file (buffer) in src/countdown"
+         :django t)))
