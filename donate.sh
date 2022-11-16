@@ -6,9 +6,6 @@ tar cfz /media/psf/Home/donation.tar \
     .ssh/config \
     .password-store \
     .gnupg \
-    .config/chromium \
-    src \
-    Documents \
-    machtfit
+    src
 read -p "Donating... Press Enter when finished."
 rm /media/psf/Home/donation.tar
