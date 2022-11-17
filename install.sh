@@ -77,7 +77,7 @@ sudo apt install --yes \
      watchman \
      libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
 
-sudo apt upgrade
+sudo apt upgrade --yes
 
 # clean up
 sudo apt --yes autoremove
