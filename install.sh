@@ -3,7 +3,13 @@ WORK_OR_HOME=$1
 sudo apt purge --yes nano
 
 # prepare apt to install regolith
-sudo add-apt-repository --yes ppa:regolith-linux/release
+wget -qO - https://regolith-desktop.org/regolith.key | \
+gpg --dearmor | sudo tee /usr/share/keyrings/regolith-archive-keyring.gpg > /dev/null
+
+echo deb "[arch=amd64 signed-by=/usr/share/keyrings/regolith-archive-keyring.gpg] \
+https://regolith-desktop.org/release-ubuntu-jammy-amd64 jammy main" | \
+sudo tee /etc/apt/sources.list.d/regolith.list
+
 
 # prepare apt to install gh
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
@@ -72,6 +78,8 @@ sudo apt install --yes \
      watchman \
      zstd \
      libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
+
+sudo apt upgrade
 
 # clean up
 sudo apt --yes autoremove
