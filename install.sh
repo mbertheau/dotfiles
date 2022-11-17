@@ -66,7 +66,7 @@ sudo apt install --yes \
      pandoc \
      pass \
      poedit \
-     postgresql-13-postgis-3 \
+     postgresql-14-postgis-3 \
      pspg \
      python3-dev \
      python3-venv \
