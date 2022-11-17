@@ -61,7 +61,7 @@ sudo apt install --yes \
      libsqlite3-dev \
      neovim \
      net-tools \
-     openjdk-17-jdk \
+     openjdk-11-jdk \
      openvpn-systemd-resolved \
      pandoc \
      pass \
