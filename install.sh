@@ -93,8 +93,8 @@ rm git-delta_0.9.2_amd64.deb
 cd
 ln -s src/dotfiles/{.emacs-profiles.el,.emacs-profile,.spacemacs,.gitconfig,.bashrc_local} ~/
 
-mkdir -p ~/.config/regolith
-ln -s ../../src/dotfiles/.config/regolith/Xresources ~/.config/regolith/Xresources
+mkdir -p ~/.config/regolith2
+ln -s ../../src/dotfiles/.config/regolith2/Xresources ~/.config/regolith2/Xresources
 
 mkdir -p ~/.local/bin
 if [[ $WORK_OR_HOME == "work" ]]; then
