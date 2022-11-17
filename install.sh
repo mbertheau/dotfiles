@@ -46,7 +46,6 @@ sudo apt install --yes \
      fd-find \
      gettext \
      gh \
-     git \
      i3xrocks-cpu-usage \
      i3xrocks-keyboard-layout \
      i3xrocks-key-indicator \
@@ -75,9 +74,7 @@ sudo apt install --yes \
      rlwrap \
      ripgrep \
      suckless-tools \
-     tar \
      watchman \
-     zstd \
      libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
 
 sudo apt upgrade
