@@ -35,6 +35,8 @@ sudo apt update
 # editorconfig: editorconfig module in doom emacs
 # suckless-tools:d dmenu, for passmenu
 # rlwrap: Clojure CLI tools
+# tk-dev: for pyenv to compile Python with tk support for matplotlib UI
+# liblzma-dev: for pyenv to compile Python and not remark that it's without lzma support
 
 sudo apt install --yes \
      chromium-browser \
@@ -55,6 +57,7 @@ sudo apt install --yes \
      i3xrocks-time \
      leiningen \
      libbz2-dev \
+     liblzma-dev \
      libreadline-dev \
      libpq-dev \
      libssl-dev \
@@ -74,6 +77,7 @@ sudo apt install --yes \
      rlwrap \
      ripgrep \
      suckless-tools \
+     tk-dev \
      watchman \
      libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
 
