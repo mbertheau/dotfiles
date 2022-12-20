@@ -175,13 +175,15 @@ nvm alias default 18
 # echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="2a70", MODE="0666", GROUP="plugdev"' | sudo tee /etc/udev/rules.d/51-android-usb.rules
 # echo "Set up Android Studio for React Native according to https://reactnative.dev/docs/environment-setup"
 
-# pyenv
+# pyenv + pyenv-virtualenv
 cd
 
 curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 
 echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
 eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
 # set up machtfit dev environment
 if [[ $WORK_OR_HOME == "work" ]]; then
