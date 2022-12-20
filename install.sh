@@ -150,10 +150,8 @@ cd spacemacs
 git remote add -f upstream git@github.com:syl20bnr/spacemacs.git
 git checkout upstream/develop
 
-cd ~/src
-rm -rf doom-emacs
-git clone https://github.com/hlissner/doom-emacs
-doom-emacs/bin/doom install
+
+~/src/dotfiles/install-doom-emacs.sh
 
 cd
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
