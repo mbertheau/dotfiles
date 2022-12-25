@@ -58,7 +58,7 @@
 
 (setq confirm-kill-emacs nil)
 
-(setq scroll-margin 40)
+(setq scroll-margin 20)
 
 (setq doom-localleader-key ",")
 
