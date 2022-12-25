@@ -95,8 +95,13 @@
       :desc "Switch to window #9" "9" 'winum-select-window-9)
 
 (after! rainbow-identifiers
-  (setq rainbow-identifiers-cie-l*a*b*-lightness 90)
-  (setq rainbow-identifiers-cie-l*a*b*-saturation 90)
+  (setq rainbow-identifiers-faces-to-override '(font-lock-type-face
+                                                font-lock-constant-face
+                                                font-lock-variable-name-face
+                                                font-lock-function-name-face))
+  (setq rainbow-identifiers-cie-l*a*b*-lightness 70)
+  (setq rainbow-identifiers-cie-l*a*b*-saturation 50)
+  (setq rainbow-identifiers-cie-l*a*b*-color-count 20)
   (setq rainbow-identifiers-choose-face-function 'rainbow-identifiers-cie-l*a*b*-choose-face))
 
 (add-hook! 'prog-mode-hook 'rainbow-identifiers-mode)
