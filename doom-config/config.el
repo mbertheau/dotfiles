@@ -192,3 +192,7 @@
          :map copilot-completion-map
          ("<tab>" . 'copilot-accept-completion)
          ("TAB" . 'copilot-accept-completion)))
+
+(use-package! command-log-mode
+  :custom (command-log-mode-auto-show t)
+  :config (global-command-log-mode))
