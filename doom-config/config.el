@@ -96,6 +96,34 @@
       :desc "Switch to window #8" "8" 'winum-select-window-8
       :desc "Switch to window #9" "9" 'winum-select-window-9)
 
+(setq markus-colors ["#8b0000" "#808000" "#3cb371" "#008080"
+                     "#ff0000" "#ff8c00" "#ffd700" "#ba55d3"
+                     "#00ff7f" "#00ffff" "#00bfff" "#adff2f"
+                     "#ff00ff" "#f0e68c" "#fa8072" "#dda0dd"
+                     "#ff1493"])
+
+(setq markus-colors ["#2e8b57" "#8b0000" "#808000" "#00008b"
+                     "#b03060" "#ff0000" "#ff8c00" "#ffd700"
+                     "#00fa9a" "#4169e1" "#00ffff" "#00bfff"
+                     "#0000ff" "#adff2f" "#ff00ff" "#f0e68c"
+                     "#ffa07a" "#ee82ee"])
+
+(setq markus-colors ["#3588d1" "#64d4fd" "#007961" "#9bf89d"
+                     "#48a421" "#d8e9b2" "#a06c32" "#f6bb86"
+                     "#d54416" "#04fcf4" "#8157ae" "#dfccfa"
+                     "#b825af" "#ec9bfa" "#9f04fc" "#2cf52b"
+                     "#bd5470" "#e41a72" "#d0cc36" "#b7f630"])
+
+(setq markus-colors ["#4f8c9d" "#ed3e7e" "#81fab1" "#eb1fcb"
+                     "#12982d" "#e3a3e7" "#8adc30" "#9a63ff"
+                     "#c9dd87" "#f83826" "#34f50e" "#fb8c77"
+                     "#4bd6fd" "#708e30" "#2580fe" "#e9ea1f"
+                     "#b6c5f5" "#fe8f06" "#e6bfa2" "#a27f27"])
+
+(defun markus-rainbow-identifiers-choose-face (hash)
+  (let ((index (mod hash (length markus-colors))))
+    (list (list :foreground (aref markus-colors index)))))
+
 (after! rainbow-identifiers
   (setq rainbow-identifiers-faces-to-override '(clojure-keyword-face
                                                 font-lock-type-face
@@ -106,7 +134,7 @@
   (setq rainbow-identifiers-cie-l*a*b*-lightness 70)
   (setq rainbow-identifiers-cie-l*a*b*-saturation 50)
   (setq rainbow-identifiers-cie-l*a*b*-color-count 20)
-  (setq rainbow-identifiers-choose-face-function 'rainbow-identifiers-cie-l*a*b*-choose-face))
+  (setq rainbow-identifiers-choose-face-function 'markus-rainbow-identifiers-choose-face))
 
 (add-hook! 'prog-mode-hook 'rainbow-identifiers-mode)
 
