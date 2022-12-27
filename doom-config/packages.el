@@ -52,7 +52,6 @@
 (package! rainbow-identifiers)
 ;; (package! color-identifiers-mode)
 (package! highlight-stages)
-;; TODO: make highlight-stages work in clojure-mode
 
 (package! command-log-mode :recipe (:host github :repo "bmag/command-log-mode" :branch "color"))
 (package! magit-delta)

@@ -110,6 +110,10 @@
 
 ;; (add-hook! 'prog-mode-hook 'color-identifiers-mode)
 
+;; highlight quoting stages, mainly useful for macros
+(after! highlight-stages
+  (highlight-stages-global-mode 1))
+
 (after! magit
   (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
   (setq magit-bury-buffer-function 'magit-restore-window-configuration))
