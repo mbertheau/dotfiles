@@ -114,6 +114,9 @@
 (after! highlight-stages
   (highlight-stages-global-mode 1))
 
+;; color literals get the color as the background
+(add-hook! 'prog-mode-hook 'rainbow-mode)
+
 (after! magit
   (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
   (setq magit-bury-buffer-function 'magit-restore-window-configuration))
