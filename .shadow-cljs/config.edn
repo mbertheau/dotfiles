@@ -1,8 +1,8 @@
 {:dependencies
-  [[cider/cider-nrepl "0.28.6"]
-   [refactor-nrepl "3.5.5"]
-   ;; piggieback 0.5.2
-   ;; nrepl 1.0.0
-   [hashp "0.2.2"]
-   [org.tcrawley/dynapath "0.2.5"]
-   [com.cemerick/pomegranate "0.4.0"]]}
+ [[cider/cider-nrepl "0.28.6"]
+  [refactor-nrepl "3.5.5"]
+  ;; piggieback 0.5.2
+  ;; nrepl 1.0.0
+  [hashp "0.2.2"]
+  [org.tcrawley/dynapath "0.2.5"]
+  [com.cemerick/pomegranate "0.4.0"]]}
