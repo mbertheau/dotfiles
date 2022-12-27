@@ -97,7 +97,9 @@
       :desc "Switch to window #9" "9" 'winum-select-window-9)
 
 (after! rainbow-identifiers
-  (setq rainbow-identifiers-faces-to-override '(font-lock-type-face
+  (setq rainbow-identifiers-faces-to-override '(clojure-keyword-face
+                                                font-lock-type-face
+                                                font-lock-builtin-face
                                                 font-lock-constant-face
                                                 font-lock-variable-name-face
                                                 font-lock-function-name-face))
