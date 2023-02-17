@@ -6,8 +6,8 @@ sudo apt purge --yes nano
 wget -qO - https://regolith-desktop.org/regolith.key | \
 gpg --dearmor | sudo tee /usr/share/keyrings/regolith-archive-keyring.gpg > /dev/null
 
-echo deb "[arch=amd64 signed-by=/usr/share/keyrings/regolith-archive-keyring.gpg] \
-https://regolith-desktop.org/release-ubuntu-jammy-amd64 jammy main" | \
+echo deb "[arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/regolith-archive-keyring.gpg] \
+	https://regolith-desktop.org/release-ubuntu-jammy-$(dpkg --print-architecture) jammy main" | \
 sudo tee /etc/apt/sources.list.d/regolith.list
 
 
@@ -45,21 +45,21 @@ sudo apt update
 
 sudo apt install --yes \
      chromium-browser \
-     clang \
-     colordiff \
-     curl \
-     editorconfig \
-     emacs \
-     fd-find \
-     gettext \
-     gh \
-     i3xrocks-cpu-usage \
+     #clang \
+     #colordiff \
+     #curl \
+     #editorconfig \
+     #emacs \
+     #fd-find \
+     #gettext \
+     #gh \
+     #i3xrocks-cpu-usage \
      i3xrocks-keyboard-layout \
      i3xrocks-key-indicator \
-     i3xrocks-net-traffic \
+     #i3xrocks-net-traffic \
      i3xrocks-nm-vpn \
      i3xrocks-openvpn \
-     i3xrocks-time \
+     #i3xrocks-time \
      leiningen \
      libbz2-dev \
      libjpeg8-dev \
@@ -72,31 +72,30 @@ sudo apt install --yes \
      libsdl2-ttf-dev \
      libssl-dev \
      libsqlite3-dev \
-     neovim \
-     net-tools \
-     openjdk-11-jdk \
+     #neovim \
+     #net-tools \
+     #openjdk-17-jdk \
      openvpn-systemd-resolved \
      pandoc \
      pass \
      poedit \
      postgresql-14-postgis-3 \
      pspg \
-     python3-dev \
-     python3-venv \
-     regolith-desktop \
+     #python3-dev \
+     #python3-venv \
+     #regolith-desktop \
      rlwrap \
-     ripgrep \
-     suckless-tools \
+     #ripgrep \
+     #suckless-tools \
      tk-dev \
-     watchman \
-     libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
+     watchman
 
 sudo apt upgrade --yes
 
 # clean up
 sudo apt --yes autoremove
 
-sudo snap install shellcheck docker
+#sudo snap install shellcheck docker
 
 wget https://github.com/dandavison/delta/releases/download/0.9.2/git-delta_0.9.2_amd64.deb
 sudo dpkg -i git-delta_0.9.2_amd64.deb
