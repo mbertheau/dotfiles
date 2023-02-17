@@ -148,6 +148,7 @@ git checkout upstream/develop
 
 
 ~/src/dotfiles/install-doom-emacs.sh
+~/src/dotfiles/install-ibm-vga-fonts.sh
 
 cd
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
