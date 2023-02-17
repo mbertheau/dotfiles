@@ -27,7 +27,6 @@ sudo apt update
 # watchman: react-native
 # libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386: Android Studio
 # python3-dev: installing / compiling psycopg
-# openvpn-systemd-resolved: work vpn DNS
 # pspg: best tabular data pager ever
 # curl: in general good to have, but also leiningen uses it to install itself
 # libbz2-dev libreadline-dev libssl-dev libsqlite3-dev: python 3.7 build
@@ -75,7 +74,6 @@ sudo apt install --yes \
      neovim \
      net-tools \
      openjdk-17-jdk \
-     openvpn-systemd-resolved \
      pandoc \
      pass \
      poedit \
@@ -97,9 +95,9 @@ sudo apt --yes autoremove
 
 #sudo snap install shellcheck docker
 
-wget https://github.com/dandavison/delta/releases/download/0.9.2/git-delta_0.9.2_amd64.deb
-sudo dpkg -i git-delta_0.9.2_amd64.deb
-rm git-delta_0.9.2_amd64.deb
+wget https://github.com/dandavison/delta/releases/download/0.9.2/git-delta_0.15.1_arm64.deb
+sudo dpkg -i git-delta_0.15.1_arm64.deb
+rm git-delta_0.15.1_arm64.deb
 
 # install config files
 
@@ -110,10 +108,6 @@ mkdir -p ~/.config/regolith2
 ln -s ../../src/dotfiles/.config/regolith2/Xresources ~/.config/regolith2/Xresources
 
 mkdir -p ~/.local/bin
-if [[ $WORK_OR_HOME == "work" ]]; then
-    ln -s ../../src/dotfiles/.local/bin/{flowdock,teams,outlook} ~/.local/bin/
-fi
-
 ln -s ../../src/dotfiles/.local/bin/{clojurians,doomacs,spacemacs} ~/.local/bin/
 
 cp /usr/share/doc/pass/examples/dmenu/passmenu ~/.local/bin
@@ -139,13 +133,6 @@ systemctl --user mask \
     tracker-xdg-portal-3.service \
     tracker-miner-fs-control-3.service
 
-# vpn
-if [[ $WORK_OR_HOME == "work" ]]; then
-    cd ~/Documents/m.bertheau_workstation
-    sudo cp *.{crt,key,conf} /etc/openvpn/
-    sudo systemctl enable openvpn@machtfit.service
-    sudo systemctl start openvpn@machtfit.service
-fi
 
 # install other software
 
@@ -163,7 +150,7 @@ git checkout upstream/develop
 ~/src/dotfiles/install-doom-emacs.sh
 
 cd
-wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 source ~/.nvm/nvm.sh
 nvm install --lts=hydrogen
 nvm alias default 18
@@ -194,28 +181,17 @@ echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
-# set up machtfit dev environment
-if [[ $WORK_OR_HOME == "work" ]]; then
-    pyenv install 3.7.12
-
-    sudo -u postgres createuser --superuser markus
-fi
-
-# sqlfmt
-cd ~/.local/bin/
-wget -qO- https://api.github.com/repos/mjibson/sqlfmt/releases/latest | grep browser_download_url | grep linux_amd64 | cut -d\" -f4 | wget -q -i - -O- | tar xz
-
 # Clojure CLI
 cd ~
-wget -q https://download.clojure.org/install/linux-install-1.11.1.1200.sh
-chmod +x linux-install-1.11.1.1200.sh
-sudo ./linux-install-1.11.1.1200.sh
-rm linux-install-1.11.1.1200.sh
+wget -q https://download.clojure.org/install/linux-install-1.11.1.1224.sh
+chmod +x linux-install-1.11.1.1224.sh
+sudo ./linux-install-1.11.1.1224.sh
+rm linux-install-1.11.1.1224.sh
 
 # leiningen
-cd ~/.local/bin
-wget -qOlein https://raw.github.com/technomancy/leiningen/stable/bin/lein
-chmod +x lein
+#cd ~/.local/bin
+#wget -qOlein https://raw.github.com/technomancy/leiningen/stable/bin/lein
+#chmod +x lein
 
 
 ~/src/dotfiles/install-cljfmt.sh
