@@ -45,21 +45,21 @@ sudo apt update
 
 sudo apt install --yes \
      chromium-browser \
-     #clang \
-     #colordiff \
-     #curl \
-     #editorconfig \
-     #emacs \
-     #fd-find \
-     #gettext \
-     #gh \
-     #i3xrocks-cpu-usage \
+     clang \
+     colordiff \
+     curl \
+     editorconfig \
+     emacs \
+     fd-find \
+     gettext \
+     gh \
+     i3xrocks-cpu-usage \
      i3xrocks-keyboard-layout \
      i3xrocks-key-indicator \
-     #i3xrocks-net-traffic \
+     i3xrocks-net-traffic \
      i3xrocks-nm-vpn \
      i3xrocks-openvpn \
-     #i3xrocks-time \
+     i3xrocks-time \
      leiningen \
      libbz2-dev \
      libjpeg8-dev \
@@ -72,21 +72,21 @@ sudo apt install --yes \
      libsdl2-ttf-dev \
      libssl-dev \
      libsqlite3-dev \
-     #neovim \
-     #net-tools \
-     #openjdk-17-jdk \
+     neovim \
+     net-tools \
+     openjdk-17-jdk \
      openvpn-systemd-resolved \
      pandoc \
      pass \
      poedit \
      postgresql-14-postgis-3 \
      pspg \
-     #python3-dev \
-     #python3-venv \
-     #regolith-desktop \
+     python3-dev \
+     python3-venv \
+     regolith-desktop \
      rlwrap \
-     #ripgrep \
-     #suckless-tools \
+     ripgrep \
+     suckless-tools \
      tk-dev \
      watchman
 
