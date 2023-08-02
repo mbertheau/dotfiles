@@ -1,7 +1,10 @@
 [user]
 	name = Markus Bertheau
-	email = mbertheau@gmail.com
+	email = markus.bertheau@aiven.io
+	signingkey = 75592AF313E890FC
 [init]
 	defaultBranch = main
 [credential "https://github.com"]
 	helper = !/usr/bin/gh auth git-credential
+[commit]
+	gpgsign = true
