@@ -140,13 +140,7 @@ systemctl --user mask \
 cd
 git clone https://github.com/plexus/chemacs2.git ~/.config/emacs
 
-cd ~/src
-rm -rf spacemacs
-git clone git@github.com:mbertheau/spacemacs.git
-cd spacemacs
-git remote add -f upstream git@github.com:syl20bnr/spacemacs.git
-git checkout upstream/develop
-
+~/src/dotfiles/install-spacemacs.sh
 
 ~/src/dotfiles/install-doom-emacs.sh
 
