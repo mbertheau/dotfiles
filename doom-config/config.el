@@ -62,9 +62,7 @@
 (setq doom-localleader-key ",")
 
 (after! which-key
-  (setq which-key-idle-delay 0.1)
-  (setq which-key-persistent-popup t)
-  (which-key-setup-side-window-right-bottom))
+  (setq which-key-idle-delay 0.1))
 
 (after! org
   (setq org-startup-indented nil)
