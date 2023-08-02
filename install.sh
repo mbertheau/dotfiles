@@ -120,6 +120,11 @@ export PATH="$HOME/.local/bin:$PATH"
 echo source ~/.bashrc_local >> ~/.bashrc
 source ~/.bashrc_local
 
+if [[ $WORK_OR_HOME == "work" ]]; then
+     echo source ~/.bashrc_work >> ~/.bashrc
+     source ~/.bashrc_work
+fi
+
 # disable file indexing
 # https://www.linuxuprising.com/2019/07/how-to-completely-disable-tracker.html
 systemctl --user mask \
