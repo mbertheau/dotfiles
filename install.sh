@@ -41,6 +41,7 @@ sudo apt update
 # libsdl2-ttf-dev: same
 # libjpeg8-dev: same
 # libportmidi-dev: same
+# shellcheck: for flycheck in doom emacs
 
 sudo apt install --yes \
      chromium-browser \
@@ -84,6 +85,7 @@ sudo apt install --yes \
      regolith-desktop \
      rlwrap \
      ripgrep \
+     shellcheck \
      suckless-tools \
      tk-dev \
      watchman
@@ -92,8 +94,6 @@ sudo apt upgrade --yes
 
 # clean up
 sudo apt --yes autoremove
-
-#sudo snap install shellcheck docker
 
 # install config files
 
