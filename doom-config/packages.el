@@ -54,7 +54,6 @@
 (package! highlight-stages)
 
 (package! command-log-mode :recipe (:host github :repo "bmag/command-log-mode" :branch "color"))
-(package! magit-delta)
 
 (package! copilot
   :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))

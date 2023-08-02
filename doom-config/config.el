@@ -175,9 +175,6 @@
   (setq lispyville-key-theme '())
   (lispyville-set-key-theme))
 
-(use-package! magit-delta
-  :hook (magit-mode . magit-delta-mode))
-
 (after! helm-rg
   (setq helm-rg-display-buffer-normal-method #'switch-to-buffer)
   (setq helm-rg-default-extra-args "--no-header"))
