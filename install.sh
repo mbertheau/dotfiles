@@ -35,12 +35,18 @@ sudo apt update
 # suckless-tools:d dmenu, for passmenu
 # rlwrap: Clojure CLI tools
 # tk-dev: for pyenv to compile Python with tk support for matplotlib UI
+# libcairo2-dev: for pip install pycairo
 # liblzma-dev: for pyenv to compile Python and not remark that it's without lzma support
 # libsdl2-dev: for building python ai stuff with python 3.11
 # libsdl2-image-dev: same
 # libsdl2-ttf-dev: same
 # libjpeg8-dev: same
+# libpcsclite-dev: for pip install pyscard
 # libportmidi-dev: same
+# libsnappy-dev: for pip install python-snappy
+# libsystemd-dev: for pip install systemd-python
+# libxmlsec1-dev: for pip install xmlsec
+# libxslt-dev: for pip install lxml
 # shellcheck: for flycheck in doom emacs
 
 sudo apt install --yes \
@@ -62,16 +68,22 @@ sudo apt install --yes \
      i3xrocks-time \
      leiningen \
      libbz2-dev \
+     libcairo2-dev \
      libjpeg8-dev \
      liblzma-dev \
      libreadline-dev \
+     libpcsclite-dev \
      libportmidi-dev \
      libpq-dev \
      libsdl2-dev \
      libsdl2-image-dev \
      libsdl2-ttf-dev \
+     libsnappy-dev \
      libssl-dev \
      libsqlite3-dev \
+     libsystemd-dev \
+     libxmlsec1-dev \
+     libxslt-dev \
      neovim \
      net-tools \
      openjdk-17-jdk \
