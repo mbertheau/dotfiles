@@ -98,7 +98,7 @@ sudo apt --yes autoremove
 # install config files
 
 cd
-ln -s src/dotfiles/{.emacs-profiles.el,.emacs-profile,.spacemacs,.gitconfig,.bashrc_local} ~/
+ln -s src/dotfiles/{.emacs-profiles.el,.emacs-profile,.spacemacs,.gitconfig,.bashrc_local,.inputrc} ~/
 
 mkdir -p ~/.config/regolith2
 ln -s ../../src/dotfiles/.config/regolith2/Xresources ~/.config/regolith2/Xresources
