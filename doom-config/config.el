@@ -206,17 +206,7 @@
          :module nil
          :program nil
          :request "launch"
-         :name "Python :: Run file (buffer) in src/countdown"))
-  (dap-register-debug-template
-   "Python :: Run machtfit"
-   (list :type "python"
-         :args "runserver --noreload"
-         :cwd "/home/markus/src/machtfit"
-         :module nil
-         :program "/home/markus/src/machtfit/manage.py"
-         :request "launch"
-         :name "Python :: Run file (buffer) in src/countdown"
-         :django t)))
+         :name "Python :: Run file (buffer) in src/countdown")))
 
 ;; accept completion from copilot and fallback to company
 (use-package! copilot
