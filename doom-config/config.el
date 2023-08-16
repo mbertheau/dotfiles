@@ -192,7 +192,8 @@
 ;;   (setq clojure-align-forms-automatically 't))
 
 (after! lsp-mode
-  (setq lsp-headerline-breadcrumb-enable 't))
+  (setq lsp-headerline-breadcrumb-enable 't)
+  (setq lsp-file-watch-threshold 2000))
 
 
 (after! dap-python
