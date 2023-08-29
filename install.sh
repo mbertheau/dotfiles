@@ -202,3 +202,5 @@ rm linux-install-1.11.1.1224.sh
 
 
 ~/src/dotfiles/install-cljfmt.sh
+
+~/src/dotfiles/install-schemaspy.sh
