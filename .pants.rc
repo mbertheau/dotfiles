@@ -1,0 +1,2 @@
+[python-bootstrap]
+search_path.add = ["<PYENV>"]
