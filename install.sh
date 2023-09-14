@@ -162,6 +162,9 @@ source ~/.nvm/nvm.sh
 nvm install --lts=hydrogen
 nvm alias default 18
 
+# github-copilot-cli
+npm install -g @githubnext/github-copilot-cli
+
 # Android Studio
 # cd
 # wget -q wget https://redirector.gvt1.com/edgedl/android/studio/ide-zips/4.1.3.0/android-studio-ide-201.7199119-linux.tar.gz
@@ -185,8 +188,10 @@ curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer 
 
 echo 'eval "$(pyenv init -)"' >> ~/.bashrc
 echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
+echo 'eval "$(github-copilot-cli alias -- "$0")"' >> ~/.bashrc
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
+eval "$(github-copilot-cli alias -- "$0")"
 
 # Clojure CLI
 cd ~
