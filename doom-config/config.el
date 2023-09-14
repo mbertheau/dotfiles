@@ -216,3 +216,24 @@
          :map copilot-completion-map
          ("<tab>" . 'copilot-accept-completion)
          ("TAB" . 'copilot-accept-completion)))
+
+(defun my-python-folding ()
+  "Fold code blocks starting with 'class' and 'def' in Python."
+  (interactive)
+  (if (eq major-mode 'python-mode)
+      (let ((counter 0))
+      (save-excursion
+        (goto-char (point-min))
+        (while (and (< counter 100)
+                    (search-forward-regexp "^\\(class\\|def\\|async\\) " nil t))
+          (setq counter (1+ counter))
+          (if (string= (match-string 1) "class")
+              (hs-hide-level 1)
+            (+fold/close)))))
+    (message "Not in a Python mode buffer, ignoring.")))
+
+;; Add your folding function to python-mode-hook
+(add-hook 'python-mode-hook
+  (lambda ()
+    (hs-minor-mode 1) ; Enable hideshow for code folding
+    (my-python-folding)))
