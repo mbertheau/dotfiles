@@ -8,3 +8,5 @@
 	helper = !/usr/bin/gh auth git-credential
 [commit]
 	gpgsign = true
+[rerere]
+	enabled = true
