@@ -194,11 +194,7 @@ eval "$(pyenv virtualenv-init -)"
 eval "$(github-copilot-cli alias -- "$0")"
 
 # Clojure CLI
-cd ~
-wget -q https://download.clojure.org/install/linux-install-1.11.1.1224.sh
-chmod +x linux-install-1.11.1.1224.sh
-sudo ./linux-install-1.11.1.1224.sh
-rm linux-install-1.11.1.1224.sh
+# ~/src/dotfiles/install-clojure-cli.sh
 
 # leiningen
 #cd ~/.local/bin
@@ -206,8 +202,8 @@ rm linux-install-1.11.1.1224.sh
 #chmod +x lein
 
 
-~/src/dotfiles/install-cljfmt.sh
+# ~/src/dotfiles/install-cljfmt.sh
 
 ~/src/dotfiles/install-schemaspy.sh
 
-~/src/dotfiles/install-vscode.sh
+# ~/src/dotfiles/install-vscode.sh
