@@ -152,7 +152,7 @@ systemctl --user mask \
 cd
 git clone https://github.com/plexus/chemacs2.git ~/.config/emacs
 
-~/src/dotfiles/install-spacemacs.sh
+# ~/src/dotfiles/install-spacemacs.sh
 
 ~/src/dotfiles/install-doom-emacs.sh
 
