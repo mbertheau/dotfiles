@@ -37,6 +37,7 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
+(setq-default fill-column 100)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -62,7 +63,7 @@
 (setq doom-localleader-key ",")
 
 (after! which-key
-  (setq which-key-idle-delay 0.1))
+  (setq which-key-idle-delay 0.3))
 
 (after! org
   (setq org-startup-indented nil)
@@ -146,7 +147,11 @@
 
 (after! magit
   (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
-  (setq magit-bury-buffer-function 'magit-restore-window-configuration))
+  (setq magit-bury-buffer-function 'magit-restore-window-configuration)
+  (transient-append-suffix 'magit-log "-A"
+    '("-m" "Omit merge commits" "--no-merges"))
+  (transient-append-suffix 'magit-log "-A"
+    '("-b" "Only mbertheau branches" "--branches=mbertheau*")))
 
 (after! lispy
   ;; behave like lispyville's slurp/barf-cp theme in lispy special as well
@@ -182,8 +187,8 @@
 (after! helm-xref
   (setq helm-xref-candidate-formatting-function 'helm-xref-format-candidate-full-path))
 
-(add-hook 'python-mode-hook #'(lambda () (interactive)
-                                (add-hook 'before-save-hook #'+python/optimize-imports 0 'local)))
+;; (add-hook 'python-mode-hook #'(lambda () (interactive)
+;;                                 (add-hook 'before-save-hook #'+python/optimize-imports 0 'local)))
 
 ;; (add-hook! 'clojure-mode-hook #'(lambda () (interactive)
 ;;                                  (add-hook 'before-save-hook #'(lambda () (clojure-align 0 (buffer-end 1))) 0 'local)))
@@ -193,7 +198,12 @@
 
 (after! lsp-mode
   (setq lsp-headerline-breadcrumb-enable 't)
-  (setq lsp-file-watch-threshold 2000))
+  (setq lsp-file-watch-threshold 20000))
+
+(use-package! lsp-pyright
+  :config
+  (setq lsp-pyright-venv-path (expand-file-name (concat "~/.pyenv/versions/" (getenv "PYENV_VERSION") "/")))
+  (setq lsp-pyright-typechecking-mode "strict"))
 
 
 (after! dap-python
@@ -207,6 +217,9 @@
          :program nil
          :request "launch"
          :name "Python :: Run file (buffer) in src/countdown")))
+
+;; (after! company
+;;   (setq company-ispell-available nil))
 
 ;; accept completion from copilot and fallback to company
 (use-package! copilot
@@ -222,18 +235,42 @@
   (interactive)
   (if (eq major-mode 'python-mode)
       (let ((counter 0))
-      (save-excursion
-        (goto-char (point-min))
-        (while (and (< counter 100)
-                    (search-forward-regexp "^\\(class\\|def\\|async\\) " nil t))
-          (setq counter (1+ counter))
-          (if (string= (match-string 1) "class")
-              (hs-hide-level 1)
-            (+fold/close)))))
+        (save-excursion
+          (goto-char (point-min))
+          (while (and (< counter 100)
+                      (search-forward-regexp "^\\(class\\|def\\|async\\) " nil t))
+            (setq counter (1+ counter))
+            (if (string= (match-string 1) "class")
+                (hs-hide-level 1)
+              (+fold/close)))))
     (message "Not in a Python mode buffer, ignoring.")))
 
 ;; Add your folding function to python-mode-hook
 (add-hook 'python-mode-hook
-  (lambda ()
-    (hs-minor-mode 1) ; Enable hideshow for code folding
-    (my-python-folding)))
+          (lambda ()
+            (hs-minor-mode 1) ; Enable hideshow for code folding
+            (my-python-folding)))
+
+(after! flycheck
+  (setq flycheck-checker-error-threshold 500))
+
+(defun change-ruff-value (config-list)
+  "Change the value of 'ruff' to 'ruff changed' in the given config list."
+  (dolist (item config-list config-list)
+    (when (and (listp item) (equal (car item) 'ruff))
+      (setcar (cdr item) "/home/markus.bertheau/.pyenv/versions/aiven/bin/ruff")))
+  config-list)
+
+(after! apheleia
+  (setq apheleia-formatters (delq (assoc 'black apheleia-formatters) apheleia-formatters))
+  (setq apheleia-formatters (delq (assoc 'ruff apheleia-formatters) apheleia-formatters))
+  (setf (alist-get 'ruff-check apheleia-formatters)
+        '("/home/markus.bertheau/.pyenv/versions/aiven/bin/ruff" "check" "--silent"
+          "--fix-only"
+          "--stdin-filename" filepath "-"))
+  (setf (alist-get 'ruff-format apheleia-formatters)
+        '("/home/markus.bertheau/.pyenv/versions/aiven/bin/ruff" "format" "--silent"
+          (apheleia-formatters-fill-column "--line-length")
+          "--stdin-filename" filepath "-"))
+  (add-to-list 'apheleia-mode-alist '(python-mode . (ruff-check ruff-format)))
+  (add-to-list 'apheleia-mode-alist '(python-ts-mode . (ruff-check ruff-format))))
