@@ -6,6 +6,7 @@ tar cfz /media/psf/Home/donation.tar \
     .password-store \
     .gnupg \
     .gu \
+    .bashrc_work \
     src
 read -p "Donating... Press Enter when finished."
 rm /media/psf/Home/donation.tar
