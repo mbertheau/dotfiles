@@ -1,8 +1,7 @@
 cd
 echo "Preparing donation, stand by.."
 tar cfz /media/psf/Home/donation.tar \
-    .ssh/id_rsa \
-    .ssh/id_rsa.pub \
+    .ssh/id_* \
     .ssh/config \
     .password-store \
     .gnupg \
