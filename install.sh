@@ -112,8 +112,8 @@ sudo apt --yes autoremove
 cd
 ln -s src/dotfiles/{.emacs-profiles.el,.emacs-profile,.spacemacs,.gitconfig,.bashrc_local,.inputrc.pants.rc} ~/
 
-mkdir -p ~/.config/regolith2
-ln -s ../../src/dotfiles/.config/regolith2/Xresources ~/.config/regolith2/Xresources
+mkdir -p ~/.config/regolith3
+ln -s ../../src/dotfiles/.config/regolith3/Xresources ~/.config/regolith3/Xresources
 
 mkdir -p ~/.local/bin
 ln -s ../../src/dotfiles/.local/bin/{clojurians,doomacs,spacemacs} ~/.local/bin/

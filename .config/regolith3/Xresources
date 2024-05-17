@@ -1,0 +1,23 @@
+wm.gaps.focus_follows_mouse: yes
+wm.gaps.inner.size: 0
+
+wm.workspace.01.name: 1: screenshot
+wm.workspace.02.name: 2: brauser
+wm.workspace.03.name: 3: emacs
+wm.workspace.04.name: 4: term
+wm.workspace.05.name: 5: scratch
+wm.workspace.06.name: 6: password
+wm.workspace.07.name: 7: remote-terms
+wm.workspace.08.name: 8: flowdock
+wm.workspace.09.name: 9: nautilus
+wm.workspace.10.name: 0: scratch2
+
+wm.workspace.auto_back_and_forth: yes
+
+wm.bar.position: top
+wm.bar.stripworkspacenumbers: no
+
+gnome.terminal.font: Ubuntu Mono 12
+
+! disable unclutter, which hides the mouse cursor after 1 second of no movement
+wm.program.unclutter: /bin/true
