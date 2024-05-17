@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-sudo apt install dot
+sudo apt install graphviz
 mkdir -p ~/schemaspy
 cd ~/schemaspy
 wget https://github.com/schemaspy/schemaspy/releases/download/v6.2.4/schemaspy-6.2.4.jar
