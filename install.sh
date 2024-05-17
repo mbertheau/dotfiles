@@ -7,7 +7,7 @@ wget -qO - https://regolith-desktop.org/regolith.key | \
 gpg --dearmor | sudo tee /usr/share/keyrings/regolith-archive-keyring.gpg > /dev/null
 
 echo deb "[arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/regolith-archive-keyring.gpg] \
-	https://regolith-desktop.org/release-ubuntu-jammy-$(dpkg --print-architecture) jammy main" | \
+	https://regolith-desktop.org/testing-ubuntu-noble-$(dpkg --print-architecture) noble main" | \
 sudo tee /etc/apt/sources.list.d/regolith.list
 
 
@@ -46,7 +46,7 @@ sudo apt update
 # libsnappy-dev: for pip install python-snappy
 # libsystemd-dev: for pip install systemd-python
 # libxmlsec1-dev: for pip install xmlsec
-# libxslt-dev: for pip install lxml
+# libxslt1-dev: for pip install lxml
 # shellcheck: for flycheck in doom emacs
 
 sudo apt install --yes \
@@ -83,18 +83,19 @@ sudo apt install --yes \
      libsqlite3-dev \
      libsystemd-dev \
      libxmlsec1-dev \
-     libxslt-dev \
+     libxslt1-dev \
      neovim \
      net-tools \
      openjdk-17-jdk \
      pandoc \
      pass \
      poedit \
-     postgresql-14-postgis-3 \
+     postgresql-postgis \
      pspg \
      python3-dev \
      python3-venv \
      regolith-desktop \
+     regolith-session-sway \
      rlwrap \
      ripgrep \
      shellcheck \
