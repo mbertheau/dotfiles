@@ -7,7 +7,7 @@ wget -qO - https://regolith-desktop.org/regolith.key | \
 gpg --dearmor | sudo tee /usr/share/keyrings/regolith-archive-keyring.gpg > /dev/null
 
 echo deb "[arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/regolith-archive-keyring.gpg] \
-	https://regolith-desktop.org/testing-ubuntu-noble-$(dpkg --print-architecture) noble main" | \
+	https://regolith-desktop.org/release-3_1-ubuntu-mantic-$(dpkg --print-architecture) mantic main" | \
 sudo tee /etc/apt/sources.list.d/regolith.list
 
 
