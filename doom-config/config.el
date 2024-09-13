@@ -230,10 +230,16 @@
          ("<tab>" . 'copilot-accept-completion)
          ("TAB" . 'copilot-accept-completion)))
 
+(add-hook 'ediff-prepare-buffer-hook
+          (lambda ()
+            (set (make-local-variable 'is-ediff-buffer) t)))
+
+
 (defun my-python-folding ()
   "Fold code blocks starting with 'class' and 'def' in Python."
   (interactive)
-  (if (eq major-mode 'python-mode)
+  (if (and (eq major-mode 'python-mode)
+           (bound-and-true-p is-ediff-buffer))
       (let ((counter 0))
         (save-excursion
           (goto-char (point-min))
