@@ -6,3 +6,6 @@
 6. wget -q https://raw.githubusercontent.com/mbertheau/dotfiles/new-master/bootstrap.sh
 7. bash ./bootstrap.sh work
 or bash ./bootstrap.sh home
+
+1. doom sync -u # to fix doom emacs
+2. install nerd font from within doom
