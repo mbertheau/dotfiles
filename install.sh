@@ -115,6 +115,8 @@ ln -s src/dotfiles/{.emacs-profiles.el,.emacs-profile,.spacemacs,.gitconfig,.bas
 
 mkdir -p ~/.config/regolith3
 ln -s ../../src/dotfiles/.config/regolith3/Xresources ~/.config/regolith3/Xresources
+mkdir -p ~/.config/i3status-rust
+ln -s ../../src/dotfiles/.config/i3status-rust/config.toml ~/.config/i3status-rust/config.toml
 
 mkdir -p ~/.local/bin
 ln -s ../../src/dotfiles/.local/bin/{clojurians,doomacs,spacemacs} ~/.local/bin/
