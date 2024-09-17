@@ -7,6 +7,7 @@ tar cfz /media/psf/Home/donation.tar \
     .gnupg \
     .gu \
     .bashrc_work \
+    snap/chromium \
     src
 read -p "Donating... Press Enter when finished."
 rm /media/psf/Home/donation.tar
