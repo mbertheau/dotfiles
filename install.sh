@@ -111,7 +111,7 @@ sudo apt --yes autoremove
 # install config files
 
 cd
-ln -s src/dotfiles/{.emacs-profiles.el,.emacs-profile,.spacemacs,.gitconfig,.bashrc_local,.inputrc.pants.rc} ~/
+ln -s src/dotfiles/{.emacs-profiles.el,.emacs-profile,.spacemacs,.gitconfig,.profile_local,.inputrc.pants.rc} ~/
 
 mkdir -p ~/.config/regolith3
 ln -s ../../src/dotfiles/.config/regolith3/Xresources ~/.config/regolith3/Xresources
@@ -132,8 +132,8 @@ ln -s ../src/dotfiles/.shadow-cljs/config.edn ~/.shadow-cljs/
 # .profile does this at login, but only if ~/.local/bin exists, which it didn't at login
 export PATH="$HOME/.local/bin:$PATH"
 
-echo source ~/.bashrc_local >> ~/.bashrc
-source ~/.bashrc_local
+echo source ~/.profile_local >> ~/.profile
+source ~/.profile_local
 
 if [[ $WORK_OR_HOME == "work" ]]; then
      echo source ~/.bashrc_work >> ~/.bashrc
