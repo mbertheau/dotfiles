@@ -113,6 +113,7 @@ sudo apt upgrade --yes
 sudo apt --yes autoremove
 
 sudo ln -s /usr/share/fontconfig/conf.avail/10-autohint.conf /etc/fonts/conf.d/
+sudo update-alternatives --set x-terminal-emulator /usr/bin/foot
 
 # install config files
 
@@ -123,6 +124,8 @@ mkdir -p ~/.config/regolith3
 ln -s ../../src/dotfiles/.config/regolith3/Xresources ~/.config/regolith3/Xresources
 mkdir -p ~/.config/i3status-rust
 ln -s ../../src/dotfiles/.config/i3status-rust/config.toml ~/.config/i3status-rust/config.toml
+mkdir -p ~/.config/foot
+ln -s ../../src/dotfiles/.config/foot/foot.ini ~/.config/foot/foot.ini
 
 mkdir -p ~/.local/bin
 ln -s ../../src/dotfiles/.local/bin/{clojurians,doomacs,spacemacs} ~/.local/bin/
