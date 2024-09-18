@@ -48,6 +48,7 @@ sudo apt update
 # libxmlsec1-dev: for pip install xmlsec
 # libxslt1-dev: for pip install lxml
 # shellcheck: for flycheck in doom emacs
+# pipx: to install basedpyright conveniently in its own virtualenv
 
 sudo apt install --yes \
      chromium-browser \
@@ -89,6 +90,7 @@ sudo apt install --yes \
      openjdk-17-jdk \
      pandoc \
      pass \
+     pipx \
      poedit \
      postgresql-postgis \
      pspg \
@@ -197,6 +199,8 @@ eval "$(pyenv virtualenv-init -)"
 pyenv install 3.11
 pyenv virtualenv 3.11 aiven
 .pyenv/versions/aiven/bin/pip install ruff
+pipx install basedpyright
+
 echo 'eval "$(github-copilot-cli alias -- "$0")"' >> ~/.bashrc
 eval "$(github-copilot-cli alias -- "$0")"
 
