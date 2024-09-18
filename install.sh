@@ -162,8 +162,8 @@ git clone https://github.com/plexus/chemacs2.git ~/.config/emacs
 cd
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 source ~/.nvm/nvm.sh
-nvm install --lts=hydrogen
-nvm alias default 18
+nvm install --lts=iron
+nvm alias default 20
 
 # github-copilot-cli
 npm install -g @githubnext/github-copilot-cli
