@@ -194,6 +194,9 @@ echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
+pyenv install 3.11
+pyenv virtualenv 3.11 aiven
+.pyenv/versions/aiven/bin/pip install ruff
 echo 'eval "$(github-copilot-cli alias -- "$0")"' >> ~/.bashrc
 eval "$(github-copilot-cli alias -- "$0")"
 
