@@ -49,12 +49,14 @@ sudo apt update
 # libxslt1-dev: for pip install lxml
 # shellcheck: for flycheck in doom emacs
 # pipx: to install basedpyright conveniently in its own virtualenv
+# distrobox: work environment
 
 sudo apt install --yes \
      chromium-browser \
      clang \
      colordiff \
      curl \
+     distrobox \
      editorconfig \
      emacs \
      fd-find \
