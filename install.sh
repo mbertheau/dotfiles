@@ -112,6 +112,8 @@ sudo apt upgrade --yes
 # clean up
 sudo apt --yes autoremove
 
+sudo ln -s /usr/share/fontconfig/conf.avail/10-autohint.conf /etc/fonts/conf.d/
+
 # install config files
 
 cd
