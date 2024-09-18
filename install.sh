@@ -191,9 +191,10 @@ curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer 
 
 echo 'eval "$(pyenv init -)"' >> ~/.bashrc
 echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
-echo 'eval "$(github-copilot-cli alias -- "$0")"' >> ~/.bashrc
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
+
+echo 'eval "$(github-copilot-cli alias -- "$0")"' >> ~/.bashrc
 eval "$(github-copilot-cli alias -- "$0")"
 
 # Clojure CLI
