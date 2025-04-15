@@ -3,13 +3,12 @@ WORK_OR_HOME=$1
 sudo apt purge --yes nano
 
 # prepare apt to install regolith
-wget -qO - https://regolith-desktop.org/regolith.key | \
+wget -qO - https://archive.regolith-desktop.com/regolith.key | \
 gpg --dearmor | sudo tee /usr/share/keyrings/regolith-archive-keyring.gpg > /dev/null
 
-echo deb "[arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/regolith-archive-keyring.gpg] \
-	https://regolith-desktop.org/release-3_2-ubuntu-noble-$(dpkg --print-architecture) noble main" | \
+echo deb "[arch=arm64 signed-by=/usr/share/keyrings/regolith-archive-keyring.gpg] \
+https://archive.regolith-desktop.com/ubuntu/stable noble v3.2" | \
 sudo tee /etc/apt/sources.list.d/regolith.list
-
 
 # prepare apt to install gh
 wget -qO - https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
