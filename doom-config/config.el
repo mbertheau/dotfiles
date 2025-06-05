@@ -284,3 +284,7 @@
 
 (after! copilot
   (setq copilot-indent-offset-warning-disable 't))
+
+(use-package! dockerfile-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.Containerfile\\'" . dockerfile-mode)))
