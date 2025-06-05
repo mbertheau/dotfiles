@@ -203,7 +203,6 @@
 (use-package! lsp-pyright
   :config
   (setq lsp-pyright-langserver-command "basedpyright")
-  (setq lsp-pyright-venv-path (expand-file-name (concat "~/.pyenv/versions/" (getenv "PYENV_VERSION") "/")))
   (setq lsp-pyright-typechecking-mode "strict"))
 
 
