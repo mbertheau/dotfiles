@@ -239,7 +239,7 @@
   "Fold code blocks starting with 'class' and 'def' in Python."
   (interactive)
   (if (and (eq major-mode 'python-mode)
-           (bound-and-true-p is-ediff-buffer))
+           (not (bound-and-true-p is-ediff-buffer)))
       (let ((counter 0))
         (save-excursion
           (goto-char (point-min))
