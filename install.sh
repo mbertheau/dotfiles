@@ -223,4 +223,4 @@ eval "$(github-copilot-cli alias -- "$0")"
 
 ~/src/dotfiles/install-schemaspy.sh
 
-# ~/src/dotfiles/install-vscode.sh
+~/src/dotfiles/install-vscode.sh
