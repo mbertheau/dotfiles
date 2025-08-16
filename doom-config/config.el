@@ -297,3 +297,6 @@
 (use-package! dockerfile-mode
   :config
   (add-to-list 'auto-mode-alist '("\\.Containerfile\\'" . dockerfile-mode)))
+
+(after! winum
+  (setq winum-scope 'frame-local))
