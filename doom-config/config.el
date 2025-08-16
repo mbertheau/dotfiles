@@ -78,6 +78,15 @@
         :localleader
         "," 'org-ctrl-c-ctrl-c))
 
+(after! org-modern
+  (setq org-modern-star nil)
+  (setq org-modern-hide-stars nil)
+  (setq org-modern-list nil)
+  (setq org-modern-checkbox nil)
+  (setq org-modern-todo nil)
+  (setq org-modern-tag nil)
+  (setq org-modern-progress nil))
+
 (after! evil-org
   (setq evil-org-special-o/O '(table-row item))
   (setq! evil-org-key-theme '(textobjects insert navigation additional return todo heading calendar))
