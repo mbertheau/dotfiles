@@ -204,7 +204,7 @@ eval "$(pyenv virtualenv-init -)"
 
 pyenv install 3.12
 pyenv virtualenv 3.12 aiven
-.pyenv/versions/aiven/bin/pip install ruff==0.7.1
+.pyenv/versions/aiven/bin/pip install ruff==0.12.5
 pipx install basedpyright
 
 echo 'eval "$(github-copilot-cli alias -- "$0")"' >> ~/.bashrc
