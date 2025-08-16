@@ -291,7 +291,8 @@
   (add-to-list 'apheleia-mode-alist '(python-ts-mode . (ruff-check ruff-format))))
 
 (after! copilot
-  (setq copilot-indent-offset-warning-disable 't))
+  (setq copilot-indent-offset-warning-disable 't)
+  (setq copilot-max-char-warning-disable 't))
 
 (use-package! dockerfile-mode
   :config
