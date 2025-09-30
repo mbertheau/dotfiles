@@ -207,7 +207,8 @@
 
 (after! lsp-mode
   (setq lsp-headerline-breadcrumb-enable 't)
-  (setq lsp-file-watch-threshold 20000))
+  (setq lsp-file-watch-threshold 20000)
+  (setq lsp-idle-delay 5))
 
 (use-package! lsp-pyright
   :config
