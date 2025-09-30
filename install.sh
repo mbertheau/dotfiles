@@ -121,7 +121,7 @@ sudo update-alternatives --set x-terminal-emulator /usr/bin/foot
 # install config files
 
 cd
-ln -s src/dotfiles/{.emacs-profiles.el,.emacs-profile,.spacemacs,.gitconfig,.profile_local,.inputrc.pants.rc} ~/
+ln -s src/dotfiles/{.emacs-profiles.el,.emacs-profile,.spacemacs,.gitconfig,.profile_local,.inputrc,.pants.rc} ~/
 
 mkdir -p ~/.config/regolith3
 ln -s ../../src/dotfiles/.config/regolith3/Xresources ~/.config/regolith3/Xresources
