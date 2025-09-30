@@ -171,10 +171,10 @@ git clone https://github.com/plexus/chemacs2.git ~/.config/emacs
 ~/src/dotfiles/install-doom-emacs.sh
 
 cd
-wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 source ~/.nvm/nvm.sh
-nvm install --lts=iron
-nvm alias default 20
+nvm install --lts=jod
+nvm alias default 22
 
 # github-copilot-cli
 npm install -g @githubnext/github-copilot-cli
