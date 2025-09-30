@@ -59,7 +59,7 @@ function fail() {
 }
 
 function print_help() {
-  cat <<EOF
+    cat <<EOF
 ${GVMD_NAME} v${GVMD_VERSION}
 
 Usage:
@@ -113,7 +113,7 @@ while [[ $# -gt 0 ]]; do
         if [[ -z "${2:-}" || "${2:-}" == *" "* ]]; then
             fail "--components arguments must be a comma-separated list of GraalVM components and must not contain a space, got: '${2:-}'."
         fi
-        IFS=',' read -r -a opt_user_components <<< "${2:-}"
+        IFS=',' read -r -a opt_user_components <<<"${2:-}"
         opt_components+=("${opt_user_components[@]}")
         shift 2
         ;;
@@ -161,53 +161,61 @@ fi
 parts="${opt_graalvm_identifier#*-}"
 readonly GRAALVM_EDITION="${parts%%-*}"
 case "${GRAALVM_EDITION}" in
-    "ce"|"ee") ;;
-    *)
-        fail "Unsupported GraalVM Edition: ${GRAALVM_EDITION} (use 'ce' or 'ee')."
+"ce" | "ee") ;;
+*)
+    fail "Unsupported GraalVM Edition: ${GRAALVM_EDITION} (use 'ce' or 'ee')."
+    ;;
 esac
 
 parts="${parts#*-}"
 readonly JAVA_VERSION="${parts%%-*}"
 case "${JAVA_VERSION}" in
-    "java11"|"java17"|"java19") ;;
-    "${GRAALVM_EDITION}")
-        fail "GraalVM identifier '${opt_graalvm_identifier}' is missing a Java version (for example, '-java17')."
-        ;;
-    *)
-        fail "Unsupported Java version: ${JAVA_VERSION} (use 'java11', 'java17', or 'java19')."
+"java11" | "java17" | "java19") ;;
+"${GRAALVM_EDITION}")
+    fail "GraalVM identifier '${opt_graalvm_identifier}' is missing a Java version (for example, '-java17')."
+    ;;
+*)
+    fail "Unsupported Java version: ${JAVA_VERSION} (use 'java11', 'java17', or 'java19')."
+    ;;
 esac
 
 GRAALVM_HOME_SUFFIX=""
 GRAALVM_GU_EXEC="gu"
 GRAALVM_FILENAME_EXT="tar.gz"
 case "$(uname -s)" in
-    "Linux")
-        GRAALVM_OS="linux";;
-    "Darwin")
-        GRAALVM_HOME_SUFFIX="/Contents/Home"
-        GRAALVM_OS="darwin";;
-    "CYGWIN_NT-"*)
-        GRAALVM_GU_EXEC="gu.cmd"
-        GRAALVM_FILENAME_EXT="zip"
-        GRAALVM_OS="windows";;
-    "MINGW64_NT-"*)
-        GRAALVM_GU_EXEC="gu.cmd"
-        GRAALVM_FILENAME_EXT="zip"
-        GRAALVM_OS="windows";;
-    *)
-        fail "Unsupported OS: $(uname -s)"
+"Linux")
+    GRAALVM_OS="linux"
+    ;;
+"Darwin")
+    GRAALVM_HOME_SUFFIX="/Contents/Home"
+    GRAALVM_OS="darwin"
+    ;;
+"CYGWIN_NT-"*)
+    GRAALVM_GU_EXEC="gu.cmd"
+    GRAALVM_FILENAME_EXT="zip"
+    GRAALVM_OS="windows"
+    ;;
+"MINGW64_NT-"*)
+    GRAALVM_GU_EXEC="gu.cmd"
+    GRAALVM_FILENAME_EXT="zip"
+    GRAALVM_OS="windows"
+    ;;
+*)
+    fail "Unsupported OS: $(uname -s)"
+    ;;
 esac
 readonly GRAALVM_OS GRAALVM_HOME_SUFFIX GRAALVM_GU_EXEC GRAALVM_FILENAME_EXT
 
 case "$(uname -m)" in
-    "x86_64")
-        GRAALVM_ARCH="amd64"
-        ;;
-    "aarch64"|"arm64")
-        GRAALVM_ARCH="aarch64"
-        ;;
-    *)
-        fail "Unsupported architecture: $(uname -m)"
+"x86_64")
+    GRAALVM_ARCH="amd64"
+    ;;
+"aarch64" | "arm64")
+    GRAALVM_ARCH="aarch64"
+    ;;
+*)
+    fail "Unsupported architecture: $(uname -m)"
+    ;;
 esac
 readonly GRAALVM_ARCH
 
@@ -232,7 +240,7 @@ readonly GRAALVM_IDENTIFIER GRAALVM_NAME GRAALVM_FILENAME TEMP_DL_FILE
 
 function ensure_command() {
     local cmd=$1
-    if ! command -v "${cmd}" > /dev/null; then
+    if ! command -v "${cmd}" >/dev/null; then
         cat <<EOF
 ${cmd} not found.
 
@@ -272,69 +280,70 @@ if [[ -d "${GRAALVM_HOME}" ]]; then
     exit 0
 fi
 
-pushd "${GVMD_DIR}" > /dev/null
+pushd "${GVMD_DIR}" >/dev/null
 
 ############
 # Download #
 ############
 
 case "${GRAALVM_EDITION}" in
-    "ce")
-        readonly GRAALVM_CE_BASE="https://github.com/graalvm/graalvm-ce-builds/releases/download"
+"ce")
+    readonly GRAALVM_CE_BASE="https://github.com/graalvm/graalvm-ce-builds/releases/download"
 
-        echo "Downloading ${GRAALVM_FILENAME}..."
-        dl_url="${GRAALVM_CE_BASE}/vm-${GRAALVM_VERSION}/${GRAALVM_IDENTIFIER}.${GRAALVM_FILENAME_EXT}"
-        curl "${curl_args[@]}" -o "${TEMP_DL_FILE}" "${dl_url}" || fail "Failed to download '${dl_url}'."
+    echo "Downloading ${GRAALVM_FILENAME}..."
+    dl_url="${GRAALVM_CE_BASE}/vm-${GRAALVM_VERSION}/${GRAALVM_IDENTIFIER}.${GRAALVM_FILENAME_EXT}"
+    curl "${curl_args[@]}" -o "${TEMP_DL_FILE}" "${dl_url}" || fail "Failed to download '${dl_url}'."
 
-        checksum_file="$(mktemp)"
-        curl "${curl_args[@]}" --silent -o "${checksum_file}" "${dl_url}.sha256" || fail "Failed to download '${dl_url}.sha256'. ${REPORT_ISSUES_NOTE}"
-        GRAALVM_FILENAME_CHECKSUM="$(cat "${checksum_file}")"
-        readonly GRAALVM_FILENAME_CHECKSUM
-        rm "${checksum_file}"
-        ;;
-    "ee")
-        readonly GDS_BASE="https://gds.oracle.com/api/20220101"
-        readonly PRODUCT_ID="D53FAE8052773FFAE0530F15000AA6C6"
+    checksum_file="$(mktemp)"
+    curl "${curl_args[@]}" --silent -o "${checksum_file}" "${dl_url}.sha256" || fail "Failed to download '${dl_url}.sha256'. ${REPORT_ISSUES_NOTE}"
+    GRAALVM_FILENAME_CHECKSUM="$(cat "${checksum_file}")"
+    readonly GRAALVM_FILENAME_CHECKSUM
+    rm "${checksum_file}"
+    ;;
+"ee")
+    readonly GDS_BASE="https://gds.oracle.com/api/20220101"
+    readonly PRODUCT_ID="D53FAE8052773FFAE0530F15000AA6C6"
 
-        if [[ -z "${GRAAL_EE_DOWNLOAD_TOKEN:-}" ]]; then
-            if [[ -f "${GU_CONFIG}" ]]; then
-                # shellcheck source=/dev/null
-                source "${GU_CONFIG}"
-                if [[ -z "${GRAAL_EE_DOWNLOAD_TOKEN:-}" ]]; then
-                    fail "Unable to detect \$GRAAL_EE_DOWNLOAD_TOKEN in ${GU_CONFIG}."
-                fi
-            else
-                fail "Unable to find a download token. Please provide it via \$GRAAL_EE_DOWNLOAD_TOKEN or run the following script to set one up:
+    if [[ -z "${GRAAL_EE_DOWNLOAD_TOKEN:-}" ]]; then
+        if [[ -f "${GU_CONFIG}" ]]; then
+            # shellcheck source=/dev/null
+            source "${GU_CONFIG}"
+            if [[ -z "${GRAAL_EE_DOWNLOAD_TOKEN:-}" ]]; then
+                fail "Unable to detect \$GRAAL_EE_DOWNLOAD_TOKEN in ${GU_CONFIG}."
+            fi
+        else
+            fail "Unable to find a download token. Please provide it via \$GRAAL_EE_DOWNLOAD_TOKEN or run the following script to set one up:
   
 $ bash <(curl -sL https://get.graalvm.org/ee-token)
 "
-            fi
         fi
+    fi
 
-        filters="productId=${PRODUCT_ID}&metadata=version:${GRAALVM_VERSION}&metadata=isBase:True&status=PUBLISHED&responseFields=id&responseFields=checksum&responseFields=displayName"
-        gds_java="${JAVA_VERSION#java}"
-        filters="${filters}&metadata=java:jdk${gds_java}"
-        gds_os="${GRAALVM_OS}"
-        if [[ "${gds_os}" == "darwin" ]]; then
-            gds_os="macos" # GDS uses 'macos' instead of 'darwin'
-        fi
-        filters="${filters}&metadata=os:${gds_os}&metadata=arch:${GRAALVM_ARCH}"
+    filters="productId=${PRODUCT_ID}&metadata=version:${GRAALVM_VERSION}&metadata=isBase:True&status=PUBLISHED&responseFields=id&responseFields=checksum&responseFields=displayName"
+    gds_java="${JAVA_VERSION#java}"
+    filters="${filters}&metadata=java:jdk${gds_java}"
+    gds_os="${GRAALVM_OS}"
+    if [[ "${gds_os}" == "darwin" ]]; then
+        gds_os="macos" # GDS uses 'macos' instead of 'darwin'
+    fi
+    filters="${filters}&metadata=os:${gds_os}&metadata=arch:${GRAALVM_ARCH}"
 
-        echo "Fetching artifact metadata for ${GRAALVM_IDENTIFIER}..."
-        artifacts_response=$(curl "${curl_args[@]}" --silent -X GET "${GDS_BASE}/artifacts?${filters}") || fail "Unable to find '${GRAALVM_IDENTIFIER}'."
-        artifact_id=$(echo "$artifacts_response" | grep -o '"id":"[^"]*' | grep -o '[^"]*$') || fail "Unable to find artifact id."
-        GRAALVM_FILENAME_CHECKSUM=$(echo "$artifacts_response" | grep -o '"checksum":"[^"]*' | grep -o '[^"]*$') || fail "Unable to find artifact checksum."
-        readonly GRAALVM_FILENAME_CHECKSUM
+    echo "Fetching artifact metadata for ${GRAALVM_IDENTIFIER}..."
+    artifacts_response=$(curl "${curl_args[@]}" --silent -X GET "${GDS_BASE}/artifacts?${filters}") || fail "Unable to find '${GRAALVM_IDENTIFIER}'."
+    artifact_id=$(echo "$artifacts_response" | grep -o '"id":"[^"]*' | grep -o '[^"]*$') || fail "Unable to find artifact id."
+    GRAALVM_FILENAME_CHECKSUM=$(echo "$artifacts_response" | grep -o '"checksum":"[^"]*' | grep -o '[^"]*$') || fail "Unable to find artifact checksum."
+    readonly GRAALVM_FILENAME_CHECKSUM
 
-        echo "Downloading ${GRAALVM_FILENAME}..."
-        curl "${curl_args[@]}" -H "x-download-token: ${GRAAL_EE_DOWNLOAD_TOKEN}" \
-             -o "${TEMP_DL_FILE}" -X GET "${GDS_BASE}/artifacts/${artifact_id}/content" || fail "
+    echo "Downloading ${GRAALVM_FILENAME}..."
+    curl "${curl_args[@]}" -H "x-download-token: ${GRAAL_EE_DOWNLOAD_TOKEN}" \
+        -o "${TEMP_DL_FILE}" -X GET "${GDS_BASE}/artifacts/${artifact_id}/content" || fail "
 Failed to download '${GRAALVM_FILENAME}'.
 
 Ensure your download token is activated by accepting the license agreement sent via email."
-        ;;
-    *)
-        fail "Unsupported GraalVM Edition: ${GRAALVM_EDITION} (use 'ce' or 'ee')."
+    ;;
+*)
+    fail "Unsupported GraalVM Edition: ${GRAALVM_EDITION} (use 'ce' or 'ee')."
+    ;;
 esac
 
 ###########
@@ -342,9 +351,9 @@ esac
 ###########
 
 shasum_exec=""
-if command -v "sha256sum" > /dev/null; then
+if command -v "sha256sum" >/dev/null; then
     shasum_exec="sha256sum"
-elif command -v "shasum" > /dev/null; then
+elif command -v "shasum" >/dev/null; then
     shasum_exec="shasum --algorithm 256"
 fi
 
@@ -373,7 +382,7 @@ if [[ ! -d "${GRAALVM_HOME}" ]]; then
     fail "Failed to find GraalVM installation. ${REPORT_ISSUES_NOTE}"
 fi
 
-popd > /dev/null
+popd >/dev/null
 
 ##############################
 # Install GraalVM components #
@@ -383,7 +392,7 @@ if [[ "${#opt_components[@]}" -gt 0 ]]; then
     echo "Installing GraalVM components..."
     "${GRAALVM_HOME}/bin/${GRAALVM_GU_EXEC}" install "${gu_args[@]}" "${opt_components[@]}"
 
-    if [[ ${opt_components[*]} == *"native-image"*  ]]; then
+    if [[ ${opt_components[*]} == *"native-image"* ]]; then
         cat <<EOF
 
 +------------------------------------------------------------------------------+
@@ -416,7 +425,7 @@ EOF
 | $ xcode-select --install                                                     |
 EOF
         elif [[ "${GRAALVM_OS}" == "windows" ]]; then
-              cat <<EOF
+            cat <<EOF
 | To use Native Image on Windows, install Visual Studio and Microsoft Visual   |
 | C++ (MSVC).                                                                  |
 | There are two installation options:                                          |
@@ -442,7 +451,6 @@ fi
 ############
 # Teardown #
 ############
-
 
 printf "\nGraalVM JDK (%s) has been downloaded successfully!\n" "${GRAALVM_NAME}"
 print_epilog

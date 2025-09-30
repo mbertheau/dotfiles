@@ -4,17 +4,17 @@ sudo apt purge --yes nano
 sudo apt remove --yes apport
 
 # prepare apt to install regolith
-wget -qO - https://archive.regolith-desktop.com/regolith.key | \
-gpg --dearmor | sudo tee /usr/share/keyrings/regolith-archive-keyring.gpg > /dev/null
+wget -qO - https://archive.regolith-desktop.com/regolith.key |
+    gpg --dearmor | sudo tee /usr/share/keyrings/regolith-archive-keyring.gpg >/dev/null
 
 echo deb "[arch=arm64 signed-by=/usr/share/keyrings/regolith-archive-keyring.gpg] \
-https://archive.regolith-desktop.com/ubuntu/stable plucky v3.3" | \
-sudo tee /etc/apt/sources.list.d/regolith.list
+https://archive.regolith-desktop.com/ubuntu/stable plucky v3.3" |
+    sudo tee /etc/apt/sources.list.d/regolith.list
 
 # prepare apt to install gh
-wget -qO - https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
-&& sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
-&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+wget -qO - https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg &&
+    sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg &&
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list >/dev/null
 
 sudo apt update
 
@@ -53,62 +53,62 @@ sudo apt update
 # distrobox: work environment
 
 sudo apt install --yes \
-     chromium-browser \
-     clang \
-     colordiff \
-     curl \
-     distrobox \
-     editorconfig \
-     emacs \
-     fd-find \
-     gettext \
-     gh \
-     i3xrocks-cpu-usage \
-     i3xrocks-keyboard-layout \
-     i3xrocks-key-indicator \
-     i3xrocks-net-traffic \
-     i3xrocks-nm-vpn \
-     i3xrocks-openvpn \
-     i3xrocks-time \
-     leiningen \
-     libbz2-dev \
-     libcairo2-dev \
-     libjpeg8-dev \
-     liblzma-dev \
-     libreadline-dev \
-     libpcsclite-dev \
-     libportmidi-dev \
-     libpq-dev \
-     libsdl2-dev \
-     libsdl2-image-dev \
-     libsdl2-ttf-dev \
-     libsnappy-dev \
-     libssl-dev \
-     libsqlite3-dev \
-     libsystemd-dev \
-     libxmlsec1-dev \
-     libxslt1-dev \
-     neovim \
-     net-tools \
-     openjdk-17-jdk \
-     pandoc \
-     pass \
-     pipx \
-     poedit \
-     postgresql-postgis \
-     pspg \
-     python3-dev \
-     python3-venv \
-     regolith-desktop \
-     regolith-session-flashback \
-     regolith-session-sway \
-     rlwrap \
-     ripgrep \
-     shellcheck \
-     shfmt \
-     suckless-tools \
-     tk-dev \
-     watchman
+    chromium-browser \
+    clang \
+    colordiff \
+    curl \
+    distrobox \
+    editorconfig \
+    emacs \
+    fd-find \
+    gettext \
+    gh \
+    i3xrocks-cpu-usage \
+    i3xrocks-keyboard-layout \
+    i3xrocks-key-indicator \
+    i3xrocks-net-traffic \
+    i3xrocks-nm-vpn \
+    i3xrocks-openvpn \
+    i3xrocks-time \
+    leiningen \
+    libbz2-dev \
+    libcairo2-dev \
+    libjpeg8-dev \
+    liblzma-dev \
+    libreadline-dev \
+    libpcsclite-dev \
+    libportmidi-dev \
+    libpq-dev \
+    libsdl2-dev \
+    libsdl2-image-dev \
+    libsdl2-ttf-dev \
+    libsnappy-dev \
+    libssl-dev \
+    libsqlite3-dev \
+    libsystemd-dev \
+    libxmlsec1-dev \
+    libxslt1-dev \
+    neovim \
+    net-tools \
+    openjdk-17-jdk \
+    pandoc \
+    pass \
+    pipx \
+    poedit \
+    postgresql-postgis \
+    pspg \
+    python3-dev \
+    python3-venv \
+    regolith-desktop \
+    regolith-session-flashback \
+    regolith-session-sway \
+    rlwrap \
+    ripgrep \
+    shellcheck \
+    shfmt \
+    suckless-tools \
+    tk-dev \
+    watchman
 
 sudo apt upgrade --yes
 
@@ -144,12 +144,12 @@ ln -s ../src/dotfiles/.shadow-cljs/config.edn ~/.shadow-cljs/
 # .profile does this at login, but only if ~/.local/bin exists, which it didn't at login
 export PATH="$HOME/.local/bin:$PATH"
 
-echo source ~/.profile_local >> ~/.profile
+echo source ~/.profile_local >>~/.profile
 source ~/.profile_local
 
 if [[ $WORK_OR_HOME == "work" ]]; then
-     echo source ~/.bashrc_work >> ~/.bashrc
-     source ~/.bashrc_work
+    echo source ~/.bashrc_work >>~/.bashrc
+    source ~/.bashrc_work
 fi
 
 # disable file indexing
@@ -160,7 +160,6 @@ systemctl --user mask \
     tracker-writeback-3.service \
     tracker-xdg-portal-3.service \
     tracker-miner-fs-control-3.service
-
 
 # install other software
 
@@ -201,8 +200,8 @@ cd
 
 curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 
-echo 'eval "$(pyenv init -)"' >> ~/.bashrc
-echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
+echo 'eval "$(pyenv init -)"' >>~/.bashrc
+echo 'eval "$(pyenv virtualenv-init -)"' >>~/.bashrc
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
@@ -211,7 +210,7 @@ pyenv virtualenv 3.12 aiven
 .pyenv/versions/aiven/bin/pip install ruff==0.12.5
 pipx install basedpyright
 
-echo 'eval "$(github-copilot-cli alias -- "$0")"' >> ~/.bashrc
+echo 'eval "$(github-copilot-cli alias -- "$0")"' >>~/.bashrc
 eval "$(github-copilot-cli alias -- "$0")"
 
 # Clojure CLI
@@ -221,7 +220,6 @@ eval "$(github-copilot-cli alias -- "$0")"
 #cd ~/.local/bin
 #wget -qOlein https://raw.github.com/technomancy/leiningen/stable/bin/lein
 #chmod +x lein
-
 
 # ~/src/dotfiles/install-cljfmt.sh
 
