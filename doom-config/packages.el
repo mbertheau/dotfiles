@@ -56,4 +56,4 @@
 (package! command-log-mode :recipe (:host github :repo "bmag/command-log-mode" :branch "color"))
 
 (package! copilot
-  :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
+  :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
