@@ -261,10 +261,10 @@
     (message "Not in a Python mode buffer, ignoring.")))
 
 ;; Add your folding function to python-mode-hook
-(add-hook 'python-mode-hook
-          (lambda ()
-            (hs-minor-mode 1) ; Enable hideshow for code folding
-            (my-python-folding)))
+;; (add-hook 'python-mode-hook
+;;           (lambda ()
+;;             (hs-minor-mode 1) ; Enable hideshow for code folding
+;;             (my-python-folding)))
 
 (after! flycheck
   (setq flycheck-checker-error-threshold 500))
