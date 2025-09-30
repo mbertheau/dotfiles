@@ -48,6 +48,7 @@ sudo apt update
 # libxmlsec1-dev: for pip install xmlsec
 # libxslt1-dev: for pip install lxml
 # shellcheck: for flycheck in doom emacs
+# shfmt: for doom emacs :lang sh formatting
 # pipx: to install basedpyright conveniently in its own virtualenv
 # distrobox: work environment
 
@@ -104,6 +105,7 @@ sudo apt install --yes \
      rlwrap \
      ripgrep \
      shellcheck \
+     shfmt \
      suckless-tools \
      tk-dev \
      watchman
