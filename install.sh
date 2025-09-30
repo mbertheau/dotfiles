@@ -100,6 +100,7 @@ sudo apt install --yes \
      python3-venv \
      regolith-desktop \
      regolith-session-flashback \
+     regolith-session-sway \
      rlwrap \
      ripgrep \
      shellcheck \
