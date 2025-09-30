@@ -1,6 +1,7 @@
 WORK_OR_HOME=$1
 
 sudo apt purge --yes nano
+sudo apt remove --yes apport
 
 # prepare apt to install regolith
 wget -qO - https://archive.regolith-desktop.com/regolith.key | \
