@@ -219,3 +219,7 @@ eval "$(github-copilot-cli alias -- "$0")"
 ~/src/dotfiles/install-vscode.sh
 
 ~/src/dotfiles/install-cursor-agent.sh
+
+if [[ $WORK_OR_HOME == "work" ]]; then
+    ~/src/dotfiles/install-1password.sh
+fi
