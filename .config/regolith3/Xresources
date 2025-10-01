@@ -1,16 +1,16 @@
 wm.gaps.focus_follows_mouse: yes
 wm.gaps.inner.size: 0
 
-wm.workspace.01.name: 1: screenshot
+wm.workspace.01.name: 1: scratch1
 wm.workspace.02.name: 2: brauser
 wm.workspace.03.name: 3: emacs
 wm.workspace.04.name: 4: term
-wm.workspace.05.name: 5: scratch
-wm.workspace.06.name: 6: password
-wm.workspace.07.name: 7: remote-terms
-wm.workspace.08.name: 8: flowdock
-wm.workspace.09.name: 9: nautilus
-wm.workspace.10.name: 0: scratch2
+wm.workspace.05.name: 5: scratch5
+wm.workspace.06.name: 6: scratch6
+wm.workspace.07.name: 7: scratch7
+wm.workspace.08.name: 8: scratch8
+wm.workspace.09.name: 9: 1password
+wm.workspace.10.name: 0: scratch0
 
 wm.workspace.auto_back_and_forth: yes
 
