@@ -118,6 +118,13 @@ sudo apt --yes autoremove
 sudo ln -s /usr/share/fontconfig/conf.avail/10-autohint.conf /etc/fonts/conf.d/
 sudo update-alternatives --set x-terminal-emulator /usr/bin/foot
 
+# Fix AppArmor for rootless containers (unix_chkpwd needs CAP_DAC_OVERRIDE)
+# https://github.com/roddhjav/apparmor.d/issues/958
+sudo tee /etc/apparmor.d/local/unix-chkpwd >/dev/null <<'EOF'
+capability dac_override,
+EOF
+sudo apparmor_parser -r /etc/apparmor.d/unix-chkpwd
+
 # install config files
 
 cd
