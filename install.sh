@@ -1,4 +1,6 @@
-WORK_OR_HOME=$1
+set -euo pipefail
+
+WORK_OR_HOME=${1:-}
 
 sudo apt purge --yes nano
 sudo apt remove --yes apport
