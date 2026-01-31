@@ -10,6 +10,8 @@ tar xfz /media/psf/Home/donation.tar
 echo
 echo "Donation accepted."
 
+read -p "Take a snapshot now, then press Enter."
+
 sudo apt install --yes git
 
 mkdir -p ~/src
