@@ -49,7 +49,8 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;;(unpin! t)
 
-(package! rainbow-identifiers)
+(package! rainbow-identifiers
+  :recipe (:host github :repo "mbertheau/rainbow-identifiers"))
 ;; (package! color-identifiers-mode)
 (package! highlight-stages)
 
