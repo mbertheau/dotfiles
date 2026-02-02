@@ -145,6 +145,22 @@
 
 (add-hook! 'prog-mode-hook 'rainbow-identifiers-mode)
 
+;; Ensure rainbow-identifiers keywords survive font-lock resets (e.g., sql-highlight-product)
+(defvar my/rainbow-identifiers-refreshing nil
+  "Guard against recursive rainbow-identifiers keyword refresh.")
+
+(defun my/ensure-rainbow-identifiers-keywords (&rest _)
+  "Re-add rainbow-identifiers keywords if they were lost during font-lock reset."
+  (when (and (not my/rainbow-identifiers-refreshing)
+             (bound-and-true-p rainbow-identifiers-mode)
+             (derived-mode-p 'prog-mode))
+    (let ((kw '((rainbow-identifiers--matcher 0 rainbow-identifiers--face prepend))))
+      (unless (member (car kw) font-lock-keywords)
+        (let ((my/rainbow-identifiers-refreshing t))
+          (font-lock-add-keywords nil kw 'append))))))
+
+(advice-add 'font-lock-set-defaults :after #'my/ensure-rainbow-identifiers-keywords)
+
 ;; (add-hook! 'prog-mode-hook 'color-identifiers-mode)
 
 ;; highlight quoting stages, mainly useful for macros
