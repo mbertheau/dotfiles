@@ -1,0 +1,3 @@
+#!/bin/bash
+
+python3 ~/.local/bin/resetmods.py

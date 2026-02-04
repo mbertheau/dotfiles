@@ -137,7 +137,7 @@ mkdir -p ~/.config/i3status-rust
 ln -s ../../src/dotfiles/.config/i3status-rust/config.toml ~/.config/i3status-rust/config.toml
 
 mkdir -p ~/.local/bin
-ln -s ../../src/dotfiles/.local/bin/{clojurians,doomacs,spacemacs} ~/.local/bin/
+ln -s ../../src/dotfiles/.local/bin/{4,clojurians,doomacs,resetmods.py,spacemacs} ~/.local/bin/
 
 cp /usr/share/doc/pass/examples/dmenu/passmenu ~/.local/bin
 
