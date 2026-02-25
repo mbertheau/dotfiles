@@ -4,3 +4,4 @@ export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
 export PATH="$HOME/src/doom-emacs/bin:$PATH"
 export PATH="$PATH:$HOME/src/git-autofixup"
 export DOOMDIR="$HOME/src/dotfiles/doom-config"
+export PSQL_PAGER='pspg -X'
