@@ -195,7 +195,10 @@ npm install -g @githubnext/github-copilot-cli
 # pyenv + pyenv-virtualenv
 cd
 
-curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+git clone --depth 1 https://github.com/pyenv/pyenv.git "$PYENV_ROOT"
+git clone --depth 1 https://github.com/pyenv/pyenv-doctor.git "$PYENV_ROOT/plugins/pyenv-doctor"
+git clone --depth 1 https://github.com/pyenv/pyenv-update.git "$PYENV_ROOT/plugins/pyenv-update"
+git clone --depth 1 https://github.com/pyenv/pyenv-virtualenv.git "$PYENV_ROOT/plugins/pyenv-virtualenv"
 
 echo 'eval "$(pyenv init -)"' >>~/.bashrc
 echo 'eval "$(pyenv virtualenv-init -)"' >>~/.bashrc
