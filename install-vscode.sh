@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
-#https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
+set -euo pipefail
 
-cd ~/Downloads
-wget --trust-server-names https://code.visualstudio.com/sha/download?build=stable\&os=linux-deb-arm64
-sudo dpkg -i code_1*.deb
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc |
+    gpg --dearmor |
+    sudo tee /usr/share/keyrings/microsoft.gpg >/dev/null
+
+echo "deb [arch=arm64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/code stable main" |
+    sudo tee /etc/apt/sources.list.d/vscode.list >/dev/null
+
+sudo apt update
+sudo apt install --yes code
