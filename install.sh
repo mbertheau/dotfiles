@@ -10,7 +10,7 @@ wget -qO - https://archive.regolith-desktop.com/regolith.key |
     gpg --dearmor | sudo tee /usr/share/keyrings/regolith-archive-keyring.gpg >/dev/null
 
 echo deb "[arch=arm64 signed-by=/usr/share/keyrings/regolith-archive-keyring.gpg] \
-https://archive.regolith-desktop.com/ubuntu/stable plucky v3.3" |
+https://archive.regolith-desktop.com/ubuntu/stable questing v3.4" |
     sudo tee /etc/apt/sources.list.d/regolith.list
 
 # prepare apt to install gh
