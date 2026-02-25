@@ -1,5 +1,6 @@
 cd
 echo "Preparing donation, stand by.."
+umask 077
 tar cfz /media/psf/Home/donation.tar \
     .ssh/id_* \
     .ssh/config \
