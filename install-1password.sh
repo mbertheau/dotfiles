@@ -23,6 +23,17 @@ cd ~/Downloads
 curl -sSO https://downloads.1password.com/linux/tar/stable/aarch64/1password-latest.tar.gz
 tar -xf 1password-latest.tar.gz
 sudo mkdir -p /opt/1Password && sudo mv 1password-*/* /opt/1Password
+
+# Verified this version of after-install.sh; refuse to run a different one.
+EXPECTED_HASH="84fbc67fbe089f09199c5195116f802e5f460498929e96ce2deb9753e5cd4a5d"
+ACTUAL_HASH=$(sha256sum /opt/1Password/after-install.sh | cut -d' ' -f1)
+if [[ "$ACTUAL_HASH" != "$EXPECTED_HASH" ]]; then
+    echo "after-install.sh checksum mismatch." >&2
+    echo "Expected: $EXPECTED_HASH" >&2
+    echo "Got:      $ACTUAL_HASH" >&2
+    echo "Review the new version and update the hash in this script." >&2
+    exit 1
+fi
 sudo /opt/1Password/after-install.sh
 
 echo 'Now, enable "Unlock using system authentication" and "Integrate with 1Password CLI" in the 1Password settings.'
