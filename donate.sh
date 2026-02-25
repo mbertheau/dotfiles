@@ -8,6 +8,10 @@ tar cfz /media/psf/Home/donation.tar \
     .gu \
     .bashrc_work \
     .bash_history \
+    .config/pgcli/history \
+    .lesshst \
+    .psql_history \
+    .python_history \
     snap/chromium \
     src
 read -p "Donating... Press Enter when finished."
