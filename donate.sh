@@ -13,6 +13,7 @@ tar cfz /media/psf/Home/donation.tar \
     .psql_history \
     .python_history \
     snap/chromium \
+    ./*vpn.conf \
     src
 read -p "Donating... Press Enter when finished."
 rm /media/psf/Home/donation.tar
