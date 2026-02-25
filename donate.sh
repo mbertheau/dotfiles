@@ -6,7 +6,6 @@ tar cfz /media/psf/Home/donation.tar \
     .ssh/config \
     .password-store \
     .gnupg \
-    .gu \
     .bashrc_work \
     .bash_history \
     .config/pgcli/history \

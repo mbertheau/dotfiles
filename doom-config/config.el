@@ -132,8 +132,7 @@
     (list (list :foreground (aref markus-colors index)))))
 
 (after! rainbow-identifiers
-  (setq rainbow-identifiers-faces-to-override '(clojure-keyword-face
-                                                font-lock-type-face
+  (setq rainbow-identifiers-faces-to-override '(font-lock-type-face
                                                 font-lock-builtin-face
                                                 font-lock-constant-face
                                                 font-lock-variable-name-face
@@ -180,7 +179,6 @@
           text-objects ;; test - weiter testen
           (atom-motions t)
           additional-motions ;; Hmm, not so sure yet.
-          ;; commentary         ;; non-sensical in clojure :(
           slurp/barf-cp ;; vorher hatte ich -lispy - das geht ganz gut so finde ich
           additional-wrap ;; test, also try additional-wrap as an alternative
           additional
@@ -198,12 +196,6 @@
 
 ;; (add-hook 'python-mode-hook #'(lambda () (interactive)
 ;;                                 (add-hook 'before-save-hook #'+python/optimize-imports 0 'local)))
-
-;; (add-hook! 'clojure-mode-hook #'(lambda () (interactive)
-;;                                  (add-hook 'before-save-hook #'(lambda () (clojure-align 0 (buffer-end 1))) 0 'local)))
-
-;; (after! clojure-mode
-;;   (setq clojure-align-forms-automatically 't))
 
 (after! lsp-mode
   (setq lsp-headerline-breadcrumb-enable 't)

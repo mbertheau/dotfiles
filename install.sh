@@ -30,12 +30,11 @@ sudo apt update
 # libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386: Android Studio
 # python3-dev: installing / compiling psycopg
 # pspg: best tabular data pager ever
-# curl: in general good to have, but also leiningen uses it to install itself
+# curl: in general good to have
 # libbz2-dev libreadline-dev libssl-dev libsqlite3-dev: python 3.7 build
 # zstd: doom emacs persistent undo history compression/speedup
 # editorconfig: editorconfig module in doom emacs
 # suckless-tools:d dmenu, for passmenu
-# rlwrap: Clojure CLI tools
 # tk-dev: for pyenv to compile Python with tk support for matplotlib UI
 # libcairo2-dev: for pip install pycairo
 # liblzma-dev: for pyenv to compile Python and not remark that it's without lzma support
@@ -72,7 +71,6 @@ sudo apt install --yes \
     i3xrocks-nm-vpn \
     i3xrocks-openvpn \
     i3xrocks-time \
-    leiningen \
     libbz2-dev \
     libcairo2-dev \
     libjpeg8-dev \
@@ -104,7 +102,6 @@ sudo apt install --yes \
     regolith-desktop \
     regolith-session-flashback \
     regolith-session-sway \
-    rlwrap \
     ripgrep \
     shellcheck \
     shfmt \
@@ -137,12 +134,9 @@ mkdir -p ~/.config/i3status-rust
 ln -s ../../src/dotfiles/.config/i3status-rust/config.toml ~/.config/i3status-rust/config.toml
 
 mkdir -p ~/.local/bin
-ln -s ../../src/dotfiles/.local/bin/{4,clojurians,doomacs,resetmods.py,spacemacs} ~/.local/bin/
+ln -s ../../src/dotfiles/.local/bin/{4,doomacs,resetmods.py,spacemacs} ~/.local/bin/
 
 cp /usr/share/doc/pass/examples/dmenu/passmenu ~/.local/bin
-
-mkdir -p ~/.shadow-cljs
-ln -s ../src/dotfiles/.shadow-cljs/config.edn ~/.shadow-cljs/
 
 # TODO: /etc/regolith/i3/config mit workspace_auto_back_and_forth
 # https://github.com/regolith-linux/regolith-i3-gaps-config/pull/20
@@ -215,16 +209,6 @@ pipx install basedpyright
 
 echo 'eval "$(github-copilot-cli alias -- "$0")"' >>~/.bashrc
 eval "$(github-copilot-cli alias -- "$0")"
-
-# Clojure CLI
-# ~/src/dotfiles/install-clojure-cli.sh
-
-# leiningen
-#cd ~/.local/bin
-#wget -qOlein https://raw.github.com/technomancy/leiningen/stable/bin/lein
-#chmod +x lein
-
-# ~/src/dotfiles/install-cljfmt.sh
 
 ~/src/dotfiles/install-schemaspy.sh
 
