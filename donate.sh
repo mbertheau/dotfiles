@@ -14,6 +14,7 @@ tar cfz /media/psf/Home/donation.tar \
     .python_history \
     snap/chromium \
     ./*vpn.conf \
+    .wget-hsts \
     src
 read -p "Donating... Press Enter when finished."
 rm /media/psf/Home/donation.tar
