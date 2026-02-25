@@ -168,7 +168,10 @@ git clone https://github.com/plexus/chemacs2.git ~/.config/emacs
 ~/src/dotfiles/install-doom-emacs.sh
 
 cd
-wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+git clone --depth 1 --branch v0.40.3 https://github.com/nvm-sh/nvm.git ~/.nvm
+echo 'export NVM_DIR="$HOME/.nvm"' >>~/.bashrc
+echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >>~/.bashrc
+echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >>~/.bashrc
 source ~/.nvm/nvm.sh
 nvm install --lts=jod
 nvm alias default 22
