@@ -21,5 +21,6 @@ gnome.terminal.font: Ubuntu Mono 12
 
 ! disable unclutter, which hides the mouse cursor after 1 second of no movement
 wm.program.unclutter: /bin/true
+wm.program.terminal: /usr/bin/ptyxis --new-window
 
 wm.bar.status_config: /home/markus.bertheau/.config/i3status-rust/config.toml
