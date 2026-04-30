@@ -107,7 +107,8 @@ sudo apt install --yes \
     shfmt \
     suckless-tools \
     tk-dev \
-    watchman
+    watchman \
+    wget
 
 sudo apt upgrade --yes
 
