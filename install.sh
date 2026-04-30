@@ -221,4 +221,5 @@ eval "$(github-copilot-cli alias -- "$0")"
 
 if [[ $WORK_OR_HOME == "work" ]]; then
     ~/src/dotfiles/install-1password.sh
+    ~/src/dotfiles/install-vault.sh
 fi
