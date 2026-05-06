@@ -1,0 +1,268 @@
+#!/usr/bin/env python3
+"""gdoc-rw - write operations on Google Docs via gcloud creds."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import sys
+
+sys.path.insert(0, os.path.expanduser("~/.local/lib"))
+from gdoc_common import DOCS_API, DRIVE_API, extract_id, get_token, http, run_cli  # noqa: E402
+
+import urllib.request
+
+DRIVE_UPLOAD_API = "https://www.googleapis.com/upload/drive/v3/files"
+GOOGLE_DOC_MIME = "application/vnd.google-apps.document"
+MARKDOWN_MIME = "text/markdown"
+
+
+HELP_TEXT = """
+gdoc-rw - write operations on Google Docs (creates / mutates documents)
+
+Auth: by default `gcloud auth print-access-token --scopes=https://www.googleapis.com/auth/drive`.
+Override with `GDOC_TOKEN=<token>` to skip the gcloud call.
+DOC accepts a full URL or a bare document ID.
+
+Commands:
+  gdoc-rw help
+  gdoc-rw append DOC [TEXT]              Append TEXT (or stdin) at end of doc, with leading newline
+  gdoc-rw insert DOC INDEX [TEXT]        Insert TEXT (or stdin) at character INDEX
+  gdoc-rw replace DOC FIND REPLACE [-i]  replaceAllText (case-sensitive by default)
+  gdoc-rw delete-range DOC START END     deleteContentRange [START, END)
+  gdoc-rw batch DOC                      POST raw JSON requests from stdin to documents.batchUpdate
+                                         stdin: JSON array of requests, or {"requests": [...]}
+  gdoc-rw create TITLE [--from-stdin] [--markdown]
+                                         Create a new doc; optionally seed body from stdin.
+                                         With --markdown, stdin is converted from Markdown to
+                                         formatted Google Docs content (headings, lists, code, ...).
+  gdoc-rw replace-content DOC --markdown
+                                         Replace the entire body of DOC with Markdown from stdin,
+                                         converted to formatted Google Docs content. URL preserved.
+
+Examples:
+  gdoc-rw append 1Z4N... "- new bullet"
+  echo "appended via stdin" | gdoc-rw append 1Z4N...
+  gdoc-rw replace 1Z4N... "TODO" "DONE"
+  gdoc-rw delete-range 1Z4N... 1802 1828
+  gdoc-rw create "Design doc: foo" --from-stdin --markdown < draft.md
+  gdoc-rw replace-content 1Z4N... --markdown < draft.md
+
+Indexing notes (Docs API):
+  - Indices are character offsets in the body, counted in UTF-16 code units (so
+    characters beyond the BMP, e.g. emoji, count as two). Index 1 is the start of
+    the body.
+  - The last segment's endIndex is one past the final character; insert at endIndex - 1.
+  - Ranges are half-open: [startIndex, endIndex).
+  - Use `gdoc-ro read DOC` to inspect indices before crafting raw batch requests.
+"""
+
+
+def upload_multipart(
+    url: str,
+    *,
+    method: str,
+    token: str,
+    metadata: dict,
+    media: bytes,
+    media_mime: str,
+) -> dict:
+    """Drive API multipart upload (?uploadType=multipart) with metadata + media parts."""
+    boundary = "gdocrw_boundary_4f3a9b1"
+    parts = [
+        f"--{boundary}",
+        "Content-Type: application/json; charset=UTF-8",
+        "",
+        json.dumps(metadata),
+        f"--{boundary}",
+        f"Content-Type: {media_mime}",
+        "",
+    ]
+    body = ("\r\n".join(parts) + "\r\n").encode("utf-8") + media + f"\r\n--{boundary}--\r\n".encode("utf-8")
+    req = urllib.request.Request(
+        url + ("&" if "?" in url else "?") + "uploadType=multipart",
+        data=body,
+        method=method,
+        headers={
+            "Authorization": f"Bearer {token}",
+            "Content-Type": f"multipart/related; boundary={boundary}",
+        },
+    )
+    with urllib.request.urlopen(req, timeout=60) as r:
+        resp = r.read()
+    return json.loads(resp) if resp else {}
+
+
+def batch_update(doc_id: str, requests: list[dict], token: str) -> dict:
+    return http(
+        "POST",
+        f"{DOCS_API}/{doc_id}:batchUpdate",
+        token=token,
+        body={"requests": requests},
+    )
+
+
+def cmd_append(args: argparse.Namespace) -> None:
+    token = get_token()
+    doc_id = extract_id(args.doc)
+    text = args.text if args.text is not None else sys.stdin.read()
+    if not text:
+        sys.exit("nothing to append")
+    payload = ("\n" if not text.startswith("\n") else "") + text
+    batch_update(
+        doc_id,
+        [{"insertText": {"endOfSegmentLocation": {}, "text": payload}}],
+        token,
+    )
+    print(f"appended {len(payload)} chars at end of doc")
+
+
+def cmd_insert(args: argparse.Namespace) -> None:
+    token = get_token()
+    doc_id = extract_id(args.doc)
+    text = args.text if args.text is not None else sys.stdin.read()
+    batch_update(
+        doc_id,
+        [{"insertText": {"location": {"index": args.index}, "text": text}}],
+        token,
+    )
+    print(f"inserted {len(text)} chars at index {args.index}")
+
+
+def cmd_replace(args: argparse.Namespace) -> None:
+    token = get_token()
+    doc_id = extract_id(args.doc)
+    resp = batch_update(
+        doc_id,
+        [{
+            "replaceAllText": {
+                "containsText": {"text": args.find, "matchCase": not args.ignore_case},
+                "replaceText": args.replace,
+            }
+        }],
+        token,
+    )
+    occ = resp.get("replies", [{}])[0].get("replaceAllText", {}).get("occurrencesChanged", 0)
+    print(f"replaced {occ} occurrence(s)")
+
+
+def cmd_delete_range(args: argparse.Namespace) -> None:
+    token = get_token()
+    doc_id = extract_id(args.doc)
+    batch_update(
+        doc_id,
+        [{"deleteContentRange": {"range": {"startIndex": args.start, "endIndex": args.end}}}],
+        token,
+    )
+    print(f"deleted range [{args.start}, {args.end})")
+
+
+def cmd_batch(args: argparse.Namespace) -> None:
+    token = get_token()
+    doc_id = extract_id(args.doc)
+    raw = sys.stdin.read()
+    requests = json.loads(raw)
+    if isinstance(requests, dict) and "requests" in requests:
+        requests = requests["requests"]
+    if not isinstance(requests, list):
+        sys.exit("stdin must be a JSON array of requests or {'requests': [...]}")
+    resp = batch_update(doc_id, requests, token)
+    print(json.dumps(resp, indent=2, ensure_ascii=False))
+
+
+def cmd_create(args: argparse.Namespace) -> None:
+    token = get_token()
+    if args.markdown:
+        if not args.from_stdin:
+            sys.exit("--markdown requires --from-stdin")
+        text = sys.stdin.read()
+        if not text:
+            sys.exit("--markdown given but stdin is empty")
+        info = upload_multipart(
+            DRIVE_UPLOAD_API,
+            method="POST",
+            token=token,
+            metadata={"name": args.title, "mimeType": GOOGLE_DOC_MIME},
+            media=text.encode("utf-8"),
+            media_mime=MARKDOWN_MIME,
+        )
+    else:
+        info = http(
+            "POST",
+            DRIVE_API,
+            token=token,
+            body={"name": args.title, "mimeType": GOOGLE_DOC_MIME},
+        )
+        if args.from_stdin:
+            text = sys.stdin.read()
+            if text:
+                batch_update(
+                    info["id"],
+                    [{"insertText": {"location": {"index": 1}, "text": text}}],
+                    token,
+                )
+    doc_id = info["id"]
+    print(f"id:  {doc_id}")
+    print(f"url: https://docs.google.com/document/d/{doc_id}/edit")
+
+
+def cmd_replace_content(args: argparse.Namespace) -> None:
+    if not args.markdown:
+        sys.exit("replace-content currently requires --markdown")
+    token = get_token()
+    doc_id = extract_id(args.doc)
+    text = sys.stdin.read()
+    if not text:
+        sys.exit("stdin is empty")
+    upload_multipart(
+        f"{DRIVE_UPLOAD_API}/{doc_id}",
+        method="PATCH",
+        token=token,
+        metadata={"mimeType": GOOGLE_DOC_MIME},
+        media=text.encode("utf-8"),
+        media_mime=MARKDOWN_MIME,
+    )
+    print(f"replaced body of {doc_id} from {len(text)} chars of markdown")
+
+
+def build_parser() -> argparse.ArgumentParser:
+    p = argparse.ArgumentParser(prog="gdoc-rw", add_help=False)
+    p.add_argument("-h", "--help", action="store_true")
+    sub = p.add_subparsers(dest="cmd")
+
+    sub.add_parser("help")
+
+    s = sub.add_parser("append")
+    s.add_argument("doc"); s.add_argument("text", nargs="?")
+    s.set_defaults(func=cmd_append)
+
+    s = sub.add_parser("insert")
+    s.add_argument("doc"); s.add_argument("index", type=int); s.add_argument("text", nargs="?")
+    s.set_defaults(func=cmd_insert)
+
+    s = sub.add_parser("replace")
+    s.add_argument("doc"); s.add_argument("find"); s.add_argument("replace")
+    s.add_argument("-i", "--ignore-case", action="store_true")
+    s.set_defaults(func=cmd_replace)
+
+    s = sub.add_parser("delete-range")
+    s.add_argument("doc"); s.add_argument("start", type=int); s.add_argument("end", type=int)
+    s.set_defaults(func=cmd_delete_range)
+
+    s = sub.add_parser("batch"); s.add_argument("doc"); s.set_defaults(func=cmd_batch)
+
+    s = sub.add_parser("create")
+    s.add_argument("title"); s.add_argument("--from-stdin", action="store_true")
+    s.add_argument("--markdown", action="store_true")
+    s.set_defaults(func=cmd_create)
+
+    s = sub.add_parser("replace-content")
+    s.add_argument("doc"); s.add_argument("--markdown", action="store_true")
+    s.set_defaults(func=cmd_replace_content)
+
+    return p
+
+
+if __name__ == "__main__":
+    run_cli(build_parser(), HELP_TEXT, sys.argv[1:])
