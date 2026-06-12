@@ -124,6 +124,12 @@ capability dac_override,
 EOF
 sudo apparmor_parser -r /etc/apparmor.d/unix-chkpwd
 
+# raise inotify watch limit
+sudo tee /etc/sysctl.d/99-user.conf >/dev/null <<'EOF'
+fs.inotify.max_user_watches=524288
+EOF
+sudo sysctl --system
+
 # install config files
 
 cd
