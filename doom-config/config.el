@@ -279,6 +279,8 @@
   (add-to-list 'apheleia-mode-alist '(python-mode . (ruff-check ruff-format)))
   (add-to-list 'apheleia-mode-alist '(python-ts-mode . (ruff-check ruff-format))))
 
+(setq-default sh-basic-offset 2)
+
 (after! copilot
   (setq copilot-indent-offset-warning-disable 't)
   (setq copilot-max-char-warning-disable 't))
