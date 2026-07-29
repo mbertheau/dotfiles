@@ -162,6 +162,44 @@ if [[ $WORK_OR_HOME == "work" ]]; then
     source ~/.bashrc_work
 fi
 
+cat >>~/.bashrc <<'BASHRC_EOF'
+
+fix-tabs-on-focus() {
+    cat <<'EOF'
+Phantom Tab keypresses when the VM window takes focus
+=====================================================
+
+Parallels probes the guest's keyboard lock-LED state every time its window
+takes focus: it injects two press/release pairs of one lock key through the
+emulated USB keyboard, just before forwarding the click that caused the focus
+change. Toggling twice reads the state back without changing it.
+
+The default carrier key is NumLock, and Neo maps the NumLock key (keycode 77)
+to Tab -- so every click-focus from macOS types two Tabs. Remapping inside X
+does not help: the key event still reaches the application even with no keysym
+attached, and Neo leaves the NumLock modifier unbound, so the guest can never
+report the LED as on and the probe repeats on every focus-in.
+
+Fix on the Mac. Quit Parallels Desktop first, otherwise it rewrites its
+preferences on exit and discards the change:
+
+    defaults write 'com.parallels.Parallels Desktop' 'HID Host Hook.LED Sync' -int 2
+
+Value 2 moves the probe to ScrollLock, which Neo leaves as a plain Scroll_Lock
+bound to no modifier, so it is inert. Per the Parallels KB, 0 disables the probe
+entirely, 1 is the NumLock default and 3 uses CapsLock; only 2 has been verified
+here. The setting applies to every VM on that Mac.
+
+Revert, also with Parallels quit:
+
+    defaults delete 'com.parallels.Parallels Desktop' 'HID Host Hook.LED Sync'
+
+Verified on Parallels 26.2.2, which still honours the setting even though the KB
+lists it as applying to version 17 and older: https://kb.parallels.com/en/122898
+EOF
+}
+BASHRC_EOF
+
 # install other software
 
 cd
