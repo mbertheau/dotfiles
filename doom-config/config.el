@@ -201,7 +201,11 @@
   (setq lsp-headerline-breadcrumb-enable 't)
   (setq lsp-file-watch-threshold 20000)
   (setq lsp-idle-delay 5)
-  (setq lsp-python-ty-clients-server-command '("ty" "server")))
+  (setq lsp-python-ty-clients-server-command '("ty" "server"))
+  (dolist (dir '("[/\\\\]rpmbuild\\'"
+                 "[/\\\\]\\.mypy-caches\\'"
+                 "[/\\\\]mypycov\\'"))
+    (add-to-list 'lsp-file-watch-ignored-directories dir)))
 
 
 (after! dap-python
