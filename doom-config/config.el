@@ -236,6 +236,15 @@
           (lambda ()
             (set (make-local-variable 'is-ediff-buffer) t)))
 
+;; Doom only reverts on buffer/window/frame switch. Files edited outside Emacs
+;; (e.g. Cursor) stay stale in buried buffers. Watch visited files with inotify;
+;; unmodified buffers reload without a prompt.
+(setq +magit-auto-revert nil)
+(after! autorevert
+  (setq auto-revert-use-notify t
+        auto-revert-avoid-polling t)
+  (global-auto-revert-mode +1))
+
 
 (defun my-python-folding ()
   "Fold code blocks starting with 'class' and 'def' in Python."
