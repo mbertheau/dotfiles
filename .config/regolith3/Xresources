@@ -17,6 +17,25 @@ wm.workspace.auto_back_and_forth: yes
 wm.bar.position: top
 wm.bar.stripworkspacenumbers: no
 
+! Default look: white-on-#B8B8B8 vs pale-on-#9A9996.
+wm.client.focused.color.border: #1A5FB4
+wm.client.focused.color.background: #1A5FB4
+wm.client.focused.color.text: #FFFFFF
+wm.client.focused.color.indicator: #1A5FB4
+wm.client.focused.color.child_border: #1A5FB4
+
+wm.client.focused_inactive.color.border: #2F2F2F
+wm.client.focused_inactive.color.background: #393939
+wm.client.focused_inactive.color.text: #F6F5F4
+wm.client.focused_inactive.color.indicator: #393939
+wm.client.focused_inactive.color.child_border: #2F2F2F
+
+wm.client.unfocused.color.border: #2F2F2F
+wm.client.unfocused.color.background: #2F2F2F
+wm.client.unfocused.color.text: #F6F5F4
+wm.client.unfocused.color.indicator: #2F2F2F
+wm.client.unfocused.color.child_border: #2F2F2F
+
 gnome.terminal.font: Ubuntu Mono 12
 
 wm.program.terminal: /usr/bin/ptyxis --new-window
