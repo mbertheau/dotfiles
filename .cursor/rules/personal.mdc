@@ -1,0 +1,416 @@
+---
+alwaysApply: true
+---
+
+# Personal Development Rules
+
+## 1. Mindset & Approach
+
+### Core Principle: Prove Everything
+
+Every conclusion must be demonstrated with evidence. Link to (or quote) exact code locations, logs,
+or other sources. Don't trust my assertions, code comments, commit messages, or documentation
+blindly - verify against the code. If you use words like "likely", "maybe", or "could", you don't
+have enough information; pivot to improving observability instead of guessing.
+
+**Evidence hierarchy**: Take only logs and code as hard evidence. Commit messages, PRs, comments,
+and documentation are circumstantial only - they describe intent or a past state, not what is
+actually true now.
+
+**Root causes need proof**: When looking for a root cause, a plausible, self-consistent story
+isn't good enough. Find hard proof.
+
+When I make an assertion like "this argument is unused", check for yourself and report. Proceed
+with changes only if you agree. Assume documentation is outdated unless you can find proof to the
+contrary.
+
+Before proposing a bug fix, investigate git blame/history to understand the original intent. What
+looks like a bug might be dead code that should be deleted, or intentional behavior with non-obvious
+reasons.
+
+**Verify current state, not just history**: Git history shows what *was* true, not what *is* true.
+When referencing mechanisms, configs, or patterns from git history, verify they still exist in the
+current codebase before presenting them as solutions.
+
+When investigating, think aloud. Present your reasoning step by step. Don't just present conclusions.
+
+### Problem Solving
+
+First, explain the affected code's role in the big picture as if addressing a new engineer who knows
+software but not this codebase.
+
+Then present detailed analysis: link to exact locations (with line numbers), explain all
+circumstances (e.g., why a flaky test doesn't fail every time).
+
+**Code links must be clickable**: Cite code as inline single-backtick `path:LINE` or `path:START-END`,
+using the full workspace-relative path so the link resolves unambiguously.
+
+**Terminology precision**: When documenting findings about domain entities, verify the relationships
+in code before writing. Don't conflate entities or use casual language that obscures the actual data
+model.
+
+When evaluating fixes:
+- Consider impact on all callers
+- Prioritize long-term maintainability; simpler is better; untangled is better than entangled
+- Remove code for unused use cases; keep necessary ones
+- Mention alternatives considered and why they didn't make the cut
+- Don't settle for a locally-correct fix; weigh whole-system costs (maintenance burden, storage,
+  ongoing upkeep of new artifacts like indexes) and prefer an existing path that avoids adding a
+  new one. For example, a different table may already expose the values you need with the index
+  already in place.
+
+Explain the fix in detail, then explain how the problematic scenario behaves differently with the
+fix in place. Summarize the code changes and explain every thought that led to them.
+
+**Verify theories incrementally**: When building explanatory theories for failures, explicitly verify
+each step before building on it. Present uncertainty: "I believe X because Y, let me verify Z before
+continuing." Don't construct elaborate multi-step theories without checkpoints.
+
+**Stop on scope expansion**: When discovering unexpected callers, dependencies, or complexity during
+implementation, stop and report findings before continuing. Re-evaluate the plan together rather
+than charging ahead with an approach that may not work given the full picture.
+
+**Gate plans on complexity**: When I don't give specific instructions and you devise a plan yourself,
+weigh its complexity. The more complex the plan, the more you should let me review it first to confirm
+it aligns with my wishes. For simple plans, go ahead directly.
+
+### Phrasing Ticket and PR descriptions, commit messages and similar
+
+Be mindful of and economical with the readers' time. Assume they are intelligent, with
+far-above-average reading skills and a large vocabulary. Use that to phrase things more densely.
+
+Start each PR description and commit message body with a short paragraph, ideally one sentence, that
+describes the core essence of the change, so that people see at first glance what this is about.
+
+Don't use hard in-paragraph line breaks in PR descriptions, Jira ticket descriptions, or untracked
+documents like local investigation or report files. Let prose wrap naturally; reserve line breaks
+for paragraph and list boundaries.
+
+### Correct mistakes silently; don't narrate them
+
+When I point out a mistake, or you catch your own, fix it in place and move on. The corrected
+artifact—document, code, comment, commit message—should read as if the mistake was never there.
+Not every mistake warrants an explanation: usually correcting it is enough. Don't add a note about
+what was wrong, what you removed or renamed, or that a correction happened; that narration is
+clutter that outlives its usefulness and misleads later readers. The "before" state lives in git
+history, which is where it belongs. If a correction genuinely needs explaining, explain it to me in
+chat, not in the artifact.
+
+## 2. Code Design
+
+### Guiding Principle
+
+Optimize for the person reading the code six months from now—including yourself. That reader
+doesn't remember what abstractions you created or why. They have to reconstruct the data flow
+by reading the code. They will be frustrated by indirection that serves no purpose and helped
+by code that says what it does directly.
+
+This implies a distrust of "architecture astronautics"—elaborate structures built in anticipation
+of needs that may never materialize. Prefer straightforward code now over "flexible" code that
+imagines future requirements.
+
+### Core Values
+
+**Explicitness over implicitness**: Make dependencies and data flow visible in the code structure.
+Prefer passing state explicitly over hiding it in object internals. A reader should understand
+what a piece of code depends on by looking at it, not by tracing through class hierarchies.
+
+  *Examples*: Functions that take state as arguments rather than methods accessing `self`.
+  Direct field access rather than properties that hide what's happening. Pass only what's used:
+  `foo(user.email)` over `foo(user)` if only email is needed—the signature documents the dependency.
+
+**Abstractions must earn their place**: Every abstraction—class, method, named constant—adds
+cognitive load. Apply a cost-benefit test: does this name or structure add understanding, or
+just indirection? Delete what doesn't pay for itself.
+
+  *Examples*: Inline trivial helpers whose names don't add clarity. Delete wrapper classes
+  that only delegate. Remove docstrings that restate obvious code.
+
+**Data and functions over objects with methods**: Prefer simple data containers (dataclasses)
+for state, with standalone functions that operate on them. This keeps data inspectable and
+behavior composable. Use classes when they genuinely help (polymorphism, resource management),
+not as the default unit of organization.
+
+**Simplest mechanism that works**: Reach for sophisticated tools (regex, generics, metaprogramming)
+only when simpler alternatives fall short. A substring check is clearer than a regex when both
+work. Direct field access is clearer than a property when there's no logic.
+
+**I/O at the boundaries**: Keep core logic pure—operating on data passed in, returning results.
+Push I/O (files, network, database) to entry points and edges. This makes the core testable
+via simple function calls with test data, without mocking.
+
+### Simplicity
+
+Question each piece of complexity: Why does this need a wrapper function? Why compute a default
+when the caller can pass it? Why return a value if no one uses it? If the answer isn't compelling,
+remove the complexity.
+
+**Variable lifetime as extraction signal**: If a variable is created, used in 2-3 lines, then sits
+unused for the rest of the function, that's a candidate for extraction. The extracted function
+contains the short-lived variables, returning only what the caller needs.
+
+When creating multiple similar functions or methods, consider if they can be unified. A single
+function with an optional return value or parameter is often simpler than two near-duplicate
+functions.
+
+### Naming
+
+Propose 3-5 variants with tradeoffs rather than picking one. Let me choose.
+
+For metrics and alerts, prefer names that describe *what* is measured, not *when*. Avoid embedding
+context like "renewal" or "completion" unless the metric truly only applies there. General names
+allow reuse across similar scenarios.
+
+### Return Values
+
+Prefer richer types (intervals, counts, timestamps) over booleans when the underlying data is
+richer. This gives callers flexibility.
+
+### Additional Design Considerations
+
+- **Readability over cleverness**: optimize for straightforward, linear logic that a new engineer can follow quickly.
+- **Robustness to messy inputs**: tolerate malformed or partial external input without cascading failures; degrade gracefully rather than failing hard.
+- **Maintainability through clear boundaries**: prefer code organization that localizes change and keeps responsibilities distinct.
+- Keep control flow linear and explicit; avoid indirection when a direct branch is clearer.
+- Name important constants rather than scattering literals.
+
+### Observability
+
+Before adding new metrics or alerts, check if existing ones can be generalized to cover the new use
+case. Fewer, more general metrics are easier to maintain. Only add observability for known problems
+or likely failure modes - no speculative "just in case" metrics.
+
+### Comments
+
+Don't add comments that narrate what the code does, restate obvious code, or reference instructions
+or decisions from our chat. Don't add comments explaining the change itself—the commit message and
+git history cover that. Reserve comments for non-obvious intent, trade-offs, or constraints the code
+can't convey.
+
+**Document contracts, not callers**: A function's docstring and comments describe its own behavior,
+parameters, and invariants—never who calls it or why a particular caller uses it a certain way.
+Naming callers inside the callee rots the moment a caller changes, is renamed, or disappears, and
+nobody thinks to update it. Caller-specific rationale belongs at that caller's call site, where it
+stays accurate and where the reader is actually asking "why here?". Don't enumerate callers or spell
+out per-caller/per-scenario behavior inside the function; state the general rule once.
+
+**Be terse**: Prefer the shortest comment that conveys the non-obvious point. Don't repeat a fact in
+both the docstring and an inline comment. If a docstring or comment is growing into several sentences
+that walk through mechanics a reader can see in the code, that is a signal to cut it down, not to
+keep explaining.
+
+### Type-Narrowing Assertions
+
+When using assertions purely for mypy type narrowing (where the condition is already validated
+at the call site), add a comment explaining that the assertion is never false and why, and that
+it exists only for mypy. Don't add an assertion message—messages suggest the assertion might
+fail in production.
+
+##### Naming
+
+When naming things, take into account the hierarchy of entities in the subject matter: 
+
+## 3. Workflow & Conventions
+
+### Commit Conventions
+
+- **Include the "why"**: The body should explain the *motivation* as well. Headlines like
+  "Enable shorter lease durations" are better than "Add renew() method". A technical aspect
+  like "add function X" is not a valid motivation—the function existing isn't an end in itself.
+  If there's no clear, single motivation for a commit, that's a hint the changes are arranged
+  into commits incorrectly.
+- **Scale the "why" to what the diff hides, not to the size of the change**: How much
+  explanation a commit needs depends on how much of the motivation a competent reader can
+  reconstruct from the diff and the surrounding code—not on how many lines changed. A one-line
+  change deserves a long explanation when its reason lives outside the tree (a production
+  incident, a measurement, a vendor bug, a spec or legal requirement) or is surprising enough
+  that someone would otherwise "simplify" it back and reintroduce the problem. A large
+  mechanical change may need almost nothing when the diff speaks for itself. Calibrate by the
+  cost of the reader not knowing: the likelier they are to revert, misuse, or duplicate the
+  change, the more the message must carry. Never spend words restating what the diff already
+  shows, or defending editorial choices nobody questioned.
+- **Analyze pros and cons**: Identify the benefits and drawbacks of the change. Verify their
+  technical merit—both in theory and practice. A practical consequence (observed in testing or
+  production) weighs more than a theoretical one. Be honest: don't overstate the problem being
+  solved or claim benefits that are merely theoretical.
+- **Acknowledge tradeoffs**: If the change has downsides, state them. Summarize what values guided
+  the judgment to make the change despite the cons (e.g., "readability outweighs the minor
+  verbosity increase").
+- **Then explain what/how**: After establishing the motivation and tradeoffs, describe the new
+  behavior or mechanism if it helps the reviewer understand and judge the changes. Document
+  behavior explicitly when callers need to know (e.g., return value semantics).
+- Each message must stand alone - no references to "the last commit" or similar
+- Commit messages must be understandable without additional context - somebody will look at the
+  commit message in, say, the git history for a file and will not have the PR or a Jira ticket or
+  the preceding and following commits available for context.
+- **Never mix refactoring with features**: Even trivial-looking refactoring (moving code, renaming)
+  must be a separate commit from feature work. Mixed commits make review harder and git archaeology
+  less useful. When tempted to make a cosmetic change alongside functional changes, propose it
+  separately rather than just doing it.
+- **Coherent commits**: Each commit should contain changes that logically belong together by
+  purpose, not by "used together later." A DB function and a constant that happen to both be
+  needed by later code don't belong in the same commit unless they serve the same purpose.
+- **Order commits for clean diffs**: When multiple refactorings interact, order them so simpler/
+  foundational ones come first. This makes each commit's diff smaller and easier to review.
+- **Minimize diff noise**: Keep unchanged functions in their original file positions when possible.
+  Avoid renaming, reordering, or reformatting code that isn't directly related to the change.
+- **Keep commit messages accurate**: After significant implementation changes during development,
+  re-read the commit message to ensure it still accurately describes what the commit does.
+- **Commit at planned boundaries without re-asking**: When we've agreed on a multi-commit
+  plan and I've given a go-ahead, treat that as standing authorization to commit each unit
+  as soon as its changes are complete and verified. Commit before touching the next unit's
+  changes—never let changes belonging to two planned commits accumulate uncommitted in the
+  working tree at once. The go-ahead on the plan is the explicit permission; don't wait for a
+  per-commit prompt. If you're unsure whether a change belongs to the current unit or the
+  next, stop and ask rather than lumping them together.
+- Reference ticket IDs at the end: `During [TICKET-1234]`, `For [TICKET-1234]`, or just `[TICKET-1234]`
+- **Branch naming**: `mbertheau-<TICKET>-short-description`
+- **Branch config**: Set `origin/main` as upstream, `origin` as pushremote
+
+### Pull Requests
+
+- Use `gh pr create`, always as draft first
+- **Title**: Same principle as commit messages.
+- Include ticket references in body on their own lines: `[TICKET-1234]`
+- Never include a test plan
+- Update title and description when scope changes
+
+### Command Output Discipline
+
+Treat command output as expensive. Don't truncate with `head`/`tail` directly - use `tee` to save
+to a file first so you can inspect again if needed.
+
+## 4. Tooling & Specific Commands
+
+### Git
+
+For read-only git (inspecting history, diffs, status, branches, config, etc.), prefer `git-ro`
+instead of `git`. It is an allowlisted wrapper that runs only read-only git and refuses anything
+that can write, so it is safe to auto-run without confirmation. Use the same arguments as `git`
+(e.g. `git-ro log --oneline`, `git-ro branch --contains HEAD`, `git-ro config --get remote.origin.url`).
+Fall back to plain `git` only for operations that write (commit, add, checkout, rebase, push, …).
+
+I often work in ongoing rebases, moving to earlier commits to fix or add things. Always orient
+yourself first - check `git status` to see if a rebase is in progress.
+
+- Use non-interactive git commands: `GIT_SEQUENCE_EDITOR` or `GIT_EDITOR=true`
+- Don't use `git show --no-stat` (unsupported)
+- Don't use `git add -A` (many untracked files in worktree)
+- Before committing, provide a summary of the changes
+- Use explicit remote/branch when pushing: `git push origin <branch> --force-with-lease`
+
+### GitHub
+
+Use the GitHub MCP for read-only access to GitHub. Use the gh CLI tool for write access.
+
+#### PR Comments and Reviews
+
+Use `--paginate` with `gh api` calls (default is 30 per page). API paths:
+`/pulls/PR_NUMBER/comments`, `/issues/PR_NUMBER/comments`, `/pulls/PR_NUMBER/reviews`.
+
+### Buildkite CI Logs on Failure
+
+```bash
+# List builds for a branch
+bk build list --pipeline PIPELINE_NAME --branch YOUR_BRANCH_NAME
+
+# View build details (jobs, state, metadata)
+bk build view --pipeline PIPELINE_NAME BUILD_NUMBER
+bk build view --pipeline PIPELINE_NAME BUILD_NUMBER | jq '.jobs[] | {name, state}'
+
+# Find failed jobs
+bk build view --pipeline PIPELINE_NAME BUILD_NUMBER | jq '.jobs[] | select(.state == "failed")'
+
+# Get job log (JOB_ID from build view output)
+bk api "/pipelines/PIPELINE_NAME/builds/BUILD_NUMBER/jobs/JOB_ID/log" | jq -r '.content' | tail -100
+
+# List artifacts (note: build number is positional, not a flag)
+bk artifacts list BUILD_NUMBER --pipeline PIPELINE_NAME
+
+# Download artifact by UUID
+bk artifacts download ARTIFACT_UUID
+```
+
+### Jira
+
+Jira status is not authoritative—tickets may be stale or incomplete. The code is the only source of
+truth. Use Jira for context and history, but verify claims in code before acting on them.
+
+Use the Atlassian MCP when it has a matching tool. For tools that write prose to Jira, put the prose
+into a temporary markdown file so that I can review it. Fall back to `acli jira` when necessary.
+
+Use **`acli jira`** (subcommands under `acli jira workitem`). There is no `acli jira issue`.
+
+When searching issues, don't limit results arbitrarily (e.g., `head -20`). The full list is usually
+manageable and missing tickets means missing context.
+
+**View work item (default fields: key, issuetype, summary, status, assignee, description):**
+```bash
+acli jira workitem view TICKET-1234
+# With description explicitly (or when ticket has no description, request it)
+acli jira workitem view TICKET-1234 --fields "key,summary,description"
+# All fields
+acli jira workitem view TICKET-1234 --fields "*all"
+```
+
+**Comments:** `acli jira workitem comment list --key TICKET-1234` truncates multi-line comments to
+the first paragraph. To get full comment bodies, use the workitem view endpoint with the `comment`
+field and JSON output:
+```bash
+acli jira workitem view TICKET-1234 --fields comment --json
+```
+The bodies are in Atlassian Document Format (ADF)—a nested JSON structure with node types like
+`paragraph`, `orderedList`, `bulletList`, `listItem`, `text`, `mention`, `hardBreak`.
+
+**Search:**
+```bash
+acli jira workitem search --jql "project = PROJECT AND text ~ 'marketplace'" --limit 30 --fields "key,summary,status"
+```
+
+### Tool Selection
+
+Prefer narrower-scope tools over general-purpose ones where feasible. A focused tool states intent
+more clearly and is lighter weight than reaching for a programming language.
+
+### ripgrep (rg)
+
+Always run `rg` with a closed/unreadable stdin (e.g. `rg PATTERN </dev/null`), or pass an explicit
+path to search (e.g. `rg PATTERN .`). With no path and a readable stdin, rg searches stdin instead
+of the file system. The agent shell connects stdin to a socket, which rg counts as readable, so a
+bare `rg PATTERN` hangs forever reading a socket that never delivers data — it never touches the
+file system.
+
+### JSON parsing
+
+Use jq to parse JSON on the command line. Avoid using python for that.
+
+### Google Docs
+
+Use `gdoc-ro` (read-only, safe) and `gdoc-rw` (writes) - they auth via gcloud.
+Run `gdoc-ro help` / `gdoc-rw help` for the full surface. Both accept a doc URL or bare ID.
+
+```bash
+gdoc-ro info  https://docs.google.com/document/d/DOC_ID/edit
+gdoc-ro export DOC_ID --mime text/markdown > doc.md      # also: text/plain, text/html, application/pdf
+gdoc-ro read DOC_ID | jq '.body.content[-1].endIndex'    # find indices for inserts
+
+gdoc-rw append DOC_ID "- new bullet"
+echo "from stdin" | gdoc-rw append DOC_ID
+gdoc-rw replace DOC_ID "TODO" "DONE"                      # add -i for case-insensitive
+gdoc-rw delete-range DOC_ID START END                     # half-open [start, end)
+gdoc-rw create "New doc title" --from-stdin < draft.md
+gdoc-rw create "New doc title" --from-stdin --markdown < draft.md
+                                                          # converts MD to formatted Doc (headings,
+                                                          # lists, code, links) via Drive import.
+gdoc-rw replace-content DOC_ID --markdown < draft.md      # rewrite an existing doc from markdown,
+                                                          # preserving the URL.
+gdoc-rw batch DOC_ID < requests.json                      # raw documents.batchUpdate requests
+```
+
+To skip the per-call `gcloud` invocation, cache the token in the environment:
+`export GDOC_TOKEN=$(gdoc-ro token)`.
+
+Docs API indices are character offsets in the body; index 1 is the body start; the last
+segment's endIndex is one past the final character (insert at endIndex - 1); ranges are
+half-open. To do anything beyond the high-level subcommands, inspect indices with
+`gdoc-ro read` and feed JSON requests to `gdoc-rw batch`.
