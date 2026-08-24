@@ -238,8 +238,11 @@
 
 ;; Doom only reverts on buffer/window/frame switch. Files edited outside Emacs
 ;; (e.g. Cursor) stay stale in buried buffers. Watch visited files with inotify;
-;; unmodified buffers reload without a prompt.
-(setq +magit-auto-revert nil)
+;; unmodified buffers reload without a prompt. Magit would also revert every
+;; buffer after each Git command; notify already does that, and that sync path
+;; has aborted on heap corruption in file-truename.
+(setq +magit-auto-revert nil
+      magit-auto-revert-immediately nil)
 (after! autorevert
   (setq auto-revert-use-notify t
         auto-revert-avoid-polling t)
