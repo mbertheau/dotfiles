@@ -155,7 +155,8 @@ functions.
 
 ### Naming
 
-Propose 3-5 variants with tradeoffs rather than picking one. Let me choose.
+When naming things, build up the terminology in a structured way: From root to leaf, identify
+entities the code is dealing with, what they are and what they should be called.
 
 For metrics and alerts, prefer names that describe *what* is measured, not *when*. Avoid embedding
 context like "renewal" or "completion" unless the metric truly only applies there. General names
@@ -206,10 +207,6 @@ at the call site), add a comment explaining that the assertion is never false an
 it exists only for mypy. Don't add an assertion message—messages suggest the assertion might
 fail in production.
 
-##### Naming
-
-When naming things, take into account the hierarchy of entities in the subject matter: 
-
 ## 3. Workflow & Conventions
 
 ### Commit Conventions
@@ -236,7 +233,7 @@ When naming things, take into account the hierarchy of entities in the subject m
 - **Acknowledge tradeoffs**: If the change has downsides, state them. Summarize what values guided
   the judgment to make the change despite the cons (e.g., "readability outweighs the minor
   verbosity increase").
-- **Then explain what/how**: After establishing the motivation and tradeoffs, describe the new
+- **Explain what/how**: After establishing the motivation and tradeoffs, describe the new
   behavior or mechanism if it helps the reviewer understand and judge the changes. Document
   behavior explicitly when callers need to know (e.g., return value semantics).
 - Each message must stand alone - no references to "the last commit" or similar
