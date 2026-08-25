@@ -207,17 +207,7 @@ BASHRC_EOF
 
 ~/src/dotfiles/install-emacs.sh
 
-cd
-git clone --depth 1 --branch v0.40.3 https://github.com/nvm-sh/nvm.git ~/.nvm
-echo 'export NVM_DIR="$HOME/.nvm"' >>~/.bashrc
-echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >>~/.bashrc
-echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >>~/.bashrc
-source ~/.nvm/nvm.sh
-nvm install --lts=jod
-nvm alias default 22
-
-# github-copilot-cli
-npm install -g @githubnext/github-copilot-cli
+~/src/dotfiles/install-nvm.sh
 
 # Android Studio
 # cd
@@ -255,9 +245,6 @@ pipx install basedpyright
 
 ~/src/dotfiles/install-uv.sh
 uv tool install ty@latest
-
-echo 'eval "$(github-copilot-cli alias -- "$0")"' >>~/.bashrc
-eval "$(github-copilot-cli alias -- "$0")"
 
 ~/src/dotfiles/install-schemaspy.sh
 
