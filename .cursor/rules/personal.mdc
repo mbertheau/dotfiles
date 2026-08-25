@@ -305,8 +305,12 @@ Use the GitHub MCP for read-only access to GitHub. Use the gh CLI tool for write
 
 #### PR Comments and Reviews
 
-Use `--paginate` with `gh api` calls (default is 30 per page). API paths:
-`/pulls/PR_NUMBER/comments`, `/issues/PR_NUMBER/comments`, `/pulls/PR_NUMBER/reviews`.
+Use `gh monitor` to work with review comments.
+
+```bash
+gh monitor review view PR_NUMBER
+gh monitor --help
+```
 
 ### Buildkite CI Logs on Failure
 
