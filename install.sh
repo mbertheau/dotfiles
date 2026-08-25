@@ -205,12 +205,7 @@ BASHRC_EOF
 
 # install other software
 
-cd
-git clone https://github.com/plexus/chemacs2.git ~/.config/emacs
-
-# ~/src/dotfiles/install-spacemacs.sh
-
-~/src/dotfiles/install-doom-emacs.sh
+~/src/dotfiles/install-emacs.sh
 
 cd
 git clone --depth 1 --branch v0.40.3 https://github.com/nvm-sh/nvm.git ~/.nvm
