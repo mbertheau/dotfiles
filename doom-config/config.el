@@ -236,6 +236,48 @@
           (lambda ()
             (set (make-local-variable 'is-ediff-buffer) t)))
 
+;; Background only so syntax highlighting remains visible.
+(after! ediff
+  (defun markus-ediff-faces-h ()
+    (set-face-attribute 'ediff-current-diff-A nil
+                        :foreground 'unspecified
+                        :background (doom-blend 'red 'bg 0.1)
+                        :extend t)
+    (set-face-attribute 'ediff-current-diff-B nil
+                        :foreground 'unspecified
+                        :background (doom-blend 'green 'bg 0.1)
+                        :extend t)
+    (set-face-attribute 'ediff-current-diff-C nil
+                        :foreground 'unspecified
+                        :background (doom-blend 'blue 'bg 0.1)
+                        :extend t)
+    (set-face-attribute 'ediff-current-diff-Ancestor nil
+                        :foreground 'unspecified
+                        :background (doom-blend 'teal 'bg 0.1)
+                        :extend t)
+    (set-face-attribute 'ediff-fine-diff-A nil
+                        :inherit nil
+                        :foreground 'unspecified
+                        :inverse-video nil
+                        :background (doom-blend 'red 'bg 0.2))
+    (set-face-attribute 'ediff-fine-diff-B nil
+                        :inherit nil
+                        :foreground 'unspecified
+                        :inverse-video nil
+                        :background (doom-blend 'green 'bg 0.2))
+    (set-face-attribute 'ediff-fine-diff-C nil
+                        :inherit nil
+                        :foreground 'unspecified
+                        :inverse-video nil
+                        :background (doom-blend 'blue 'bg 0.2))
+    (set-face-attribute 'ediff-fine-diff-Ancestor nil
+                        :inherit nil
+                        :foreground 'unspecified
+                        :inverse-video nil
+                        :background (doom-blend 'teal 'bg 0.2)))
+  (add-hook 'doom-load-theme-hook #'markus-ediff-faces-h)
+  (markus-ediff-faces-h))
+
 ;; Doom only reverts on buffer/window/frame switch. Files edited outside Emacs
 ;; (e.g. Cursor) stay stale in buried buffers. Watch visited files with inotify;
 ;; unmodified buffers reload without a prompt. Magit would also revert every
