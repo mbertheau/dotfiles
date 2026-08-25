@@ -278,6 +278,21 @@
   (add-hook 'doom-load-theme-hook #'markus-ediff-faces-h)
   (markus-ediff-faces-h))
 
+(after! magit
+  (defun markus-magit-refine-faces-h ()
+    (set-face-attribute 'diff-refine-removed nil
+                        :inherit nil
+                        :foreground 'unspecified
+                        :inverse-video nil
+                        :background (doom-blend 'red 'bg 0.3))
+    (set-face-attribute 'diff-refine-added nil
+                        :inherit nil
+                        :foreground 'unspecified
+                        :inverse-video nil
+                        :background (doom-blend 'green 'bg 0.3)))
+  (add-hook 'doom-load-theme-hook #'markus-magit-refine-faces-h)
+  (markus-magit-refine-faces-h))
+
 ;; Doom only reverts on buffer/window/frame switch. Files edited outside Emacs
 ;; (e.g. Cursor) stay stale in buried buffers. Watch visited files with inotify;
 ;; unmodified buffers reload without a prompt. Magit would also revert every
