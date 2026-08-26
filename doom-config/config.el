@@ -159,7 +159,9 @@
   (transient-append-suffix 'magit-log "-A"
     '("-m" "Omit merge commits" "--no-merges"))
   (transient-append-suffix 'magit-log "-A"
-    '("-b" "Only mbertheau branches" "--branches=mbertheau*")))
+    '("-b" "Only mbertheau branches" "--branches=mbertheau*"))
+  ;; magit-section-mode sets truncate-lines; wrap long hunk lines (e.g. markdown).
+  (add-hook 'magit-revision-mode-hook #'turn-on-visual-line-mode))
 
 (after! lispy
   ;; behave like lispyville's slurp/barf-cp theme in lispy special as well
