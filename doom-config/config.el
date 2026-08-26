@@ -364,5 +364,9 @@
   :config
   (add-to-list 'auto-mode-alist '("\\.Containerfile\\'" . dockerfile-mode)))
 
+;; Cursor rule files are markdown with YAML frontmatter.
+(use-package! markdown-mode
+  :mode "\\.mdc\\'")
+
 (after! winum
   (setq winum-scope 'frame-local))
