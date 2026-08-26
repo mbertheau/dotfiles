@@ -148,6 +148,7 @@ ln -s ../../src/dotfiles/.local/lib/gdoc_common.py ~/.local/lib/gdoc_common.py
 
 mkdir -p ~/.cursor/rules
 ln -s ../../src/dotfiles/.cursor/rules/personal.mdc ~/.cursor/rules/personal.mdc
+ln -s ../src/dotfiles/skills ~/.cursor/skills
 
 cp /usr/share/doc/pass/examples/dmenu/passmenu ~/.local/bin
 
