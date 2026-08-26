@@ -146,8 +146,8 @@ ln -s ../../src/dotfiles/.local/bin/{4,doomacs,gdoc-ro,gdoc-rw,resetmods.py,spac
 mkdir -p ~/.local/lib
 ln -s ../../src/dotfiles/.local/lib/gdoc_common.py ~/.local/lib/gdoc_common.py
 
-mkdir -p ~/.cursor/rules
-ln -s ../../src/dotfiles/.cursor/rules/personal.mdc ~/.cursor/rules/personal.mdc
+mkdir -p ~/.cursor
+ln -s ../src/dotfiles/rules ~/.cursor/rules
 ln -s ../src/dotfiles/skills ~/.cursor/skills
 
 cp /usr/share/doc/pass/examples/dmenu/passmenu ~/.local/bin
