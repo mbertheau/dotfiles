@@ -258,6 +258,12 @@ uv tool install ty@latest
 ~/src/dotfiles/install-gh-monitor.sh
 
 if [[ $WORK_OR_HOME == "work" ]]; then
+    if [[ ! -e ~/src/aiven-agent ]]; then
+        git clone git@github.com:mbertheau/aiven-agent.git ~/src/aiven-agent
+    fi
+    mkdir -p ~/.cursor/plugins/local
+    ln -s ../../../src/aiven-agent ~/.cursor/plugins/local/aiven-agent
+
     ~/src/dotfiles/install-1password.sh
     ~/src/dotfiles/install-vault.sh
 fi
