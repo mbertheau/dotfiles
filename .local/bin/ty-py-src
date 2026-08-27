@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+find_py_src_root() {
+    local dir=$PWD
+    while true; do
+        local match
+        for match in "$dir"/py/*/src; do
+            if [[ -d "$match" ]]; then
+                printf '%s\n' "$dir"
+                return 0
+            fi
+        done
+        [[ "$dir" == / ]] && return 1
+        dir=$(dirname "$dir")
+    done
+}
+
+if root=$(find_py_src_root); then
+    extra=
+    for src in "$root"/py/*/src; do
+        [[ -d "$src" ]] || continue
+        extra=${extra:+$extra:}$src
+    done
+    if [[ -n "$extra" ]]; then
+        export PYTHONPATH="$extra${PYTHONPATH:+:$PYTHONPATH}"
+    fi
+fi
+
+exec ty "$@"
