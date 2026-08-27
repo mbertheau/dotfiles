@@ -1,0 +1,18 @@
+---
+description: Clone open source repos into ~/src to inspect their source. Use gh repo clone. Do not clone into the current workspace.
+alwaysApply: true
+---
+
+# Inspecting open source software
+
+When you need the source of open source software, clone it into `~/src`. Do not clone it into the current workspace. Do not ask first.
+
+Use `gh repo clone OWNER/REPO ~/src/REPO`.
+
+```bash
+gh repo clone psf/requests ~/src/requests
+```
+
+If `~/src/REPO` already exists, use that checkout.
+
+For remotes `gh` cannot clone, use `git clone URL ~/src/REPO`.
