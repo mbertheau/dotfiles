@@ -149,6 +149,8 @@ mkdir -p ~/.cursor
 ln -s ../src/dotfiles/rules ~/.cursor/rules
 ln -s ../src/dotfiles/skills ~/.cursor/skills
 
+ln -s ../src/dotfiles/grok-rules ~/.grok/rules
+
 cp /usr/share/doc/pass/examples/dmenu/passmenu ~/.local/bin
 
 # TODO: /etc/regolith/i3/config mit workspace_auto_back_and_forth
