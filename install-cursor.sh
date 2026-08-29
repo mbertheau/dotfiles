@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# This endpoint tracks the latest golden 3.12.x build, so its contents change on
+# This endpoint tracks the latest golden 3.18.x build, so its contents change on
 # every patch release. Verified this build; refuse to install a different one.
-CURSOR_DEB_URL="https://api2.cursor.sh/updates/download/golden/linux-arm64-deb/cursor/3.12"
-EXPECTED_HASH="0306ae2a6417d4aa83d456606348db1454ac9a4dcfda15721febff442bce7b95"
+CURSOR_DEB_URL="https://api2.cursor.sh/updates/download/golden/linux-arm64-deb/cursor/3.18"
+EXPECTED_HASH="e4e7e68468e19ad1f3b627aa3a5ab67ec01a6326da1e293aff7b5f5fc9b7c9c1"
 
 deb_path=$(mktemp --suffix=.deb)
 trap 'rm -f "$deb_path"' EXIT
