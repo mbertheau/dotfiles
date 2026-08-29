@@ -139,6 +139,8 @@ mkdir -p ~/.config/regolith3
 ln -s ../../src/dotfiles/.config/regolith3/Xresources ~/.config/regolith3/Xresources
 mkdir -p ~/.config/i3status-rust
 ln -s ../../src/dotfiles/.config/i3status-rust/config.toml ~/.config/i3status-rust/config.toml
+mkdir -p ~/.config/autostart
+ln -s ../../src/dotfiles/.config/autostart/gnome-flashback-polkit.desktop ~/.config/autostart/gnome-flashback-polkit.desktop
 
 mkdir -p ~/.local/bin
 ln -s ../../src/dotfiles/.local/bin/{4,doomacs,gdoc-ro,gdoc-rw,resetmods.py,spacemacs,ty-py-src} ~/.local/bin/
