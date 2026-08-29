@@ -11,6 +11,8 @@ tar cfz /media/psf/Home/donation.tar \
     .config/pgcli/history \
     .lesshst \
     .psql_history \
+    .grok \
+    .cursor \
     .python_history \
     snap/chromium \
     ./*vpn.conf \
