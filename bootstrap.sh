@@ -22,4 +22,7 @@ cd ~/src/dotfiles
 git checkout new-master
 
 cd
-~/src/dotfiles/install.sh $1
+~/src/dotfiles/install.sh
+if [[ ${1:-} == "work" ]]; then
+    ~/src/dotfiles/install-work.sh
+fi

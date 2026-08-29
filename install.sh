@@ -1,7 +1,5 @@
 set -euo pipefail
 
-WORK_OR_HOME=${1:-}
-
 sudo apt purge --yes nano
 sudo apt remove --yes apport
 
@@ -137,11 +135,6 @@ export PATH="$HOME/.local/bin:$PATH"
 echo source ~/.profile_local >>~/.profile
 source ~/.profile_local
 
-if [[ $WORK_OR_HOME == "work" ]]; then
-    echo source ~/.bashrc_work >>~/.bashrc
-    source ~/.bashrc_work
-fi
-
 cat >>~/.bashrc <<'BASHRC_EOF'
 
 fix-tabs-on-focus() {
@@ -216,8 +209,6 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
 pyenv install 3.12
-pyenv virtualenv 3.12 aiven
-.pyenv/versions/aiven/bin/pip install ruff==0.12.5
 pipx install basedpyright
 
 ~/src/dotfiles/install-uv.sh
@@ -232,13 +223,3 @@ uv tool install ty@latest
 ~/src/dotfiles/install-cursor-agent.sh
 
 ~/src/dotfiles/install-gh-monitor.sh
-
-if [[ $WORK_OR_HOME == "work" ]]; then
-    if [[ ! -e ~/src/aiven-agent ]]; then
-        git clone git@github.com:mbertheau/aiven-agent.git ~/src/aiven-agent
-    fi
-    ~/src/aiven-agent/install.sh
-
-    ~/src/dotfiles/install-1password.sh
-    ~/src/dotfiles/install-vault.sh
-fi
