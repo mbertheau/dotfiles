@@ -40,7 +40,6 @@ sudo apt update
 # libxslt1-dev: for pip install lxml
 # shellcheck: for flycheck in doom emacs
 # shfmt: for doom emacs :lang sh formatting
-# pipx: to install basedpyright conveniently in its own virtualenv
 
 sudo apt install --yes \
     chromium-browser \
@@ -74,7 +73,6 @@ sudo apt install --yes \
     openjdk-17-jdk \
     pandoc \
     pass \
-    pipx \
     poedit \
     postgresql-postgis \
     pspg \
@@ -207,7 +205,6 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
 pyenv install 3.13
-pipx install basedpyright
 
 ~/src/dotfiles/install-uv.sh
 uv tool install ty@latest
