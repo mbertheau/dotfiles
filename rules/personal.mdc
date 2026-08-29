@@ -37,12 +37,6 @@ to a file first so you can inspect again if needed.
 
 ### Git
 
-For read-only git (inspecting history, diffs, status, branches, config, etc.), prefer `git-ro`
-instead of `git`. It is an allowlisted wrapper that runs only read-only git and refuses anything
-that can write, so it is safe to auto-run without confirmation. Use the same arguments as `git`
-(e.g. `git-ro log --oneline`, `git-ro branch --contains HEAD`, `git-ro config --get remote.origin.url`).
-Fall back to plain `git` only for operations that write (commit, add, checkout, rebase, push, …).
-
 I often work in ongoing rebases, moving to earlier commits to fix or add things. Always orient
 yourself first - check `git status` to see if a rebase is in progress.
 
