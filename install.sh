@@ -208,7 +208,7 @@ echo 'eval "$(pyenv virtualenv-init -)"' >>~/.bashrc
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
-pyenv install 3.12
+pyenv install 3.13
 pipx install basedpyright
 
 ~/src/dotfiles/install-uv.sh

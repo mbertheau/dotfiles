@@ -8,7 +8,7 @@ source ~/.profile_local
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
-pyenv virtualenv 3.12 aiven
+pyenv virtualenv 3.13 aiven
 "$HOME/.pyenv/versions/aiven/bin/pip" install ruff==0.12.5
 
 if [[ ! -e ~/src/aiven-agent ]]; then
