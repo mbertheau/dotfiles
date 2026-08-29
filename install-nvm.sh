@@ -6,8 +6,8 @@ echo 'export NVM_DIR="$HOME/.nvm"' >>~/.bashrc
 echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >>~/.bashrc
 echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >>~/.bashrc
 source ~/.nvm/nvm.sh
-nvm install --lts=jod
-nvm alias default 22
+nvm install 26
+nvm alias default 26
 
 npm install -g @githubnext/github-copilot-cli
 echo 'eval "$(github-copilot-cli alias -- "$0")"' >>~/.bashrc
