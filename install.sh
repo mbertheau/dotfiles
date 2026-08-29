@@ -5,14 +5,6 @@ WORK_OR_HOME=${1:-}
 sudo apt purge --yes nano
 sudo apt remove --yes apport
 
-# prepare apt to install regolith
-wget -qO - https://archive.regolith-desktop.com/regolith.key |
-    gpg --dearmor | sudo tee /usr/share/keyrings/regolith-archive-keyring.gpg >/dev/null
-
-echo deb "[arch=arm64 signed-by=/usr/share/keyrings/regolith-archive-keyring.gpg] \
-https://archive.regolith-desktop.com/ubuntu/unstable resolute main" |
-    sudo tee /etc/apt/sources.list.d/regolith.list
-
 # prepare apt to install gh
 wget -qO - https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg &&
     sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg &&
@@ -64,13 +56,6 @@ sudo apt install --yes \
     fd-find \
     gettext \
     gh \
-    i3xrocks-cpu-usage \
-    i3xrocks-keyboard-layout \
-    i3xrocks-key-indicator \
-    i3xrocks-net-traffic \
-    i3xrocks-nm-vpn \
-    i3xrocks-openvpn \
-    i3xrocks-time \
     libbz2-dev \
     libcairo2-dev \
     libjpeg8-dev \
@@ -99,8 +84,6 @@ sudo apt install --yes \
     pspg \
     python3-dev \
     python3-venv \
-    regolith-desktop \
-    regolith-session-sway \
     ripgrep \
     shellcheck \
     shfmt \
@@ -134,11 +117,6 @@ sudo sysctl --system
 cd
 ln -s src/dotfiles/{.emacs-profiles.el,.emacs-profile,.spacemacs,.gitconfig,.profile_local,.inputrc,.pants.rc} ~/
 
-mkdir -p ~/.config/regolith3
-ln -s ../../src/dotfiles/.config/regolith3/Xresources ~/.config/regolith3/Xresources
-mkdir -p ~/.config/i3status-rust
-ln -s ../../src/dotfiles/.config/i3status-rust/config.toml ~/.config/i3status-rust/config.toml
-
 mkdir -p ~/.local/bin
 ln -s ../../src/dotfiles/.local/bin/{4,doomacs,gdoc-ro,gdoc-rw,resetmods.py,spacemacs,ty-py-src} ~/.local/bin/
 
@@ -152,9 +130,6 @@ ln -s ../src/dotfiles/skills ~/.cursor/skills
 ln -s ../src/dotfiles/grok-rules ~/.grok/rules
 
 cp /usr/share/doc/pass/examples/dmenu/passmenu ~/.local/bin
-
-# TODO: /etc/regolith/i3/config mit workspace_auto_back_and_forth
-# https://github.com/regolith-linux/regolith-i3-gaps-config/pull/20
 
 # .profile does this at login, but only if ~/.local/bin exists, which it didn't at login
 export PATH="$HOME/.local/bin:$PATH"
