@@ -211,10 +211,6 @@ uv tool install ty@latest
 
 ~/src/dotfiles/install-schemaspy.sh
 
-~/src/dotfiles/install-vscode.sh
-
 ~/src/dotfiles/install-cursor.sh
-
-~/src/dotfiles/install-cursor-agent.sh
 
 ~/src/dotfiles/install-gh-monitor.sh
