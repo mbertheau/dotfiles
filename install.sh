@@ -41,14 +41,12 @@ sudo apt update
 # shellcheck: for flycheck in doom emacs
 # shfmt: for doom emacs :lang sh formatting
 # pipx: to install basedpyright conveniently in its own virtualenv
-# distrobox: work environment
 
 sudo apt install --yes \
     chromium-browser \
     clang \
     colordiff \
     curl \
-    distrobox \
     editorconfig \
     emacs \
     fd-find \
