@@ -10,7 +10,7 @@ wget -qO - https://archive.regolith-desktop.com/regolith.key |
     gpg --dearmor | sudo tee /usr/share/keyrings/regolith-archive-keyring.gpg >/dev/null
 
 echo deb "[arch=arm64 signed-by=/usr/share/keyrings/regolith-archive-keyring.gpg] \
-https://archive.regolith-desktop.com/ubuntu/stable questing v3.4" |
+https://archive.regolith-desktop.com/ubuntu/unstable resolute main" |
     sudo tee /etc/apt/sources.list.d/regolith.list
 
 # prepare apt to install gh
@@ -100,7 +100,6 @@ sudo apt install --yes \
     python3-dev \
     python3-venv \
     regolith-desktop \
-    regolith-session-flashback \
     regolith-session-sway \
     ripgrep \
     shellcheck \
@@ -139,8 +138,6 @@ mkdir -p ~/.config/regolith3
 ln -s ../../src/dotfiles/.config/regolith3/Xresources ~/.config/regolith3/Xresources
 mkdir -p ~/.config/i3status-rust
 ln -s ../../src/dotfiles/.config/i3status-rust/config.toml ~/.config/i3status-rust/config.toml
-mkdir -p ~/.config/autostart
-ln -s ../../src/dotfiles/.config/autostart/gnome-flashback-polkit.desktop ~/.config/autostart/gnome-flashback-polkit.desktop
 
 mkdir -p ~/.local/bin
 ln -s ../../src/dotfiles/.local/bin/{4,doomacs,gdoc-ro,gdoc-rw,resetmods.py,spacemacs,ty-py-src} ~/.local/bin/
