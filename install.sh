@@ -3,6 +3,9 @@ set -euo pipefail
 sudo apt purge --yes nano
 sudo apt remove --yes apport
 
+# Source packages from Ubuntu (needed by fix-wlroots.sh).
+sudo sed -i '/^Types: deb$/s//Types: deb deb-src/' /etc/apt/sources.list.d/ubuntu.sources
+
 # prepare apt to install gh
 wget -qO - https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg &&
     sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg &&

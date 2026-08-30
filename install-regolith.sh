@@ -29,3 +29,5 @@ ln -s ../../src/dotfiles/.config/i3status-rust/config.toml ~/.config/i3status-ru
 
 # TODO: /etc/regolith/i3/config mit workspace_auto_back_and_forth
 # https://github.com/regolith-linux/regolith-i3-gaps-config/pull/20
+
+~/src/dotfiles/fix-wlroots.sh

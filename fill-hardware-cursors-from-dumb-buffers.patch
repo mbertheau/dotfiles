@@ -1,0 +1,263 @@
+From: Markus Bertheau <mbertheau@localhost>
+Subject: Fill hardware cursors from DRM dumb buffers
+
+virtio-gpu's cursor overlay only uploads CPU-written dumb buffers.
+GLES into a GBM SCANOUT|RENDERING buffer still KMS-commits, so
+software compositing is skipped and the pointer is invisible.
+
+Also ignore unknown libinput switch types and keep strchr's const
+so the package builds with current libinput and gcc 15.
+
+diff -Naur a/backend/libinput/switch.c b/backend/libinput/switch.c
+--- a/backend/libinput/switch.c	2026-08-30 11:09:01.046050034 +0200
++++ b/backend/libinput/switch.c	2026-08-30 11:09:01.046505243 +0200
+@@ -36,6 +36,8 @@
+ 	case LIBINPUT_SWITCH_TABLET_MODE:
+ 		wlr_event.switch_type = WLR_SWITCH_TYPE_TABLET_MODE;
+ 		break;
++	default:
++		return;
+ 	}
+ 	switch (libinput_event_switch_get_switch_state(sevent)) {
+ 	case LIBINPUT_SWITCH_STATE_OFF:
+diff -Naur a/include/wlr/render/allocator.h b/include/wlr/render/allocator.h
+--- a/include/wlr/render/allocator.h	2026-08-30 11:09:01.026252909 +0200
++++ b/include/wlr/render/allocator.h	2026-08-30 11:09:01.026809243 +0200
+@@ -52,6 +52,14 @@
+ struct wlr_allocator *wlr_allocator_autocreate(struct wlr_backend *backend,
+ 	struct wlr_renderer *renderer);
+ /**
++ * Create a DRM dumb-buffer allocator from the backend's DRM primary node.
++ *
++ * Returns NULL if the backend has no DRM fd or dumb buffers are unavailable.
++ * Hardware cursor planes on some devices (virtio-gpu in particular) only
++ * display CPU-written dumb buffers.
++ */
++struct wlr_allocator *wlr_allocator_autocreate_drm_dumb(struct wlr_backend *backend);
++/**
+  * Destroy the allocator.
+  */
+ void wlr_allocator_destroy(struct wlr_allocator *alloc);
+diff -Naur a/include/wlr/types/wlr_output.h b/include/wlr/types/wlr_output.h
+--- a/include/wlr/types/wlr_output.h	2026-08-30 11:09:01.029932118 +0200
++++ b/include/wlr/types/wlr_output.h	2026-08-30 11:09:01.030628576 +0200
+@@ -235,6 +235,8 @@
+ 
+ 	struct {
+ 		struct wl_listener display_destroy;
++		struct wlr_allocator *cursor_allocator;
++		bool cursor_allocator_checked;
+ 	} WLR_PRIVATE;
+ };
+ 
+diff -Naur a/render/allocator/allocator.c b/render/allocator/allocator.c
+--- a/render/allocator/allocator.c	2026-08-30 11:09:01.033916701 +0200
++++ b/render/allocator/allocator.c	2026-08-30 11:09:01.034409659 +0200
+@@ -95,6 +95,25 @@
+ 	return new_fd;
+ }
+ 
++struct wlr_allocator *wlr_allocator_autocreate_drm_dumb(struct wlr_backend *backend) {
++	int drm_fd = wlr_backend_get_drm_fd(backend);
++	if (drm_fd < 0) {
++		return NULL;
++	}
++
++	int dumb_fd = reopen_drm_node(drm_fd, false);
++	if (dumb_fd < 0) {
++		return NULL;
++	}
++
++	struct wlr_allocator *alloc = wlr_drm_dumb_allocator_create(dumb_fd);
++	if (alloc == NULL) {
++		close(dumb_fd);
++		return NULL;
++	}
++	return alloc;
++}
++
+ struct wlr_allocator *wlr_allocator_autocreate(struct wlr_backend *backend,
+ 		struct wlr_renderer *renderer) {
+ 	uint32_t backend_caps = backend->buffer_caps;
+diff -Naur a/types/output/cursor.c b/types/output/cursor.c
+--- a/types/output/cursor.c	2026-08-30 11:09:01.038405451 +0200
++++ b/types/output/cursor.c	2026-08-30 11:09:01.039043159 +0200
+@@ -1,6 +1,8 @@
+ #include <assert.h>
+ #include <drm_fourcc.h>
+ #include <stdlib.h>
++#include <string.h>
++#include <wlr/backend.h>
+ #include <wlr/interfaces/wlr_output.h>
+ #include <wlr/render/allocator.h>
+ #include <wlr/render/swapchain.h>
+@@ -10,6 +12,7 @@
+ #include <wlr/util/log.h>
+ #include <wlr/util/region.h>
+ #include <wlr/util/transform.h>
++#include "render/drm_format_set.h"
+ #include "types/wlr_buffer.h"
+ #include "types/wlr_output.h"
+ 
+@@ -163,9 +166,26 @@
+ 		wlr_box_intersection(&intersection, &output_box, &cursor_box);
+ }
+ 
++static struct wlr_allocator *output_get_cursor_allocator(struct wlr_output *output) {
++	if (output->cursor_allocator != NULL) {
++		return output->cursor_allocator;
++	}
++	if (output->cursor_allocator_checked) {
++		return output->allocator;
++	}
++	output->cursor_allocator_checked = true;
++	output->cursor_allocator = wlr_allocator_autocreate_drm_dumb(output->backend);
++	if (output->cursor_allocator != NULL) {
++		wlr_log(WLR_DEBUG, "Using DRM dumb buffers for hardware cursors on '%s'",
++			output->name);
++		return output->cursor_allocator;
++	}
++	return output->allocator;
++}
++
+ static bool output_pick_cursor_format(struct wlr_output *output,
+ 		struct wlr_drm_format *format) {
+-	struct wlr_allocator *allocator = output->allocator;
++	struct wlr_allocator *allocator = output_get_cursor_allocator(output);
+ 	assert(allocator != NULL);
+ 
+ 	const struct wlr_drm_format_set *display_formats = NULL;
+@@ -178,9 +198,63 @@
+ 		}
+ 	}
+ 
++	if (allocator == output->cursor_allocator) {
++		if (display_formats != NULL &&
++				wlr_drm_format_set_get(display_formats, DRM_FORMAT_ARGB8888) == NULL) {
++			wlr_log(WLR_DEBUG, "Cursor plane does not support AR24");
++			return false;
++		}
++		wlr_drm_format_init(format, DRM_FORMAT_ARGB8888);
++		if (!wlr_drm_format_add(format, DRM_FORMAT_MOD_LINEAR) ||
++				!wlr_drm_format_add(format, DRM_FORMAT_MOD_INVALID)) {
++			wlr_drm_format_finish(format);
++			return false;
++		}
++		return true;
++	}
++
+ 	return output_pick_format(output, display_formats, format, DRM_FORMAT_ARGB8888);
+ }
+ 
++static bool cursor_buffer_write_texture(struct wlr_output_cursor *cursor,
++		struct wlr_buffer *buffer, const struct wlr_box *dst_box,
++		enum wl_output_transform transform) {
++	if (transform != WL_OUTPUT_TRANSFORM_NORMAL) {
++		return false;
++	}
++
++	void *data;
++	uint32_t format;
++	size_t stride;
++	if (!wlr_buffer_begin_data_ptr_access(buffer, WLR_BUFFER_DATA_PTR_ACCESS_WRITE,
++			&data, &format, &stride)) {
++		return false;
++	}
++
++	memset(data, 0, stride * (size_t)buffer->height);
++
++	struct wlr_box src = {0};
++	if (cursor->src_box.width > 0 && cursor->src_box.height > 0) {
++		src.x = (int)cursor->src_box.x;
++		src.y = (int)cursor->src_box.y;
++		src.width = (int)cursor->src_box.width;
++		src.height = (int)cursor->src_box.height;
++	}
++
++	uint32_t dst_x = dst_box->x < 0 ? 0 : (uint32_t)dst_box->x;
++	uint32_t dst_y = dst_box->y < 0 ? 0 : (uint32_t)dst_box->y;
++	bool ok = wlr_texture_read_pixels(cursor->texture, &(struct wlr_texture_read_pixels_options){
++		.data = data,
++		.format = format,
++		.stride = stride,
++		.dst_x = dst_x,
++		.dst_y = dst_y,
++		.src_box = src,
++	});
++	wlr_buffer_end_data_ptr_access(buffer);
++	return ok;
++}
++
+ static struct wlr_buffer *render_cursor_buffer(struct wlr_output_cursor *cursor) {
+ 	struct wlr_output *output = cursor->output;
+ 
+@@ -189,7 +263,7 @@
+ 		return NULL;
+ 	}
+ 
+-	struct wlr_allocator *allocator = output->allocator;
++	struct wlr_allocator *allocator = output_get_cursor_allocator(output);
+ 	struct wlr_renderer *renderer = output->renderer;
+ 	assert(allocator != NULL && renderer != NULL);
+ 
+@@ -226,7 +300,8 @@
+ 
+ 	if (output->cursor_swapchain == NULL ||
+ 			output->cursor_swapchain->width != width ||
+-			output->cursor_swapchain->height != height) {
++			output->cursor_swapchain->height != height ||
++			output->cursor_swapchain->allocator != allocator) {
+ 		struct wlr_drm_format format = {0};
+ 		if (!output_pick_cursor_format(output, &format)) {
+ 			wlr_log(WLR_DEBUG, "Failed to pick cursor format");
+@@ -255,15 +330,24 @@
+ 	wlr_box_transform(&dst_box, &dst_box, wlr_output_transform_invert(output->transform),
+ 		buffer->width, buffer->height);
+ 
++	enum wl_output_transform transform = wlr_output_transform_invert(cursor->transform);
++	transform = wlr_output_transform_compose(transform, output->transform);
++
++	if (allocator == output->cursor_allocator) {
++		if (!cursor_buffer_write_texture(cursor, buffer, &dst_box, transform)) {
++			wlr_log(WLR_DEBUG, "Failed to write hardware cursor buffer");
++			wlr_buffer_unlock(buffer);
++			return NULL;
++		}
++		return buffer;
++	}
++
+ 	struct wlr_render_pass *pass = wlr_renderer_begin_buffer_pass(renderer, buffer, NULL);
+ 	if (pass == NULL) {
+ 		wlr_buffer_unlock(buffer);
+ 		return NULL;
+ 	}
+ 
+-	enum wl_output_transform transform = wlr_output_transform_invert(cursor->transform);
+-	transform = wlr_output_transform_compose(transform, output->transform);
+-
+ 	wlr_render_pass_add_rect(pass, &(struct wlr_render_rect_options){
+ 		.box = { .width = buffer->width, .height = buffer->height },
+ 		.blend_mode = WLR_RENDER_BLEND_MODE_NONE,
+diff -Naur a/types/output/output.c b/types/output/output.c
+--- a/types/output/output.c	2026-08-30 11:09:01.042573368 +0200
++++ b/types/output/output.c	2026-08-30 11:09:01.043031743 +0200
+@@ -409,6 +409,7 @@
+ 
+ 	wlr_swapchain_destroy(output->cursor_swapchain);
+ 	wlr_buffer_unlock(output->cursor_front_buffer);
++	wlr_allocator_destroy(output->cursor_allocator);
+ 
+ 	wlr_swapchain_destroy(output->swapchain);
+ 
+diff -Naur a/xcursor/xcursor.c b/xcursor/xcursor.c
+--- a/xcursor/xcursor.c	2026-08-30 11:09:01.049550409 +0200
++++ b/xcursor/xcursor.c	2026-08-30 11:09:01.050015951 +0200
+@@ -602,7 +602,7 @@
+ static const char *
+ xcursor_next_path(const char *path)
+ {
+-	char *colon = strchr(path, ':');
++	const char *colon = strchr(path, ':');
+ 
+ 	if (!colon)
+ 		return NULL;
