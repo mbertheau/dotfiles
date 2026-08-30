@@ -4,9 +4,10 @@ set -euo pipefail
 wget -qO - https://archive.regolith-desktop.com/regolith.key |
     gpg --dearmor | sudo tee /usr/share/keyrings/regolith-archive-keyring.gpg >/dev/null
 
-echo deb "[arch=arm64 signed-by=/usr/share/keyrings/regolith-archive-keyring.gpg] \
-https://archive.regolith-desktop.com/ubuntu/unstable resolute main" |
-    sudo tee /etc/apt/sources.list.d/regolith.list
+sudo tee /etc/apt/sources.list.d/regolith.list >/dev/null <<'EOF'
+deb [arch=arm64 signed-by=/usr/share/keyrings/regolith-archive-keyring.gpg] https://archive.regolith-desktop.com/ubuntu/unstable resolute main
+deb-src [signed-by=/usr/share/keyrings/regolith-archive-keyring.gpg] https://archive.regolith-desktop.com/ubuntu/unstable resolute main
+EOF
 
 sudo apt update
 
@@ -31,3 +32,4 @@ ln -s ../../src/dotfiles/.config/i3status-rust/config.toml ~/.config/i3status-ru
 # https://github.com/regolith-linux/regolith-i3-gaps-config/pull/20
 
 ~/src/dotfiles/fix-wlroots.sh
+~/src/dotfiles/fix-regolith-wm-config.sh

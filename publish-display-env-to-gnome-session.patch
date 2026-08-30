@@ -1,0 +1,73 @@
+From: Markus Bertheau <mbertheau@localhost>
+Subject: Publish compositor display env to gnome-session before READY
+
+gnome-session autostart inherits SessionManager's environment, not
+systemd's. Sway exec is asynchronous, so import-environment and
+systemd-notify must run in one process, and Setenv must happen
+before READY or Initialization has already ended.
+
+diff --git a/etc/regolith/sway/config b/etc/regolith/sway/config
+index 750ef3c..1b0e59e 100644
+--- a/etc/regolith/sway/config
++++ b/etc/regolith/sway/config
+@@ -178,9 +178,3 @@ include $HOME/.config/regolith3/common-wm/config.d/*
+ 
+ # Include any user wm partials
+ include $HOME/.config/regolith3/sway/config.d/*
+-
+-# Start the systemd target manually is the session is not started by systemd
+-# Notify systemd about successful session start otherwise
+-exec --no-startup-id [ -z "${NOTIFY_SOCKET-}" ] \
+-  && systemctl --user start regolith-wayland.target \
+-  || systemd-notify --ready
+diff --git a/scripts/regolith-sway-publish-display-env b/scripts/regolith-sway-publish-display-env
+new file mode 100755
+index 0000000..f36248f
+--- /dev/null
++++ b/scripts/regolith-sway-publish-display-env
+@@ -0,0 +1,36 @@
++#!/usr/bin/env bash
++# Publish compositor env to systemd, D-Bus activation, and gnome-session,
++# then signal that the compositor is ready.
++#
++# gnome-session Setenv is only accepted during Initialization, which ends
++# when this unit reports READY. Sway exec is asynchronous, so Setenv and
++# notify must run in one process.
++
++set -euo pipefail
++
++VARS=(XDG_CURRENT_DESKTOP DISPLAY WAYLAND_DISPLAY SWAYSOCK I3SOCK)
++
++systemctl --user import-environment "${VARS[@]}"
++
++if hash dbus-update-activation-environment 2>/dev/null; then
++  dbus-update-activation-environment --systemd "${VARS[@]}"
++fi
++
++publish_to_gnome_session() {
++  local name=$1 value=${2-}
++  [[ -n $value ]] || return 0
++  gdbus call --session \
++    --dest org.gnome.SessionManager \
++    --object-path /org/gnome/SessionManager \
++    --method org.gnome.SessionManager.Setenv "$name" "$value" \
++    >/dev/null 2>&1 || true
++}
++
++publish_to_gnome_session WAYLAND_DISPLAY "${WAYLAND_DISPLAY-}"
++publish_to_gnome_session DISPLAY "${DISPLAY-}"
++
++if [[ -z ${NOTIFY_SOCKET-} ]]; then
++  systemctl --user start regolith-wayland.target
++else
++  systemd-notify --ready
++fi
+diff --git a/usr/share/regolith/sway/config.d/10_dbus-activation b/usr/share/regolith/sway/config.d/10_dbus-activation
+index ce05044..80cf073 100644
+--- a/usr/share/regolith/sway/config.d/10_dbus-activation
++++ b/usr/share/regolith/sway/config.d/10_dbus-activation
+@@ -1,3 +1 @@
+-exec systemctl --user import-environment XDG_CURRENT_DESKTOP DISPLAY WAYLAND_DISPLAY SWAYSOCK I3SOCK
+-exec hash dbus-update-activation-environment 2>/dev/null && \
+-     dbus-update-activation-environment --systemd XDG_CURRENT_DESKTOP DISPLAY WAYLAND_DISPLAY SWAYSOCK I3SOCK
++exec --no-startup-id regolith-sway-publish-display-env
