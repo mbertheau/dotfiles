@@ -38,4 +38,4 @@ wm.client.unfocused.color.child_border: #2F2F2F
 
 gnome.terminal.font: Ubuntu Mono 12
 
-wm.bar.status_config: /home/markus.bertheau/.config/i3status-rust/config.toml
+wm.bar.status_config: $HOME/.config/i3status-rust/config.toml
