@@ -1,0 +1,6 @@
+# prlcp maps a 1x1 xdg_toplevel to own the Wayland clipboard while the
+# VM is unfocused. Sway would otherwise tile it as a full container.
+# Default floating_minimum_size is 75x50; drop it so resize set 1 1
+# actually applies.
+floating_minimum_size 1 x 1
+for_window [title="^Parallels Shared Clipboard$"] floating enable, border none, resize set 1 1, move position 0 0

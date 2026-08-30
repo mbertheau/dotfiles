@@ -25,6 +25,8 @@ sudo apt install --yes \
 cd
 mkdir -p ~/.config/regolith3
 ln -s ../../src/dotfiles/.config/regolith3/Xresources ~/.config/regolith3/Xresources
+mkdir -p ~/.config/regolith3/sway
+ln -s ../../../src/dotfiles/.config/regolith3/sway/config.d ~/.config/regolith3/sway/config.d
 mkdir -p ~/.config/i3status-rust
 ln -s ../../src/dotfiles/.config/i3status-rust/config.toml ~/.config/i3status-rust/config.toml
 
