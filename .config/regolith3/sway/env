@@ -1,0 +1,4 @@
+# GTK4's default GL renderer stalls ~2s per new Ptyxis window on
+# Parallels virtio-gpu (VirGL). Cairo reaches a prompt in ~0.5s.
+# Applies to every GTK 4 app in this session.
+GSK_RENDERER=cairo
