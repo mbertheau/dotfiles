@@ -20,4 +20,9 @@ if [[ "$ACTUAL_HASH" != "$EXPECTED_HASH" ]]; then
     exit 1
 fi
 
+# The .deb's postinst asks on a TTY whether to add Cursor's apt repo.
+sudo debconf-set-selections <<EOF
+cursor cursor/add-cursor-repo boolean true
+EOF
+
 sudo apt install --yes "$deb_path"
