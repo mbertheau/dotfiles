@@ -25,4 +25,6 @@ cd
 ~/src/dotfiles/install.sh
 if [[ ${1:-} == "work" ]]; then
     ~/src/dotfiles/install-work.sh
+else
+    ~/src/dotfiles/install-home.sh
 fi
