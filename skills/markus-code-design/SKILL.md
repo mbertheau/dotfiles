@@ -56,6 +56,7 @@ Prefer richer types (intervals, counts, timestamps) over booleans when the under
 - **Maintainability through clear boundaries**: prefer code organization that localizes change and keeps responsibilities distinct.
 - Keep control flow linear and explicit; avoid indirection when a direct branch is clearer.
 - Name important constants rather than scattering literals.
+- When you introduce a default for a missing value, model absence the way the surrounding tree already models it rather than minting a sentinel inside a nominal type.
 
 ## Observability
 
