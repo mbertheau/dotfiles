@@ -44,19 +44,12 @@ sudo apt update
 # shellcheck: for flycheck in doom emacs
 # shfmt: for doom emacs :lang sh formatting
 
-# emacs pulls mailutils, which recommends postfix; preseed to skip its prompts.
-sudo debconf-set-selections <<EOF
-postfix postfix/main_mailer_type select Local only
-postfix postfix/mailname string $(hostname --fqdn)
-EOF
-
 sudo apt install --yes \
     chromium-browser \
     clang \
     colordiff \
     curl \
     editorconfig \
-    emacs \
     fd-find \
     gettext \
     gh \
@@ -178,6 +171,8 @@ BASHRC_EOF
 
 # install other software
 
+~/src/dotfiles/install-emacs-build-deps.sh
+~/src/dotfiles/build-emacs.sh
 ~/src/dotfiles/install-emacs.sh
 
 ~/src/dotfiles/install-nvm.sh
