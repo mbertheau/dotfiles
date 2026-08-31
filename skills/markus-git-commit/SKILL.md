@@ -36,3 +36,4 @@ Also follow `markus-dense-prose` for the message.
 - Don't use `git add -A` (many untracked files in worktree)
 - Before committing, provide a summary of the changes
 - Use explicit remote/branch when pushing: `git push origin <branch> --force-with-lease`
+- Run history rewrites one command at a time and inspect between them. When a late correction belongs to an earlier commit, use `git commit --fixup=amend:<sha>` plus one autosquash rebase instead of `reset --soft` then `commit --amend`. If that rebase would hit a non-trivial conflict, rewind history and apply the correction directly in the erroneous commit.
