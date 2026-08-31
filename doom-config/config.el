@@ -429,7 +429,17 @@ For `markdown-live-preview-window-function'."
   :config
   (setq markdown-live-preview-window-function
         #'markus-markdown-live-preview-window-xwidget
-        markdown-split-window-direction 'right))
+        markdown-split-window-direction 'right
+        markdown-css-paths
+        '("https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown-dark.min.css"
+          "https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/github-dark.min.css"))
+  ;; WebKitGTK does not honor prefers-color-scheme from the Emacs theme, so the
+  ;; auto github-markdown.css stays light. Force dark CSS, and paint <html> so
+  ;; the body margins are not white.
+  (unless (string-search "color-scheme:dark" markdown-xhtml-header-content)
+    (setq markdown-xhtml-header-content
+          (concat "<style>html{background:#0d1117;color-scheme:dark}</style>"
+                  markdown-xhtml-header-content))))
 
 (after! winum
   (setq winum-scope 'frame-local))
