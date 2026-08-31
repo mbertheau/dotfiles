@@ -163,6 +163,11 @@
   ;; magit-section-mode sets truncate-lines; wrap long hunk lines (e.g. markdown).
   (add-hook 'magit-revision-mode-hook #'turn-on-visual-line-mode))
 
+(after! projectile
+  ;; Doom prepends -tl (type=symlink). That lists symlink nodes; it does not
+  ;; walk directory symlinks. -L does.
+  (setq projectile-git-fd-args (concat "-L " projectile-git-fd-args)))
+
 (after! lispy
   ;; behave like lispyville's slurp/barf-cp theme in lispy special as well
   (lispy-define-key lispy-mode-map "<" #'lispy-slurp-or-barf-left)
