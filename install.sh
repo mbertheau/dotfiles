@@ -126,9 +126,7 @@ ln -s ../../src/dotfiles/.local/bin/{4,doomacs,gdoc-ro,gdoc-rw,resetmods.py,spac
 mkdir -p ~/.local/lib
 ln -s ../../src/dotfiles/.local/lib/gdoc_common.py ~/.local/lib/gdoc_common.py
 
-mkdir -p ~/.cursor
-ln -s ../src/dotfiles/rules ~/.cursor/rules
-ln -s ../src/dotfiles/skills ~/.cursor/skills
+~/src/dotfiles/install-skills-and-plugins.sh
 
 ln -s ../src/dotfiles/grok-rules ~/.grok/rules
 
