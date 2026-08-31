@@ -415,9 +415,21 @@
   :config
   (add-to-list 'auto-mode-alist '("\\.Containerfile\\'" . dockerfile-mode)))
 
+(defun markus-markdown-live-preview-window-xwidget (file)
+  "Preview FILE with xwidget-webkit.
+For `markdown-live-preview-window-function'."
+  ;; Query string so WebKit reloads after each export to the same path.
+  (xwidget-webkit-browse-url
+   (concat "file://" file "?" (format-time-string "%s")))
+  (xwidget-buffer (xwidget-webkit-current-session)))
+
 ;; Cursor rule files are markdown with YAML frontmatter.
 (use-package! markdown-mode
-  :mode "\\.mdc\\'")
+  :mode "\\.mdc\\'"
+  :config
+  (setq markdown-live-preview-window-function
+        #'markus-markdown-live-preview-window-xwidget
+        markdown-split-window-direction 'right))
 
 (after! winum
   (setq winum-scope 'frame-local))
