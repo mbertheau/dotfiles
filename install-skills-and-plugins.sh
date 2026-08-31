@@ -33,3 +33,8 @@ ensure_symlink() {
 mkdir -p "$HOME/.cursor"
 ensure_symlink "$HOME/.cursor/rules" "$HOME/src/dotfiles/rules"
 ensure_symlink "$HOME/.cursor/skills" "$HOME/src/dotfiles/skills"
+
+mkdir -p "$HOME/.cursor/plugins/local"
+if [[ ! -e "$HOME/.cursor/plugins/local/mstack" ]]; then
+    gh repo clone mbertheau/mstack "$HOME/.cursor/plugins/local/mstack"
+fi
