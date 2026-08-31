@@ -206,4 +206,6 @@ uv tool install ty@latest
 
 ~/src/dotfiles/install-cursor.sh
 
+~/src/dotfiles/install-cursor-sandbox-apparmor.sh
+
 ~/src/dotfiles/install-gh-monitor.sh
