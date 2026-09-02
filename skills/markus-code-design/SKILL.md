@@ -3,8 +3,8 @@ name: markus-code-design
 description: >-
   Apply Markus's code design values when writing, editing, refactoring, or
   designing application code. Use when implementing features, changing existing
-  code, choosing abstractions, naming, writing comments or docstrings, adding
-  metrics or alerts, or making type-narrowing assertions.
+  code, choosing abstractions, naming, placing bindings, writing comments or
+  docstrings, adding metrics or alerts, or making type-narrowing assertions.
 ---
 
 # Code Design
@@ -35,13 +35,23 @@ This implies a distrust of "architecture astronautics"—elaborate structures bu
 
 Question each piece of complexity: Why does this need a wrapper function? Why compute a default when the caller can pass it? Why return a value if no one uses it? If the answer isn't compelling, remove the complexity.
 
-**Variable lifetime as extraction signal**: If a variable is created, used in 2-3 lines, then sits unused for the rest of the function, that's a candidate for extraction. The extracted function contains the short-lived variables, returning only what the caller needs.
+**Short-lived locals as extraction signal**: If a variable is created, used in 2-3 lines, then sits unused for the rest of the function, that's a candidate for extraction. The extracted function contains those names and returns only what the caller needs.
 
 When creating multiple similar functions or methods, consider if they can be unified. A single function with an optional return value or parameter is often simpler than two near-duplicate functions.
 
 ## File organization
 
 Keep a file to a size you can read as one unit, a few hundred lines. Split only along an existing seam whose remaining interface is small. Prefer a seam in the subject domain over one in the technical domain. Split billing from invoicing, not types from functions, and not at a line number. A bad split is worse than a long file. Do not split a file you are not growing, a generated file, or a test that is long because the cases are. If the file you are growing is already too big, split it first. If the new code belongs in its own file, write it there.
+
+**Define names at first use.** A binding must not be lexically visible before its first use. Keep imports and the public surface at the top. Place every other binding immediately above its first use, in the smallest scope that still gives the object the lifetime it needs.
+
+The public surface is names other modules import. Exported types, exceptions, and constants stay after the imports. Prefer a function-local binding. Keep a binding at module level when the object must outlive the call, such as `re.compile`. Still place that module-level binding immediately above the first use.
+
+Do not group private constants after the imports. PEP 8's module-level constant block is only for the public surface. Keep a table of related names as one block. Place that block at the first use of the table, or at the top if the table is public.
+
+Wrong: a private `_ANSI_RE = re.compile(...)` after the imports, first used many lines later. Right: that same module-level binding immediately above the function that uses it. Leave a public `PrjError` after the imports when callers import it.
+
+Apply this when you write a new name or already edit that region. Do not reorder a file you are not changing.
 
 ## Naming
 
@@ -59,7 +69,7 @@ Prefer richer types (intervals, counts, timestamps) over booleans when the under
 - **Robustness to messy inputs**: tolerate malformed or partial external input without cascading failures; degrade gracefully rather than failing hard.
 - **Maintainability through clear boundaries**: prefer code organization that localizes change and keeps responsibilities distinct.
 - Keep control flow linear and explicit; avoid indirection when a direct branch is clearer.
-- Name important constants rather than scattering literals.
+- Name a constant when the literal is not obvious at the use site, or when more than one place shares it. Place it per **Define names at first use**.
 - When you introduce a default for a missing value, model absence the way the surrounding tree already models it rather than minting a sentinel inside a nominal type.
 
 ## Observability
