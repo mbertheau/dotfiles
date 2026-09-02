@@ -11,7 +11,7 @@ Read the matching skill immediately when the task starts:
 - `markus-investigate` — debugging, root-cause, explaining existing behavior, proposing a fix
 - `markus-code-design` — writing, editing, refactoring, or designing application code
 - `markus-dense-prose` — commit messages, PR titles/bodies, Jira tickets/comments, investigation or report docs
-- `markus-git-commit` — committing, arranging commits, branch naming, pushing
+- `markus-git-commit` — committing, arranging commits, rewriting unmerged history, branch naming, pushing
 - `markus-pull-request` — opening or updating PRs, review comments, GitHub read vs write
 
 ## Mindset

@@ -2,8 +2,9 @@
 name: markus-git-commit
 description: >-
   Create commits, name branches, and push using Markus's commit conventions.
-  Use when committing, splitting or arranging commits, executing an agreed
-  multi-commit plan, naming a branch, or pushing.
+  Use when committing, splitting or arranging commits, rewriting history that
+  is not yet on main, executing an agreed multi-commit plan, naming a branch,
+  or pushing.
 ---
 
 # Git commit
@@ -21,6 +22,7 @@ Also follow `markus-dense-prose` for the message.
 - Each message must stand alone - no references to "the last commit" or similar
 - Commit messages must be understandable without additional context - somebody will look at the commit message in, say, the git history for a file and will not have the PR or a Jira ticket or the preceding and following commits available for context.
 - **Never mix refactoring with features**: Even trivial-looking refactoring (moving code, renaming) must be a separate commit from feature work. Mixed commits make review harder and git archaeology less useful. When tempted to make a cosmetic change alongside functional changes, propose it separately rather than just doing it.
+- **Land new code in its final form**: Don't introduce a new concept in one commit, only to reshape it in a later commit on the same unmerged branch or stack. Introduce it already reshaped. This applies to newly introduced code only. Reshape existing code in an earlier commit, then add the new caller.
 - **Coherent commits**: Each commit should contain changes that logically belong together by purpose, not by "used together later." A DB function and a constant that happen to both be needed by later code don't belong in the same commit unless they serve the same purpose.
 - **Order commits for clean diffs**: When multiple refactorings interact, order them so simpler/foundational ones come first. This makes each commit's diff smaller and easier to review.
 - **Minimize diff noise**: Keep unchanged functions in their original file positions when possible. Avoid renaming, reordering, or reformatting code that isn't directly related to the change.
@@ -32,9 +34,10 @@ Also follow `markus-dense-prose` for the message.
 
 ## Git write operations
 
+- **Rewrite freely until main**: History on a branch or stacked branch that is not yet merged into main can be rewritten freely. A pull request does not change this. We do not share branches. Do not rewrite commits that are already on main.
 - Use non-interactive git commands: `GIT_SEQUENCE_EDITOR` or `GIT_EDITOR=true`
 - Don't use `git show --no-stat` (unsupported)
 - Don't use `git add -A` (many untracked files in worktree)
 - Before committing, provide a summary of the changes
 - Use explicit remote/branch when pushing: `git push origin <branch> --force-with-lease`
-- Run history rewrites one command at a time and inspect between them. When a late correction belongs to an earlier commit, use `git commit --fixup=amend:<sha>` plus one autosquash rebase instead of `reset --soft` then `commit --amend`. If that rebase would hit a non-trivial conflict, rewind history and apply the correction directly in the erroneous commit.
+- Run history rewrites one command at a time and inspect between them. When a late correction belongs to an earlier commit, use `git commit --fixup=amend:<sha>` plus one autosquash rebase instead of `reset --soft` then `commit --amend`. If that rebase would hit a non-trivial conflict, rewind history and apply the correction directly in the erroneous commit. A later commit that only reshapes code an earlier unmerged commit just introduced is this case: fold it back.
