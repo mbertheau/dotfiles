@@ -1,0 +1,8 @@
+---
+description: Commit to new-master. Do not open pull requests.
+alwaysApply: true
+---
+
+# Commit to new-master
+
+This repo is private and has one maintainer. Commit to `new-master`. Do not open a pull request.
