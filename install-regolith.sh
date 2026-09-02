@@ -30,6 +30,8 @@ ln -s ../../../src/dotfiles/.config/regolith3/sway/config.d ~/.config/regolith3/
 ln -s ../../../src/dotfiles/.config/regolith3/sway/env ~/.config/regolith3/sway/env
 mkdir -p ~/.config/i3status-rust
 ln -s ../../src/dotfiles/.config/i3status-rust/config.toml ~/.config/i3status-rust/config.toml
+mkdir -p ~/.local/bin
+ln -s ../../src/dotfiles/follow-drm-preferred-mode ~/.local/bin/follow-drm-preferred-mode
 
 # TODO: /etc/regolith/i3/config mit workspace_auto_back_and_forth
 # https://github.com/regolith-linux/regolith-i3-gaps-config/pull/20

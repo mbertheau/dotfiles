@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+# Modeset Sway outputs to the kernel's preferred DRM mode for connected
+# virtio connectors (first line of /sys/class/drm/card*-Virtual-*/modes).
+set -euo pipefail
+
+debounce_seconds=0.4
+
+sway_current_mode_size() {
+    local output_name=$1
+    swaymsg -t get_outputs | python3 -c '
+import json, sys
+name = sys.argv[1]
+for output in json.load(sys.stdin):
+    if output.get("name") != name:
+        continue
+    mode = output.get("current_mode") or {}
+    width, height = mode.get("width"), mode.get("height")
+    if width and height:
+        print(f"{width}x{height}")
+    break
+' "$output_name" || true
+}
+
+follow_drm_preferred_modes() {
+    local connector status preferred output_name current
+
+    if [[ ! -S "${SWAYSOCK:-}" ]]; then
+        echo "follow-drm-preferred-mode: SWAYSOCK is unset or not a socket" >&2
+        exit 1
+    fi
+
+    for connector in /sys/class/drm/card*-Virtual-*; do
+        [[ -r "$connector/status" && -r "$connector/modes" ]] || continue
+        read -r status <"$connector/status" || continue
+        [[ $status == connected ]] || continue
+        read -r preferred <"$connector/modes" || continue
+        [[ $preferred =~ ^[0-9]+x[0-9]+$ ]] || continue
+
+        output_name=${connector##*/}
+        output_name=${output_name#*-}
+
+        current=$(sway_current_mode_size "$output_name")
+        if [[ $current == "$preferred" ]]; then
+            continue
+        fi
+
+        echo "follow-drm-preferred-mode: $output_name ${current:-unknown} -> ${preferred}@60Hz" >&2
+        # virtio CVT sizes are often missing from Sway's listed VESA modes.
+        if ! swaymsg "output $output_name mode --custom ${preferred}@60Hz" >/dev/null; then
+            echo "follow-drm-preferred-mode: swaymsg failed for $output_name ${preferred}@60Hz" >&2
+        fi
+    done
+}
+
+shopt -s nullglob
+
+follow_drm_preferred_modes
+
+while IFS= read -r line; do
+    [[ $line == *" change "* ]] || continue
+    while IFS= read -r -t "$debounce_seconds" _; do
+        :
+    done
+    follow_drm_preferred_modes
+done < <(stdbuf -oL udevadm monitor --udev --subsystem-match=drm)

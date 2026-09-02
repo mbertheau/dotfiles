@@ -1,0 +1,4 @@
+# virtio publishes a new DRM preferred mode on window resize; Sway
+# does not follow it. exec, not exec_always: reload must not start a
+# second udev loop.
+exec $HOME/src/dotfiles/follow-drm-preferred-mode
