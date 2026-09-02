@@ -39,6 +39,10 @@ Question each piece of complexity: Why does this need a wrapper function? Why co
 
 When creating multiple similar functions or methods, consider if they can be unified. A single function with an optional return value or parameter is often simpler than two near-duplicate functions.
 
+## File organization
+
+Keep a file to a size you can read as one unit, a few hundred lines. Split only along an existing seam whose remaining interface is small. Prefer a seam in the subject domain over one in the technical domain. Split billing from invoicing, not types from functions, and not at a line number. A bad split is worse than a long file. Do not split a file you are not growing, a generated file, or a test that is long because the cases are. If the file you are growing is already too big, split it first. If the new code belongs in its own file, write it there.
+
 ## Naming
 
 When naming things, build up the terminology in a structured way: From root to leaf, identify entities the code is dealing with, what they are and what they should be called.
