@@ -167,7 +167,12 @@
   ;; magit-show-commit wins. Bind <return> as well: magit only has C-m.
   (define-key magit-blame-read-only-mode-map (kbd "<return>") #'magit-show-commit)
   (evil-make-intercept-map magit-blame-read-only-mode-map 'normal)
-  (add-hook 'magit-blame-read-only-mode-hook #'evil-normalize-keymaps))
+  (add-hook 'magit-blame-read-only-mode-hook #'evil-normalize-keymaps)
+  ;; evil-collection defaults RET to the worktree file. Magit's RET visits
+  ;; the blob from the diff. Re-apply after the option, because setup already
+  ;; wrote the section maps.
+  (setq evil-collection-magit-visit-worktree-file-on-return nil)
+  (evil-collection-magit-adjust-section-bindings))
 
 (after! projectile
   ;; Doom prepends -tl (type=symlink). That lists symlink nodes; it does not
