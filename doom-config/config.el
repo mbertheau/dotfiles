@@ -172,7 +172,11 @@
   ;; the blob from the diff. Re-apply after the option, because setup already
   ;; wrote the section maps.
   (setq evil-collection-magit-visit-worktree-file-on-return nil)
-  (evil-collection-magit-adjust-section-bindings))
+  (evil-collection-magit-adjust-section-bindings)
+  (magit-add-section-hook 'magit-status-sections-hook
+                          #'magit-insert-worktrees
+                          #'magit-insert-stashes
+                          t))
 
 (after! projectile
   ;; Doom prepends -tl (type=symlink). That lists symlink nodes; it does not
