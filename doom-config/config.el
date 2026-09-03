@@ -161,7 +161,13 @@
   (transient-append-suffix 'magit-log "-A"
     '("-b" "Only mbertheau branches" "--branches=mbertheau*"))
   ;; magit-section-mode sets truncate-lines; wrap long hunk lines (e.g. markdown).
-  (add-hook 'magit-revision-mode-hook #'turn-on-visual-line-mode))
+  (add-hook 'magit-revision-mode-hook #'turn-on-visual-line-mode)
+  ;; evil-collection puts markdown-do on RET in the buffer-local normal
+  ;; state map, which beats magit's overriding blame map. Intercept so
+  ;; magit-show-commit wins. Bind <return> as well: magit only has C-m.
+  (define-key magit-blame-read-only-mode-map (kbd "<return>") #'magit-show-commit)
+  (evil-make-intercept-map magit-blame-read-only-mode-map 'normal)
+  (add-hook 'magit-blame-read-only-mode-hook #'evil-normalize-keymaps))
 
 (after! projectile
   ;; Doom prepends -tl (type=symlink). That lists symlink nodes; it does not
