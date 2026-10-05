@@ -183,6 +183,50 @@
   ;; walk directory symlinks. -L does.
   (setq projectile-git-fd-args (concat "-L " projectile-git-fd-args)))
 
+(after! counsel
+  (defvar my-counsel-rg-exclude-tests nil
+    "When non-nil, the active `counsel-rg' search skips directories named tests.")
+
+  (defun my-counsel-rg-prompt ()
+    "Prompt for `counsel-rg', marked while tests are excluded."
+    (let ((prompt (ivy-add-prompt-count
+                   (ivy--quote-format-string (ivy-state-prompt ivy-last)))))
+      (if my-counsel-rg-exclude-tests
+          (replace-regexp-in-string "\\(: ?\\)\\'" " -tests\\1" prompt)
+        prompt)))
+
+  (ivy-set-prompt 'counsel-rg #'my-counsel-rg-prompt)
+
+  (defun my-counsel-rg-toggle-tests ()
+    "Include or skip directories named tests in the active ripgrep search."
+    (interactive)
+    (unless (eq (ivy-state-caller ivy-last) 'counsel-rg)
+      (user-error "Only ripgrep search can toggle tests"))
+    (setq my-counsel-rg-exclude-tests (not my-counsel-rg-exclude-tests))
+    (counsel-delete-process)
+    ;; Ivy reruns ripgrep only when `ivy-text' differs from `ivy--old-text'.
+    (setq ivy--old-text nil)
+    (ivy--exhibit))
+
+  (define-key counsel-ag-map (kbd "C-c t") #'my-counsel-rg-toggle-tests)
+
+  (defadvice! my-counsel-rg-exclude-tests-a (fn extra-args needle)
+    "Append `-g!tests/' while `my-counsel-rg-exclude-tests' is set."
+    :around #'counsel--format-ag-command
+    (funcall fn
+             ;; A needle of "%s" is the command template, not a search.
+             (if (and my-counsel-rg-exclude-tests
+                      (not (equal needle "%s"))
+                      (eq (ivy-state-caller ivy-last) 'counsel-rg))
+                 (concat extra-args " -g!tests/")
+               extra-args)
+             needle))
+
+  (defadvice! my-counsel-rg-include-tests-a (&rest _)
+    "Start this project search with tests included."
+    :before #'+ivy/project-search
+    (setq my-counsel-rg-exclude-tests nil)))
+
 (after! lispy
   ;; behave like lispyville's slurp/barf-cp theme in lispy special as well
   (lispy-define-key lispy-mode-map "<" #'lispy-slurp-or-barf-left)
