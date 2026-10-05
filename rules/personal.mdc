@@ -40,6 +40,9 @@ to a file first so you can inspect again if needed.
 I often work in ongoing rebases, moving to earlier commits to fix or add things. Always orient
 yourself first - check `git status` to see if a rebase is in progress.
 
+`git` commands with `-i` are allowed when they do not wait for interactive input. For
+`git rebase -i`, set `GIT_SEQUENCE_EDITOR` or `GIT_EDITOR=true`.
+
 ### Buildkite CI Logs on Failure
 
 ```bash
