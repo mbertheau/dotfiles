@@ -41,3 +41,19 @@ fi
 if [[ ! -e "$HOME/.cursor/plugins/local/understand-anything" ]]; then
     gh repo clone Egonex-AI/Understand-Anything "$HOME/.cursor/plugins/local/understand-anything"
 fi
+
+humanlayer="$HOME/.cursor/plugins/local/humanlayer"
+if [[ ! -e "$humanlayer/repo" ]]; then
+    mkdir -p "$humanlayer"
+    gh repo clone humanlayer/skills "$humanlayer/repo"
+fi
+mkdir -p "$humanlayer/skills" "$humanlayer/.cursor-plugin"
+ensure_symlink "$humanlayer/skills/show-me" "$humanlayer/repo/plugins/show-me/skills/show-me"
+ensure_symlink "$humanlayer/skills/visual-pr" "$humanlayer/repo/plugins/visual-pr/skills/visual-pr"
+cat >"$humanlayer/.cursor-plugin/plugin.json" <<'EOF'
+{
+  "name": "humanlayer",
+  "description": "show-me and visual-pr from humanlayer/skills",
+  "skills": "./skills/"
+}
+EOF
