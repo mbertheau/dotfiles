@@ -38,9 +38,6 @@ mkdir -p "$HOME/.cursor/plugins/local"
 if [[ ! -e "$HOME/.cursor/plugins/local/mstack" ]]; then
     gh repo clone mbertheau/mstack "$HOME/.cursor/plugins/local/mstack"
 fi
-if [[ ! -e "$HOME/.cursor/plugins/local/understand-anything" ]]; then
-    gh repo clone Egonex-AI/Understand-Anything "$HOME/.cursor/plugins/local/understand-anything"
-fi
 
 humanlayer="$HOME/.cursor/plugins/local/humanlayer"
 if [[ ! -e "$humanlayer/repo" ]]; then
