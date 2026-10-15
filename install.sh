@@ -114,7 +114,12 @@ cd
 ln -s src/dotfiles/{.emacs-profiles.el,.emacs-profile,.spacemacs,.gitconfig,.profile_local,.inputrc,.pants.rc} ~/
 
 mkdir -p ~/.local/bin
-ln -s ../../src/dotfiles/.local/bin/{4,doomacs,gdoc-ro,gdoc-rw,resetmods.py,spacemacs,ty-py-src} ~/.local/bin/
+ln -s ../../src/dotfiles/.local/bin/{4,doomacs,gdoc-ro,gdoc-rw,podman-prune-stale,resetmods.py,spacemacs,ty-py-src} ~/.local/bin/
+
+mkdir -p ~/.config/systemd/user
+ln -s ../../../src/dotfiles/.config/systemd/user/podman-prune-stale.{service,timer} ~/.config/systemd/user/
+systemctl --user daemon-reload
+systemctl --user enable --now podman-prune-stale.timer
 
 mkdir -p ~/.local/lib
 ln -s ../../src/dotfiles/.local/lib/gdoc_common.py ~/.local/lib/gdoc_common.py

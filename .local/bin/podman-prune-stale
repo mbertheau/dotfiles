@@ -1,0 +1,73 @@
+#!/usr/bin/env python3
+"""Remove podman containers idle for a week, then old unused images.
+
+A container is idle when it is not running and the latest of its creation,
+last start, and last exit is older than a week. Running containers stay.
+
+Images have no last-used time. After stale containers are gone, unused images
+created more than a week ago are removed. An image created within the week
+stays, and so does any image a remaining container still uses.
+"""
+
+from __future__ import annotations
+
+import json
+import subprocess
+import sys
+import time
+
+IDLE_SECONDS = 7 * 24 * 60 * 60
+IMAGE_UNTIL = "168h"
+ACTIVE_STATES = {"running", "paused", "restarting"}
+
+
+def podman(*args: str) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(["podman", *args], check=True, text=True, capture_output=True)
+
+
+def last_used(container: dict) -> int:
+    times = []
+    for key in ("Created", "StartedAt", "ExitedAt"):
+        value = container.get(key)
+        if isinstance(value, (int, float)) and value > 0:
+            times.append(int(value))
+    return max(times) if times else 0
+
+
+def main() -> None:
+    dry_run = "--dry-run" in sys.argv[1:]
+    cutoff = int(time.time()) - IDLE_SECONDS
+    listed = podman("ps", "-a", "--format", "json").stdout.strip()
+    containers = json.loads(listed) if listed else []
+
+    stale_ids: list[str] = []
+    for container in containers:
+        if container.get("State") in ACTIVE_STATES:
+            continue
+        used = last_used(container)
+        if used >= cutoff:
+            continue
+        name = (container.get("Names") or [container["Id"][:12]])[0]
+        when = time.strftime("%Y-%m-%d", time.localtime(used)) if used else "never"
+        verb = "would remove" if dry_run else "removing"
+        print(f"{verb} container {name} (last used {when})")
+        stale_ids.append(container["Id"])
+
+    if stale_ids and not dry_run:
+        podman("rm", *stale_ids)
+    if not stale_ids:
+        print("no containers idle for a week")
+
+    if dry_run:
+        print("would prune unused images created more than a week ago")
+        return
+
+    pruned = podman("image", "prune", "-a", "-f", "--filter", f"until={IMAGE_UNTIL}")
+    removed = [line for line in pruned.stdout.splitlines() if line.strip()]
+    if pruned.stderr.strip():
+        print(pruned.stderr, file=sys.stderr, end="" if pruned.stderr.endswith("\n") else "\n")
+    print(f"pruned {len(removed)} unused images created more than a week ago")
+
+
+if __name__ == "__main__":
+    main()

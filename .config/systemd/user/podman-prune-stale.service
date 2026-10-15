@@ -1,0 +1,6 @@
+[Unit]
+Description=Remove podman containers idle for a week and old unused images
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/podman-prune-stale

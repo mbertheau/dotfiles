@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily removal of podman containers idle for a week
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+RandomizedDelaySec=30m
+
+[Install]
+WantedBy=timers.target
