@@ -54,3 +54,51 @@ cat >"$humanlayer/.cursor-plugin/plugin.json" <<'EOF'
   "skills": "./skills/"
 }
 EOF
+
+# Published set from mattpocock/skills .claude-plugin/plugin.json.
+# skills/in-progress and skills/misc are not part of that plugin.
+mattpocock="$HOME/.cursor/plugins/local/mattpocock-skills"
+repo="$mattpocock/repo"
+if [[ ! -e "$repo" ]]; then
+    mkdir -p "$mattpocock"
+    gh repo clone mattpocock/skills "$repo"
+fi
+mkdir -p "$mattpocock/skills" "$mattpocock/.cursor-plugin"
+for rel in \
+    engineering/ask-matt \
+    engineering/diagnosing-bugs \
+    engineering/grill-with-docs \
+    engineering/triage \
+    engineering/improve-codebase-architecture \
+    engineering/setup-matt-pocock-skills \
+    engineering/tdd \
+    engineering/to-spec \
+    engineering/to-tickets \
+    engineering/wayfinder \
+    engineering/implement \
+    engineering/implement-spec \
+    engineering/prototype \
+    engineering/research \
+    engineering/domain-modeling \
+    engineering/codebase-design \
+    engineering/code-review \
+    engineering/pr \
+    engineering/retro \
+    engineering/wizard \
+    productivity/grill-me \
+    productivity/grilling \
+    productivity/handoff \
+    productivity/teach \
+    productivity/to-questionnaire \
+    productivity/wait-what \
+    productivity/writing-for-agents
+do
+    ensure_symlink "$mattpocock/skills/${rel##*/}" "$repo/skills/$rel"
+done
+cat >"$mattpocock/.cursor-plugin/plugin.json" <<'EOF'
+{
+  "name": "mattpocock-skills",
+  "description": "Matt Pocock's engineering and productivity skills",
+  "skills": "./skills/"
+}
+EOF
