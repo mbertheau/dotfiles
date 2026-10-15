@@ -129,6 +129,9 @@ cp /usr/share/doc/pass/examples/dmenu/passmenu ~/.local/bin
 export PATH="$HOME/.local/bin:$PATH"
 
 echo source ~/.profile_local >>~/.profile
+
+# Snap Chromium hides the host /tmp. ~/tmp is on a path the snap can read.
+install -d -m 700 "$HOME/tmp"
 source ~/.profile_local
 
 cat >>~/.bashrc <<'BASHRC_EOF'
