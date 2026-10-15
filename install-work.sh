@@ -9,7 +9,14 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
 pyenv virtualenv 3.13 aiven
-"$HOME/.pyenv/versions/aiven/bin/pip" install ruff==0.12.5
+"$HOME/.pyenv/versions/aiven/bin/pip" install ruff==0.12.5 mypy==2.4.0
+
+# aiven-core worktrees sit next to the checkout and have no
+# .python-version of their own. Pyenv walks up from the directory of
+# the file being checked, so this selects the aiven env for every
+# directory under ~/src/aiven. A nearer .python-version still wins.
+mkdir -p "$HOME/src/aiven"
+printf '%s\n' aiven > "$HOME/src/aiven/.python-version"
 
 if [[ ! -e ~/src/aiven-agent ]]; then
     git clone git@github.com:mbertheau/aiven-agent.git ~/src/aiven-agent
