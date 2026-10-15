@@ -95,6 +95,33 @@ for rel in \
 do
     ensure_symlink "$mattpocock/skills/${rel##*/}" "$repo/skills/$rel"
 done
+
+# Writing a PR body matches this skill's description on its own, so Cursor
+# would load it unasked. Keep it slash-only.
+python3 - "$repo/skills/engineering/pr/SKILL.md" <<'PY'
+import pathlib, sys
+
+path = pathlib.Path(sys.argv[1])
+text = path.read_text()
+parts = text.split("---", 2)
+if len(parts) < 3:
+    raise SystemExit(f"{path} has no frontmatter")
+frontmatter = parts[1]
+if "disable-model-invocation:" in frontmatter:
+    raise SystemExit(0)
+lines = frontmatter.splitlines(keepends=True)
+rewritten = []
+inserted = False
+for line in lines:
+    rewritten.append(line)
+    if not inserted and line.startswith("description:"):
+        rewritten.append("disable-model-invocation: true\n")
+        inserted = True
+if not inserted:
+    raise SystemExit(f"{path} frontmatter has no description")
+path.write_text("---".join((parts[0], "".join(rewritten), parts[2])))
+PY
+
 cat >"$mattpocock/.cursor-plugin/plugin.json" <<'EOF'
 {
   "name": "mattpocock-skills",
