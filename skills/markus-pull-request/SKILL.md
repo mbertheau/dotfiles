@@ -16,10 +16,6 @@ Also follow `markus-dense-prose` for the title and body.
 - Never include a test plan
 - Update title and description when scope changes
 
-## GitHub access
-
-Use the GitHub MCP for read-only access to GitHub. Use the gh CLI tool for write access.
-
 ### PR comments and reviews
 
 Use `gh monitor` to work with review comments.
