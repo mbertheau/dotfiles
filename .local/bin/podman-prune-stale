@@ -25,6 +25,18 @@ def podman(*args: str) -> subprocess.CompletedProcess[str]:
     return subprocess.run(["podman", *args], check=True, text=True, capture_output=True)
 
 
+def log(message: str) -> None:
+    print(message, flush=True)
+
+
+def stamp(unix_time: int) -> str:
+    return time.strftime("%Y-%m-%d %H:%M", time.localtime(unix_time)) if unix_time else "never"
+
+
+def container_name(container: dict) -> str:
+    return (container.get("Names") or [container["Id"][:12]])[0]
+
+
 def last_used(container: dict) -> int:
     times = []
     for key in ("Created", "StartedAt", "ExitedAt"):
@@ -37,36 +49,40 @@ def last_used(container: dict) -> int:
 def main() -> None:
     dry_run = "--dry-run" in sys.argv[1:]
     cutoff = int(time.time()) - IDLE_SECONDS
+    log(f"start dry_run={dry_run} cutoff={stamp(cutoff)} (idle more than a week)")
     listed = podman("ps", "-a", "--format", "json").stdout.strip()
     containers = json.loads(listed) if listed else []
 
     stale_ids: list[str] = []
+    kept = 0
     for container in containers:
-        if container.get("State") in ACTIVE_STATES:
-            continue
+        name = container_name(container)
+        state = container.get("State") or "unknown"
         used = last_used(container)
-        if used >= cutoff:
+        if state in ACTIVE_STATES or used >= cutoff:
+            reason = "running" if state in ACTIVE_STATES else "used within the week"
+            log(f"keep container {name} state={state} last_used={stamp(used)} reason={reason}")
+            kept += 1
             continue
-        name = (container.get("Names") or [container["Id"][:12]])[0]
-        when = time.strftime("%Y-%m-%d", time.localtime(used)) if used else "never"
-        verb = "would remove" if dry_run else "removing"
-        print(f"{verb} container {name} (last used {when})")
+        verb = "would remove" if dry_run else "remove"
+        log(f"{verb} container {name} state={state} last_used={stamp(used)}")
         stale_ids.append(container["Id"])
 
     if stale_ids and not dry_run:
         podman("rm", *stale_ids)
-    if not stale_ids:
-        print("no containers idle for a week")
+    log(f"containers kept={kept} removed={len(stale_ids)}")
 
     if dry_run:
-        print("would prune unused images created more than a week ago")
+        log(f"would prune unused images created before {stamp(cutoff)}")
         return
 
     pruned = podman("image", "prune", "-a", "-f", "--filter", f"until={IMAGE_UNTIL}")
-    removed = [line for line in pruned.stdout.splitlines() if line.strip()]
     if pruned.stderr.strip():
         print(pruned.stderr, file=sys.stderr, end="" if pruned.stderr.endswith("\n") else "\n")
-    print(f"pruned {len(removed)} unused images created more than a week ago")
+    removed = [line for line in pruned.stdout.splitlines() if line.strip()]
+    for image_id in removed:
+        log(f"removed image {image_id}")
+    log(f"images removed={len(removed)} (unused and created before {stamp(cutoff)})")
 
 
 if __name__ == "__main__":

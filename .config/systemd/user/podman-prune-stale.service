@@ -3,4 +3,5 @@ Description=Remove podman containers idle for a week and old unused images
 
 [Service]
 Type=oneshot
+Environment=PYTHONUNBUFFERED=1
 ExecStart=%h/.local/bin/podman-prune-stale
