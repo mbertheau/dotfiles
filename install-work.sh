@@ -25,3 +25,4 @@ fi
 
 ~/src/dotfiles/install-1password.sh
 ~/src/dotfiles/install-vault.sh
+~/src/dotfiles/install-jira-cli.sh
