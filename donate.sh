@@ -6,7 +6,6 @@ tar cfz /media/psf/Home/donation.tar \
     .ssh/config \
     .password-store \
     .gnupg \
-    .bashrc_work \
     .bash_history \
     .config/pgcli/history \
     .lesshst \
@@ -15,7 +14,6 @@ tar cfz /media/psf/Home/donation.tar \
     .cursor \
     .python_history \
     snap/chromium \
-    ./*vpn.conf \
     .wget-hsts \
     src
 read -p "Donating... Press Enter when finished."
