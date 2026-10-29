@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Checks the staged content, not the working tree, so unstaged edits can
+# neither hide nor cause a failure. Fixes land in the working tree only;
+# restage them to commit.
+
+mapfile -t scripts < <(git diff --cached --name-only --diff-filter=ACMR -z | xargs -0 -r shfmt -f)
+
+unformatted=()
+for path in "${scripts[@]}"; do
+    if ! git show ":$path" | shfmt -d --filename "$path" >/dev/null; then
+        unformatted+=("$path")
+    fi
+done
+
+if ((${#unformatted[@]})); then
+    shfmt -w "${unformatted[@]}"
+    echo "shfmt reformatted these files; review, restage, and commit again:" >&2
+    printf '    %s\n' "${unformatted[@]}" >&2
+    exit 1
+fi
