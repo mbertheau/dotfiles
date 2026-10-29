@@ -91,8 +91,7 @@ for rel in \
     productivity/teach \
     productivity/to-questionnaire \
     productivity/wait-what \
-    productivity/writing-for-agents
-do
+    productivity/writing-for-agents; do
     ensure_symlink "$mattpocock/skills/${rel##*/}" "$repo/skills/$rel"
 done
 

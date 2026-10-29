@@ -16,7 +16,7 @@ pyenv virtualenv 3.13 aiven
 # the file being checked, so this selects the aiven env for every
 # directory under ~/src/aiven. A nearer .python-version still wins.
 mkdir -p "$HOME/src/aiven"
-printf '%s\n' aiven > "$HOME/src/aiven/.python-version"
+printf '%s\n' aiven >"$HOME/src/aiven/.python-version"
 
 if [[ ! -e ~/src/aiven-agent ]]; then
     git clone git@github.com:mbertheau/aiven-agent.git ~/src/aiven-agent
