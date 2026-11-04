@@ -3,7 +3,11 @@ set -euo pipefail
 
 if [[ ${1:-} == "work" && $(id -un) != *.* ]]; then
     echo "Work mode needs the user name firstname.lastname, but this user is $(id -un)." >&2
-    echo "Rename the user with rename-user.sh first (README step 6)." >&2
+    cat >&2 <<'EOF'
+Rename the user first:
+    wget -q https://raw.githubusercontent.com/mbertheau/dotfiles/new-master/rename-user.sh
+    sudo bash rename-user.sh create
+EOF
     exit 1
 fi
 
