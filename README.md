@@ -3,8 +3,10 @@
 3. maybe configure screen blanking time, maybe accessibility -> large text
 4. install parallels tools if not done by parallels already during OS installation
 5. run full system update
-6. wget -q https://raw.githubusercontent.com/mbertheau/dotfiles/new-master/bootstrap.sh
-7. bash ./bootstrap.sh work
+6. wget -q https://raw.githubusercontent.com/mbertheau/dotfiles/new-master/rename-user.sh
+   sudo bash rename-user.sh create
+7. wget -q https://raw.githubusercontent.com/mbertheau/dotfiles/new-master/bootstrap.sh
+8. bash ./bootstrap.sh work
 or bash ./bootstrap.sh home
 
 1. doom sync -u # to fix doom emacs

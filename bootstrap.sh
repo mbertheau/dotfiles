@@ -6,6 +6,11 @@ set -euo pipefail
 # cache sudo password in the beginning so we don't have to wait for it later in the process
 sudo echo
 
+if id randy-rename >/dev/null 2>&1; then
+    sudo userdel randy-rename
+    sudo rm -rf /home/randy-rename
+fi
+
 read -p "Make sure the donation is ready, then press Enter."
 echo -n "Reading donation..."
 tar xfz /media/psf/Home/donation.tar
