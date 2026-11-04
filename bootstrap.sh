@@ -1,4 +1,6 @@
 # wget -q https://raw.githubusercontent.com/mbertheau/dotfiles/new-master/bootstrap.sh
+set -euo pipefail
+
 # set up ssh
 
 # cache sudo password in the beginning so we don't have to wait for it later in the process
