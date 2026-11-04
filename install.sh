@@ -128,6 +128,7 @@ ln -s ../../src/dotfiles/.local/lib/gdoc_common.py ~/.local/lib/gdoc_common.py
 
 git -C ~/src/dotfiles config core.hooksPath githooks
 
+mkdir -p ~/.grok
 ln -s ../src/dotfiles/grok-rules ~/.grok/rules
 
 cp /usr/share/doc/pass/examples/dmenu/passmenu ~/.local/bin
