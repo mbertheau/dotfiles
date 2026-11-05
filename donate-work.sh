@@ -1,4 +1,8 @@
 cd
+if [ -L snap/chromium/common/chromium/SingletonLock ]; then
+    echo "The Chromium profile is locked. Quit Chromium, then run this again." >&2
+    exit 1
+fi
 echo "Preparing donation, stand by.."
 umask 077
 tar cfz /media/psf/Home/donation.tar \
