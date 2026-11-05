@@ -9,3 +9,6 @@ echo -e "deb [arch=arm64 signed-by=/etc/apt/keyrings/buildkite_cli-deb-archive-k
 
 sudo apt update
 sudo apt install --yes bk
+
+token=$(<~/.buildkite-token)
+bk configure add --no-input --force --org aiven --token "$token"
