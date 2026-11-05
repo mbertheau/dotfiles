@@ -28,7 +28,7 @@ if [[ ! -d "$src/.git" ]]; then
         echo "$src exists and is not a git checkout" >&2
         exit 1
     fi
-    git clone --branch "$branch" --single-branch "$repo" "$src"
+    git clone --depth 1 --branch "$branch" --single-branch "$repo" "$src"
 fi
 
 git -C "$src" fetch origin "$branch"
