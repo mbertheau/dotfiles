@@ -16,7 +16,7 @@ fi
 # github.com instead.
 clock_offset() {
     local github_date
-    github_date=$(curl -fsSI https://github.com | sed -n 's/^date: //Ip' | tr -d '\r') || return 1
+    github_date=$(wget -q --spider --server-response https://github.com 2>&1 | sed -n '/^ *date: /I{s///p;q}') || return 1
     [[ -n $github_date ]] || return 1
     echo $(($(date +%s) - $(date -d "$github_date" +%s)))
 }
