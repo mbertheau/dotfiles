@@ -1,0 +1,19 @@
+# regolith-inputd pushes the GNOME input source as type:keyboard after
+# every load, and sway merges type:keyboard into each device's config.
+# That would clobber the YubiKey's layout, so install-regolith.sh
+# clears the input source and the layout lives here instead.
+#
+# type:keyboard must come first: it is merged into device configs
+# defined before it.
+input type:keyboard {
+    xkb_layout de
+    xkb_variant neo
+}
+
+# The YubiKey types its OTP as US keycodes; under Neo they come out
+# garbled. Each line compiles a keymap, and us(neo) doesn't exist, so
+# the variant must change before the layout.
+input "4176:1031:Yubico_YubiKey_OTP+FIDO+CCID" {
+    xkb_variant basic
+    xkb_layout us
+}
