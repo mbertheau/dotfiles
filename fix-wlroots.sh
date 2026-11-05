@@ -7,8 +7,14 @@ export PATH="/usr/bin:/usr/sbin:/bin"
 script_dir=$(cd "$(dirname "$0")" && pwd)
 patch_file=$script_dir/fill-hardware-cursors-from-dumb-buffers.patch
 
+# Read all of madison's output. An early awk exit SIGPIPEs apt-cache, and
+# pipefail then aborts the script before the patch is applied.
 archive_ver=$(apt-cache madison libwlroots-0.19 |
-    awk -F'|' '/ubuntu.com/ { gsub(/ /, "", $2); print $2; exit }')
+    awk -F'|' '/ubuntu.com/ && !seen { gsub(/ /, "", $2); print $2; seen = 1 }')
+if [ -z "$archive_ver" ]; then
+    echo "libwlroots-0.19 has no Ubuntu archive version" >&2
+    exit 1
+fi
 wanted=${archive_ver}+cursor1
 installed=$(dpkg-query -W -f '${Version}' libwlroots-0.19 2>/dev/null || true)
 
