@@ -11,6 +11,30 @@ EOF
     exit 1
 fi
 
+# After a snapshot restore the clock lags until it resyncs, and apt rejects release files as not
+# valid yet. The kernel's synchronized flag is restored with the snapshot, so compare against
+# github.com instead.
+clock_offset() {
+    local github_date
+    github_date=$(curl -fsSI https://github.com | sed -n 's/^date: //Ip' | tr -d '\r') || return 1
+    [[ -n $github_date ]] || return 1
+    echo $(($(date +%s) - $(date -d "$github_date" +%s)))
+}
+
+for attempt in $(seq 60); do
+    if offset=$(clock_offset) && ((${offset#-} < 60)); then
+        break
+    fi
+    if ((attempt == 60)); then
+        echo "The clock is still off from github.com (offset: ${offset:-unknown} s)." >&2
+        exit 1
+    fi
+    if ((attempt == 1)); then
+        echo "Waiting for the clock to sync..."
+    fi
+    sleep 5
+done
+
 # set up ssh
 
 # cache sudo password in the beginning so we don't have to wait for it later in the process
