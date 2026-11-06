@@ -10,8 +10,14 @@ patch_file=$script_dir/publish-display-env-to-gnome-session.patch
 src_pkg=regolith-wm-config
 packages=(regolith-sway-dbus-activation regolith-sway-root-config)
 
+# Read all of madison's output. An early awk exit SIGPIPEs apt-cache, and
+# pipefail then aborts the script before the patch is applied.
 archive_ver=$(apt-cache madison "$src_pkg" |
-    awk -F'|' '/regolith-desktop.com/ { gsub(/ /, "", $2); print $2; exit }')
+    awk -F'|' '/regolith-desktop.com/ && !seen { gsub(/ /, "", $2); print $2; seen = 1 }')
+if [ -z "$archive_ver" ]; then
+    echo "$src_pkg has no Regolith archive version" >&2
+    exit 1
+fi
 wanted=${archive_ver}+setenv1
 
 all_wanted=true
