@@ -62,7 +62,9 @@ codename=$(. /etc/os-release && echo "$VERSION_CODENAME")
 dch --newversion "$wanted" --distribution "$codename" --force-distribution \
     "Publish compositor display env to gnome-session before signaling READY."
 
-dpkg-buildpackage -us -uc -b
+# The package's tests assume regolith-sway-gtklock is not installed in /usr/bin,
+# which only holds in a clean chroot.
+DEB_BUILD_OPTIONS=nocheck dpkg-buildpackage -us -uc -b
 
 arch=$(dpkg --print-architecture)
 debs=()
