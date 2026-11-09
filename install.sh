@@ -201,7 +201,7 @@ echo 'eval "$(pyenv virtualenv-init -)"' >>~/.bashrc
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
-pyenv install 3.13
+pyenv install 3.14
 
 ~/src/dotfiles/install-uv.sh
 uv tool install ty@latest
