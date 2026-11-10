@@ -55,6 +55,21 @@ cat >"$humanlayer/.cursor-plugin/plugin.json" <<'EOF'
 }
 EOF
 
+janestreet="$HOME/.cursor/plugins/local/janestreet"
+if [[ ! -e "$janestreet/repo" ]]; then
+    mkdir -p "$janestreet"
+    gh repo clone janestreet/agent_skills "$janestreet/repo"
+fi
+mkdir -p "$janestreet/skills" "$janestreet/.cursor-plugin"
+ensure_symlink "$janestreet/skills/socratic-tutor" "$janestreet/repo/socratic-tutor"
+cat >"$janestreet/.cursor-plugin/plugin.json" <<'EOF'
+{
+  "name": "janestreet",
+  "description": "socratic-tutor from janestreet/agent_skills",
+  "skills": "./skills/"
+}
+EOF
+
 # Published set from mattpocock/skills .claude-plugin/plugin.json.
 # skills/in-progress and skills/misc are not part of that plugin.
 mattpocock="$HOME/.cursor/plugins/local/mattpocock-skills"
