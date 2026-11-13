@@ -205,6 +205,7 @@ pyenv install 3.14
 
 ~/src/dotfiles/install-uv.sh
 uv tool install ty@latest
+uv tool install ast-grep-cli@latest
 
 ~/src/dotfiles/install-schemaspy.sh
 
